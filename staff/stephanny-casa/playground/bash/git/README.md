@@ -110,3 +110,32 @@ $ git config user.email "casastephanny12@gmail.com
 
 $ git config user.name "Stephanny Casa"
 ```
+
+## git commit -m message
+
+Consolidates the changes in local repository
+
+```sh 
+
+$ git commit -m "add bash and git docs"
+[main bbeb1e9] add bash and git docs
+ 2 files changed, 217 insertions(+)
+ create mode 100644 staff/stephanny-casa/playground/bash/bash/README.md
+ create mode 100644 staff/stephanny-casa/playground/bash/git/README.md
+
+```
+## git push 
+
+Pushes the changes from local to remote repository (origin)
+
+```sh 
+$ git push
+Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (10/10), 2.03 KiB | 1.01 MiB/s, done.
+Total 10 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/casastephanny12-hub/neoland-202510
+   c0018b0..bbeb1e9  main -> main
+```
