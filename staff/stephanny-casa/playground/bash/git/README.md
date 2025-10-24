@@ -139,3 +139,28 @@ Total 10 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
 To https://github.com/casastephanny12-hub/neoland-202510
    c0018b0..bbeb1e9  main -> main
 ```
+
+## git log command to doc
+
+Shows commits history order descendeing by time 
+
+```sh
+
+$ git log 
+
+commit 8d7e563359697477940e48044fb9dbc7cdc31dbf (HEAD -> main, origin/main, origin/HEAD)
+Author: Stephanny Casa <casastephanny12@gmail.com>
+Date:   Thu Oct 23 22:06:55 2025 +0200
+
+    add git commit -m message and git push
+
+commit bbeb1e93b697adf2674d6f59c70fda932cdda753
+Author: Stephanny Casa <casastephanny12@gmail.com>
+Date:   Thu Oct 23 21:52:18 2025 +0200
+
+    add bash and git docs
+
+commit c0018b0a7fcd2974422226e792bbc4c080df6e91
+Author: manuelbarzi <manuelbarzi@gmail.com>
+Date:   Thu Oct 23 20:10:57 2025 +0200
+```
