@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw</title>
+</head>
+
+<style>
+    body {
+        background-color: black;
+    }
+
+    #face {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+        /* border-radius: 50px; */
+        position: absolute;
+        left: 100px;
+        top: 100px;
+
+    }
+
+    #left-eye {
+
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+
+
+    }
+
+    #left-pupil {
+
+        width: 20px;
+        height: 20px;
+        background-color: black;
+        position: absolute;
+        left: 11px;
+        top: 7px;
+
+
+    }
+
+    #right-eye {
+
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+
+    }
+
+
+    #right-pupil {
+
+        width: 20px;
+        height: 20px;
+        background-color: black;
+        position: absolute;
+        right: 11px;
+        top: 7px;
+
+    }
+
+    #nose {
+
+        width: 50px;
+        height: 30px;
+        background-color: palevioletred;
+        position: absolute;
+        left: 25px;
+        top: 50px;
+    }
+
+    #left-hole {
+
+        width: 10px;
+        height: 10px;
+        background-color: black;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+    }
+
+
+    #right-hole {
+
+        width: 10px;
+        height: 10px;
+        background-color: black;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    #mouth {
+
+        width: 30px;
+        height: 10px;
+        background-color: black;
+        position: absolute;
+        left: 35px;
+        bottom: 5px;
+
+    }
+
+    #left-ear {
+
+        width: 10px;
+        height: 40px;
+        background-color: pink;
+        position: absolute;
+        left: -10px;
+
+    }
+
+    #right-ear {
+
+        width: 10px;
+        height: 40px;
+        background-color: pink;
+        position: absolute;
+        right: -10px;
+
+    }
+
+    #trafficlight {
+
+        width: 100px;
+        height: 200px;
+        background-color:grey;
+        position: absolute;
+        border-radius: 30px;
+        left: 300px;
+        top: 70px;
+    }
+
+    #lights { 
+        
+        width: 85px;
+        height: 190px;
+        background-color:darkgrey;
+        position: absolute;
+        border-radius: 30px;
+        left: 8px;
+        top: 3px;
+     }
+
+     #abovelights { 
+
+        width: 40px;
+        height: 40px;
+        background-color: red;
+        position: absolute;
+        border-radius: 30px;
+        left: 30px;
+        top: 30px;
+       }
+
+    #mediumlights  { 
+
+        width: 40px;
+        height: 40px;
+        background-color:yellow;
+        position: absolute;
+        border-radius: 50px;
+        left: 30px;
+        top: 80px;
+
+      }
+
+    #belowlights {
+
+         width: 40px;
+        height: 40px;
+        background-color:green;
+        position: absolute;
+        border-radius: 50px;
+        left: 30px;
+        top: 130px;
+       }
+
+    #rainbow-curve { 
+
+        width:400px;
+        height: 200;
+        position: absolute;
+        background: linear-gradient(to right, red, orange,yellow, aquamarine,blue, indigo, violet);
+        border-top-left-radius: 200px;
+        border-top-right-radius: 200px; 
+        top:300px;
+        left:50px;
+        overflow: hidden;
+    }
+
+    #intern-rainbow {  
+
+        width: 360px;
+        height: 180px; 
+        background-color: black;
+        position: relative;
+        border-top-left-radius: 160px;
+        border-top-right-radius: 160px;
+        left: 20px;
+        top: 22px;
+     }
+
+     #house {
+        
+        width: 150px;
+        height: 150px;
+        background-color:blanchedalmond;
+        position: absolute;
+        left: 550px;
+        top: 200px;
+      }
+
+    #door {
+        
+        width: 45px;
+        height: 80px;
+        background-color: brown;
+        position: absolute;
+        left: 20px;
+        bottom: 0px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+     }
+
+     #doorhandle {
+
+        width: 7px;
+        height: 7px;
+        background-color: black;
+        border-radius: 5px;
+        position: absolute;
+        top: 35px;
+
+    }
+
+     #window {
+
+        width: 45px;
+        height: 45px;
+        background-color: aquamarine;
+        position: absolute;
+        left: 80px;
+        top: 45px;
+        }
+
+    #divisor-window1 {
+
+        width: 45px;
+        height: 5px;
+        background-color: black;
+        position: absolute;
+        bottom: 22px;
+       }
+
+    #divisor-window2 { 
+        width: 4px;
+        height: 45px;
+        position: absolute;
+        background-color: black;
+        right: 20px;
+      }
+
+    #windowplanter { 
+
+        width: 55px;
+        height: 5px;
+        background-color: red;
+        position: absolute;
+        bottom: 0px;
+        left: -4px;
+      }
+
+    #Roof {
+
+        width: 120px;
+        height: 130px;
+        background-color: transparent;
+        position: absolute;
+        top: -145px;
+        right:-34px;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-bottom: 50px solid brown;
+
+    
+
+
+
+
+     }
+
+
+</style>
+
+<body>
+
+    <div id="face">
+
+        <div id="left-eye">
+            <div id="left-pupil"></div>
+        </div>
+
+        <div id="right-eye">
+            <div id="right-pupil"></div>
+        </div>
+
+        <div id="nose">
+            <div id="left-hole"></div>
+            <div id="right-hole"></div>
+        </div>
+
+        <div id="mouth"></div>
+        <div id="left-ear"></div>
+        <div id="right-ear"></div>
+    </div>
+
+    <div id="trafficlight">
+        <div id="lights"></div>
+        <div id="lights-">
+            <div id="abovelights"></div>
+            <div id="mediumlights"></div>
+            <div id="belowlights"></div>
+        </div>
+
+    </div>
+
+    <div id="rainbow-curve">
+        <div id="intern-rainbow"></div>    
+    </div>
+
+    <div id="house">
+        <div id="Roof"></div>
+        <div id="door">
+            <div id="doorhandle"></div>
+        </div>
+        <div id="window">
+            <div id="divisor-window1"></div>
+            <div id="divisor-window2"></div>
+            <div id="windowplanter"></div>
+        <div></div>
+
+        
+
+        </div>
+    </div>
+</body>
+
+</html>
