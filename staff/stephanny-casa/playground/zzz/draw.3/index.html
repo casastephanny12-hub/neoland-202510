@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw</title>
+</head>
+
+<style>
+    body {
+        background-color: black;
+    }
+    /* pig */
+    .pig {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+        /* border-radius: 50px; */
+        position: absolute;
+        left: 100px;
+        top: 100px;
+
+        & .eye {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            position: absolute;
+            top: 5px;
+        }
+
+        & .eye-left {
+            left: 5px;
+        }
+
+        & .eye-right {
+            right: 5px;
+        }
+
+        & .pupil {
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            position: absolute;
+            left: 11px;
+            top: 7px;
+        }
+
+        & .nose {
+            width: 50px;
+            height: 30px;
+            background-color: palevioletred;
+            position: absolute;
+            left: 25px;
+            top: 50px;
+        }
+
+        & .hole {
+            width: 10px;
+            height: 10px;
+            background-color: black;
+            position: absolute;
+            top: 10px
+        }
+
+        & .hole-left {
+            left: 10px;
+        }
+
+        & .hole-right {
+            right: 10px;
+        }
+
+        & .mouth {
+            width: 30px;
+            height: 10px;
+            background-color: black;
+            position: absolute;
+            left: 35px;
+            bottom: 5px;
+        }
+
+        & .ear {
+            width: 10px;
+            height: 40px;
+            background-color: pink;
+            position: absolute;
+        }
+
+        & .ear-left {
+            left: -10px;
+        }
+
+        & .ear-right {
+            right: -10px;
+        }
+    }
+
+    /* trafficlight */
+    .trafficlight {
+        width: 100px;
+        height: 200px;
+        background-color: grey;
+        position: absolute;
+        border-radius: 30px;
+        left: 300px;
+        top: 70px;
+
+        & .estructure {
+            width: 85px;
+            height: 190px;
+            background-color: darkgrey;
+            position: absolute;
+            border-radius: 30px;
+            left: 8px;
+            top: 3px;
+        }
+
+        & .lights {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+        }
+
+        & .lights-above {
+            background-color: red;
+            border-radius: 30px;
+            left: 30px;
+            top: 30px;
+        }
+
+        & .lights-medium {
+            background-color: yellow;
+            border-radius: 50px;
+            left: 30px;
+            top: 80px;
+        }
+
+        & .lights-below {
+            background-color: green;
+            border-radius: 50px;
+            left: 30px;
+            top: 130px;
+        }
+    }
+
+    /* rainbow */
+
+    .rainbow-curve {
+        width: 400px;
+        height: 200;
+        position: absolute;
+        background: linear-gradient(to right, red, orange, yellow, aquamarine, blue, indigo, violet);
+        border-top-left-radius: 200px;
+        border-top-right-radius: 200px;
+        top: 300px;
+        right:-20px;
+        overflow: hidden;
+
+        & .intern-rainbow {
+            width: 360px;
+            height: 180px;
+            background-color: black;
+            position: relative;
+            border-top-left-radius: 160px;
+            border-top-right-radius: 160px;
+            left: 20px;
+            top: 18px;
+        }
+    }
+
+    /* house */
+
+    .house {
+        width: 150px;
+        height: 150px;
+        background-color: blanchedalmond;
+        position: absolute;
+        left:200px;
+        top:50px;
+
+        & .door {
+            width: 45px;
+            height: 80px;
+            background-color: brown;
+            position: absolute;
+            left: 20px;
+            bottom: 0px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        & .doorhandle {
+            width: 7px;
+            height: 7px;
+            background-color: black;
+            border-radius: 5px;
+            position: absolute;
+            top: 35px;
+        }
+
+        & .window {
+
+            width: 45px;
+            height: 45px;
+            background-color: aquamarine;
+            position: absolute;
+            left: 80px;
+            top: 45px;
+        }
+
+        & .divisor-window1 {
+
+            width: 45px;
+            height: 5px;
+            background-color: black;
+            position: absolute;
+            bottom: 22px;
+        }
+
+        & .divisor-window2 {
+            width: 4px;
+            height: 45px;
+            position: absolute;
+            background-color: black;
+            right: 20px;
+        }
+
+        & .window-planter {
+
+            width: 55px;
+            height: 5px;
+            background-color: red;
+            position: absolute;
+            bottom: 0px;
+            left: -4px;
+        }
+
+        & .Roof {
+            width: 120px;
+            height: 130px;
+            background-color: transparent;
+            position: absolute;
+            top: -145px;
+            right: -34px;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 50px solid brown;
+        }
+    }
+</style>
+
+<body>
+    <div class="pig">
+
+        <div class="eye eye-left">
+            <div class="pupil"></div>
+        </div>
+        <div class="eye eye-right">
+            <div class="pupil"></div>
+        </div>
+        <div class="nose">
+            <div class="hole hole-left"></div>
+            <div class="hole hole-right"></div>
+        </div>
+        <div class="mouth"></div>
+        <div class="ear ear-left"></div>
+        <div class="ear ear-right"></div>
+    </div>
+    <div class="trafficlight">
+        <div class="estructure"></div>
+        <div class="lights lights-above"></div>
+        <div class="lights lights-medium"></div>
+        <div class="lights lights-below"></div>
+     
+
+     <div class="rainbow-curve">
+        <div class="intern-rainbow"></div>
+      </div>
+
+     <div class="house">
+        <div class="Roof"></div>
+        <div class="door">
+            <div class="doorhandle"></div>
+        </div>
+        <div class="window">
+            <div class="divisor-window1"></div>
+            <div class="divisor-window2"></div>
+            <div class="window-planter"></div>
+            <div></div>
+        </div>
+    </div>
+</body>
+
+</html>
