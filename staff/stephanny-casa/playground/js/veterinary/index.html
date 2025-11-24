@@ -9,19 +9,30 @@
 
 <body style="background-color: black;">
     <script>
+
+        function User (id, name, surname, username, password, role){
+            this.id = id
+            this.name = name
+            this.surname = surname
+            this.username = username
+            this.password = password
+            this.role = role
+        }
+
         function Vaccine(id, name, description) {
             this.id = id
             this.name = name
             this.description = description
         }
 
-        function Owner(id, name, surname, address, phone, email) {
+        function Owner(id, name, surname, address, phone, email, active) {
             this.id = id
             this.name = name
             this.surname = surname
             this.address = address
             this.phone = phone
             this.email = email
+            this.active = true
         }
 
         function Pet(ownerId, id, name, yearOfBirth, species, gender, race, colors) {
@@ -36,17 +47,18 @@
             this.vaccines = [] // { vaccineId: 'rst-456', expirationDate: '2026-01-01' }
         }
 
-        Pet.prototype.saveVaccine = function(vaccineId, expirationDate) {
+        Pet.prototype.saveVaccine = function (vaccineId, expirationDate) {
             this.vaccines.push({ vaccineId: vaccineId, expirationDate: expirationDate })
         }
 
         function Database() {
+            this.users = []
             this.vaccines = []
             this.owners = []
             this.pets = []
         }
 
-        Database.prototype.findOwnerById = function(ownerId){
+        Database.prototype.findOwnerById = function (ownerId) {
             for (let i = 0; i < this.owners.length; i++) {
                 const owner = this.owners[i]
 
@@ -57,7 +69,8 @@
             return null
         }
 
-        Database.prototype.findPetsByOwnerId = function(ownerId) {
+    
+        Database.prototype.findPetsByOwnerId = function (ownerId) {
             const foundPets = []
 
             for (let i = 0; i < this.pets.length; i++) {
@@ -74,44 +87,148 @@
 
         debugger
 
-        Database.prototype.findPetById = function(petId) {
-            for (let i = 0; i < this.pets.length; i++){
-            const pet = this.pets[i]
+        Database.prototype.findPetById = function (petId) {
+            for (let i = 0; i < this.pets.length; i++) {
+                const pet = this.pets[i]
 
-            if (pet.id === petId)
-            return pet
+                if (pet.id === petId)
+                    return pet
             }
 
             return null
-            
+
         }
 
-        // usage
+        Database.prototype.addUser = function (user){
+            this.users.push (user)
+        }
+
+        Database.prototype.findUserByUsername = function (username){
+            for (let i = 0; i < this.users.length; i++ ){
+                const user = this.users[i]
+                if (user.username === username)
+                return user
+            }
+
+            return null
+        }
+
+        
+        Database.prototype.addVaccine = function (vaccine){
+            this.vaccines.push (vaccine)
+        }
+
+        Database.prototype.addOwner = function (owner){
+            this.owners.push(owner)
+        }
+
+        Database.prototype.addPet = function(pet){
+            this.pets.push(pet)
+        }
+
+        
 
         const database = new Database()
+        
+        function Logic(){
 
-        database.vaccines.push(new Vaccine('xyz-345', 'rabitis', 'blah blah blah 200mg'))
-        database.vaccines.push(new Vaccine('uvw-123', 'mosquitus', 'bleh bleh bleh auch! 100mg'))
-        database.vaccines.push(new Vaccine('rst-456', 'parvovirus', 'blih blih blih 300mg'))
+        }
 
-        database.owners.push(new Owner('123456789T', 'Laura', 'Chico', 'Mahnattan, 123', '+1(678)123456', 'laura@chico.com'))
+        Logic.prototype.registerUser = function (name, surname, username, password, passwordRepeat){
 
-        database.pets.push(new Pet('123456789T', 'abc-123', 'Tobías', 2023, 'canine', 'masculine', 'mix', ['black']))
-        database.pets.push(new Pet('123456789T', 'def-456', 'Pelayo', 2024, 'canine', 'masculine', 'mix', ['brown', 'white']))
+            /*
+            steps
+            -validate inputs: if fields dont follow validation rules then send 'invalid field xxx' (rules are: type, content)
+            -check if user already exists in data with given username: if user exits send error 'User already exits', else add user to data)
+            */
 
-        database.owners.push(new Owner('2345678980W', 'Juan', 'Indiferente', 'New Jersery, 345', '+1(786)432654', 'juan@indiferente.com'))
+            if (typeof name !== 'string') return 'invalid name type'
+            if (name.length < 1) return 'invalid name length'
 
-        database.pets.push(new Pet('2345678980W', 'ghi-789', 'Dalí', 2022, 'canine', 'masculine', 'american bully', ['gray', 'white']))
-        database.pets.push(new Pet('2345678980W', 'jkl-012', 'Floki', 2017, 'feline', 'masculine', 'bombay', ['black']))
-        database.pets.push(new Pet('2345678980W', 'mno-345', 'Olga', 2017, 'feline', 'feminine', 'siamese', ['gray', 'white', 'brown']))
 
-        database.pets[0].saveVaccine('rst-456', '2026-01-01')
-        database.pets[0].saveVaccine('uvw-123', '2026-02-02')
-        database.pets[0].saveVaccine('xyz-345', '2026-11-01')
+            if (typeof surname !== 'string') return 'invalid surname type'
+            if (surname.length < 2) return 'invalid surname length'
 
-        database.pets[1].saveVaccine('rst-456', '2026-03-03')
-        database.pets[1].saveVaccine('uvw-123', '2026-04-04')
-        database.pets[1].saveVaccine('xyz-345', '2026-11-01')
+            if (typeof username !== 'string') return 'invalid username type'
+            if (username.length < 4) return 'invalid username length'
+
+            if (typeof password !== 'string') return 'invalid password type'
+            if (password.length < 8) return 'invalid password length'
+
+            if (typeof passwordRepeat !== 'string') return 'invalid passwordRepeat type'
+            if (passwordRepeat.length < 8) return 'invalid passwordRepeat length'
+
+            if (password !== passwordRepeat) return 'password dont match'
+            
+
+            let user = database.findUserByUsername(username)
+            if (user !== null) return 'user already exits'
+
+            user = new User ('user-?', name, surname, username, password, passwordRepeat)
+
+            data.addUser(user)
+
+
+        }
+
+
+
+        const logic = new Logic ()
+        
+        //logic.registrerUser('Peter', 'Pan', 'peterpan', '123123123', '123123123')
+        //logic.registrerUser('Peter', 'Pan', 'peterpan', '123123123', '123123123')
+
+       
+        // usage
+
+        
+       //database.addUser(new User('user-1', 'Peter', 'Pan', 'peterpan', '123123123', 'auxiliar'))
+        //database.addUser(new User('user-2', 'Wendy', 'Darling', 'wendydarling', '123123123', 'veterinary'))
+
+        //database.addVaccine(new Vaccine('xyz-345', 'rabitis', 'blah blah blah 200mg'))
+        //database.addVaccine(new Vaccine('uvw-123', 'mosquitus', 'bleh bleh bleh auch! 100mg'))
+        //database.addVaccine(new Vaccine('rst-456', 'parvovirus', 'blih blih blih 300mg'))
+
+        //database.addOwner(new Owner('123456789T', 'Laura', 'Chico', 'Mahnattan, 123', '+1(678)123456', 'laura@chico.com'))
+
+        //database.addPet(new Pet('123456789T', 'abc-123', 'Tobías', 2023, 'canine', 'masculine', 'mix', ['black']))
+        //database.addPet(new Pet('123456789T', 'def-456', 'Pelayo', 2024, 'canine', 'masculine', 'mix', ['brown', 'white']))
+
+        //database.addOwner(new Owner('2345678980W', 'Juan', 'Indiferente', 'New Jersery, 345', '+1(786)432654', 'juan@indiferente.com'))
+
+        //database.addPet(new Pet('2345678980W', 'ghi-789', 'Dalí', 2022, 'canine', 'masculine', 'american bully', ['gray', 'white']))
+        //database.addPet(new Pet('2345678980W', 'jkl-012', 'Floki', 2017, 'feline', 'masculine', 'bombay', ['black']))
+        //database.addPet(new Pet('2345678980W', 'mno-345', 'Olga', 2017, 'feline', 'feminine', 'siamese', ['gray', 'white', 'brown']))
+
+        // database.pets[0].saveVaccine('rst-456', '2026-01-01')
+        // database.pets[0].saveVaccine('uvw-123', '2026-02-02')
+        // database.pets[0].saveVaccine('xyz-345', '2026-11-01')
+
+        /*
+        como creamos una funcion arriba de findPetById no es necesario buscarlo como lo haciamos arriba
+
+        data.base.findPetById('abc-123')
+
+        */
+
+        database.findPetById('abc-123').saveVaccine('rst-456', '2026-01-01')
+        database.findPetById('abc-123').saveVaccine('uvw-123', '2026-02-02')
+        database.findPetById('abc-123').saveVaccine('xyz-345', '2026-11-01')
+
+
+        /*
+        como creamos una funcion arriba de findPetById no es necesario buscarlo como lo haciamos arriba
+
+        data.base.findPetById('abc-123')
+
+        */
+        // database.pets[1].saveVaccine('rst-456', '2026-03-03')
+        // database.pets[1].saveVaccine('uvw-123', '2026-04-04')
+        // database.pets[1].saveVaccine('xyz-345', '2026-11-01')
+
+        database.findPetById('def-456').saveVaccine('rst-456', '2026-03-03')
+        database.findPetById('def-456').saveVaccine('uvw-123', '2026-04-04')
+        database.findPetById('def-456').saveVaccine('xyz-345', '2026-11-01')
 
         // const owner = database.findOwnerById('2345678980W')
         // console.log(owner)
