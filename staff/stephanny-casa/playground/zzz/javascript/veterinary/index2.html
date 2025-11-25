@@ -53,6 +53,7 @@
 
         function Database() {
             this.users = []
+            this.userscount = 0
             this.vaccines = []
             this.owners = []
             this.pets = []
@@ -101,6 +102,7 @@
 
         Database.prototype.addUser = function (user){
             this.users.push (user)
+            this.usersCount++
         }
 
         Database.prototype.findUserByUsername = function (username){
@@ -164,11 +166,10 @@
             let user = database.findUserByUsername(username)
             if (user !== null) return 'user already exits'
 
-            user = new User ('user-?', name, surname, username, password, passwordRepeat)
+            user = new User ('user-' + data.usersCount, name, surname, username, password)
 
             data.addUser(user)
-
-
+            
         }
 
 
@@ -183,7 +184,8 @@
 
         
        //database.addUser(new User('user-1', 'Peter', 'Pan', 'peterpan', '123123123', 'auxiliar'))
-        //database.addUser(new User('user-2', 'Wendy', 'Darling', 'wendydarling', '123123123', 'veterinary'))
+        //database.addUser(new User('user-2', 'Wendy', 'Darling', 'wendydarling', '123123123', '
+        // veterinary'))
 
         //database.addVaccine(new Vaccine('xyz-345', 'rabitis', 'blah blah blah 200mg'))
         //database.addVaccine(new Vaccine('uvw-123', 'mosquitus', 'bleh bleh bleh auch! 100mg'))
