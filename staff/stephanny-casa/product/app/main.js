@@ -99,6 +99,34 @@ registerSubmitButton.textContent = 'Register'
 registerForm.appendChild(registerSubmitButton)
 registerView.appendChild(registerForm)
 
+registerForm.addEventListener('submit', function (event) {
+
+    event.preventDefault()
+
+    const name = registerNameInput.value
+    const email = registerEmailInput.value
+    const username = registerUsernameInput.value
+    const password = registerPasswordInput.value
+    const passwordRepeat = registerPasswordRepeatInput.value
+
+
+    try {
+        logic.registerUser(name, email, username, password, passwordRepeat)
+
+        registerForm.reset() // permite se borren los datos al ser registrado.
+        registerFeedBack.textContent = ''
+        
+        registerView.style.display = 'none'
+        loginView.style.display = ''
+
+    } catch (error) {
+
+        registerFeedBack.textContent = error.message
+
+    }
+
+})
+
 const registerLoginLink = document.createElement('a')
 registerLoginLink.textContent = 'Login'
 registerLoginLink.href = ''
@@ -110,6 +138,12 @@ registerLoginLink.addEventListener('click', function (event) {
     registerView.style.display = 'none'
     loginView.style.display = ''
 })
+
+
+const registerFeedBack = document.createElement('p') // aqui mostrara el error capturado
+registerView.appendChild(registerFeedBack)
+
+
 
 document.body.appendChild(registerView)
 

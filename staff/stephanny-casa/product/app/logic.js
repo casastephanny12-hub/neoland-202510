@@ -38,6 +38,8 @@ Logic.prototype.registerUser = function (name, email, username, password, passwo
     data.insertUser (user)
 }
 
+
+
 //instance
 
 const logic = new Logic ()
