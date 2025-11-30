@@ -225,7 +225,15 @@ const homeSubtitle = document.createElement('h2')
 homeSubtitle.textContent = 'Welcome Home!'
 homeView.appendChild(homeSubtitle)
 
+const logoutButton = document.createElement('button') // boton de salida al estar en la home view al logearte
+logoutButton.textContent = 'Logout' // agregamos texto que pulsaremos
+homeView.appendChild(logoutButton) // añadimos en la homeview el boton 
+
+logoutButton.addEventListener('click', function (event) {   //hacemos la funcion de event listener que al clickear salgamos de la homeview y nos redirigamos a la pagina de login
+    event.preventDefault() // permite que la pagina se mantenga aqui
+
+    homeView.style.display = 'none' //desactivamos la homeview 
+    loginView.style.display = '' // activamos la loginview
+})
+
 document.body.appendChild(homeView) // añadimos al document body para que sea visible.
-
-
-
