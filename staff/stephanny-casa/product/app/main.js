@@ -109,22 +109,18 @@ registerForm.addEventListener('submit', function (event) {
     const password = registerPasswordInput.value
     const passwordRepeat = registerPasswordRepeatInput.value
 
-
     try {
         logic.registerUser(name, email, username, password, passwordRepeat)
 
         registerForm.reset() // permite se borren los datos al ser registrado.
-        registerFeedBack.textContent = ''
-        
+        registerFeedBack.textContent = '' // borra los datos del parrafo donde aparece reflejado los errores
+
         registerView.style.display = 'none'
         loginView.style.display = ''
 
     } catch (error) {
-
         registerFeedBack.textContent = error.message
-
     }
-
 })
 
 const registerLoginLink = document.createElement('a')
@@ -143,10 +139,7 @@ registerLoginLink.addEventListener('click', function (event) {
 const registerFeedBack = document.createElement('p') // aqui mostrara el error capturado
 registerView.appendChild(registerFeedBack)
 
-
-
 document.body.appendChild(registerView)
-
 
 //login
 
@@ -180,6 +173,28 @@ loginSubmitButton.textContent = 'Login'
 loginForm.appendChild(loginSubmitButton)
 loginView.appendChild(loginForm)
 
+loginForm.addEventListener('submit', function (event) {
+
+    event.preventDefault()
+
+    const username = loginUsernameInput.value
+    const password = loginPasswordInput.value
+
+
+    try {
+        logic.loginUser(username, password)
+
+        loginForm.reset()
+        loginFeedBack.textContent = ''
+
+        loginView.style.display = 'none'
+        homeView.style.display = ''
+    } catch (error) {
+        loginFeedBack.textContent = error.message
+    }
+
+})
+
 const loginRegisterLink = document.createElement('a')
 loginRegisterLink.textContent = 'Register'
 loginRegisterLink.href = ''
@@ -192,4 +207,25 @@ loginRegisterLink.addEventListener('click', function (event) {
     registerView.style.display = ''
 })
 
+const loginFeedBack = document.createElement('p')
+loginView.appendChild(loginFeedBack)
+
 document.body.appendChild(loginView)
+
+// home
+
+const homeView = document.createElement('div')
+homeView.style.display = 'none'
+
+const homeTitle = document.createElement('h1')
+homeTitle.textContent = 'MyPet'
+homeView.appendChild(homeTitle)
+
+const homeSubtitle = document.createElement('h2')
+homeSubtitle.textContent = 'Welcome Home!'
+homeView.appendChild(homeSubtitle)
+
+document.body.appendChild(homeView) // añadimos al document body para que sea visible.
+
+
+
