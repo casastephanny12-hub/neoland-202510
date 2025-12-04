@@ -54,6 +54,10 @@ Logic.prototype.loginUser = function (username, password) {
 
 }
 
+Logic.prototype.addPet = function(name, birthdate, weight, image) {
+    // TODO add pet related to logged-in user id
+}
+
 //instance
 
 const logic = new Logic()
