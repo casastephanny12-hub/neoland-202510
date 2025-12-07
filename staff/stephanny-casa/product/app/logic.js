@@ -62,17 +62,17 @@ Logic.prototype.logOutUser = function () {
 
 Logic.prototype.addPet = function (name, birthdate, weight, image) {
 
-   if (typeof name !== 'string') throw new Error('invalid name type')
-   if (name.length < 1) throw new Error ('inavlid name length')
+    if (typeof name !== 'string') throw new Error('invalid name type')
+    if (name.length < 1) throw new Error('inavlid name length')
 
-   if (typeof birthdate !== 'string') throw new Error ('invalid birthdate type')
+    if (typeof birthdate !== 'string') throw new Error('invalid birthdate type')
 
     const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/
-    if (!isoDateRegex.test(birthdate)) throw new Error ('invalid birthdate format')
+    if (!isoDateRegex.test(birthdate)) throw new Error('invalid birthdate format')
 
-    if (typeof weight !== 'number'|| isNaN(weight)) throw new Error ('invalid weight type')
-    
-    if (typeof image !== 'string') throw new Error ('invalid image type')
+    if (typeof weight !== 'number' || isNaN(weight)) throw new Error('invalid weight type')
+
+    if (typeof image !== 'string') throw new Error('invalid image type')
 
     const urlRegex = /(www|http:|https:)+[^\s]+[\w]/
     if (!urlRegex.test(image)) throw new Error('invalid image format')
@@ -80,7 +80,11 @@ Logic.prototype.addPet = function (name, birthdate, weight, image) {
     const pet = new Pet('pet-' + data.petsCount, data.getLoggedInUserId(), name, birthdate, weight, image)
 
     data.insertPet(pet) // para guardarlo en el array
-  
+}
+
+Logic.prototype.getPets = function () {
+    
+
 }
 
 //instance
