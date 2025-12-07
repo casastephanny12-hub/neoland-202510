@@ -5,6 +5,7 @@ document.body.className = 'p-8 bg-amber-100 border border-5 border-orange-400 h-
 //landing
 
 const landingView = document.createElement('div') //creacion del div
+// landingView.style.display = 'none' // creamos por si queremos apagar la pantalla y encender otra mientras vamos retocando codigo
 
 const landingTitle = document.createElement('h1')
 landingTitle.textContent = 'MyPet'
@@ -138,7 +139,7 @@ registerPasswordRepeatLabel.textContent = 'Password Repeat'
 registerPasswordRepeatLabel.htmlFor = 'passwordRepeat'
 registerForm.appendChild(registerPasswordRepeatLabel)
 const registerPasswordRepeatInput = document.createElement('input')
-registerPasswordRepeatInput.id = 'password repeat'
+registerPasswordRepeatInput.id = 'passwordRepeat'
 registerPasswordRepeatInput.type = 'password'
 registerPasswordRepeatInput.className = 'border-2 boder-solid border-black rounded-lg p-1'
 registerForm.appendChild(registerPasswordRepeatInput)
@@ -299,7 +300,6 @@ loginForm.addEventListener('submit', function (event) {
     } catch (error) {
         loginFeedBack.textContent = error.message
     }
-
 })
 
 const loginRegisterLink = document.createElement('a')
@@ -341,20 +341,24 @@ homeAddPetButton.type = 'button'
 homeAddPetButton.className = 'border-3 rounded-sm border-solid border-orange-500 my-4'
 homeView.appendChild(homeAddPetButton)
 
-homeAddPetButton.addEventListener('click', function(event){
-    event.preventDefault
+homeAddPetButton.addEventListener('click', function (event) {
+    event.preventDefault()
 
     homeView.style.display = 'none'
     addPetView.style.display = ''
 })
 
-const logoutButton = document.createElement('button') // boton de salida al estar en la home view al logearte
-logoutButton.textContent = 'Logout' // agregamos texto que pulsaremos
-logoutButton.className = 'border-3 rounded-sm border-solid border-orange-500 flex flex-end my-100'
-homeView.appendChild(logoutButton) // añadimos en la homeview el boton 
 
-logoutButton.addEventListener('click', function (event) {   //hacemos la funcion de event listener que al clickear salgamos de la homeview y nos redirigamos a la pagina de login
+const homeLogoutButton = document.createElement('button') // boton de salida al estar en la home view al logearte
+homeLogoutButton.textContent = 'Logout' // agregamos texto que pulsaremos
+homeLogoutButton.type = 'button'
+homeLogoutButton.className = 'border-3 rounded-sm border-solid border-orange-500 flex flex-end my-100'
+homeView.appendChild(homeLogoutButton) // añadimos en la homeview el boton 
+
+homeLogoutButton.addEventListener('click', function (event) {   //hacemos la funcion de event listener que al clickear salgamos de la homeview y nos redirigamos a la pagina de login
     event.preventDefault() // permite que la pagina se mantenga aqui
+
+    logic.logOutUser() // logica
 
     homeView.style.display = 'none' //desactivamos la homeview 
     loginView.style.display = '' // activamos la loginview
@@ -387,7 +391,7 @@ addPetBackLink.href = ''
 addPetBackLink.className = 'bg-orange-300 rounded-sm border-2 border-black p-1 my-6 self-end'
 addPetTopPanel.appendChild(addPetBackLink)
 
-addPetBackLink.addEventListener('click', function(event){
+addPetBackLink.addEventListener('click', function (event) {
     event.preventDefault()
 
     addPetView.style.display = 'none'
@@ -448,13 +452,13 @@ addPetForm.appendChild(addPetSubmitButton)
 
 addPetView.appendChild(addPetForm)
 
-addPetForm.addEventListener('submit', function(event){
+addPetForm.addEventListener('submit', function (event) {
     event.preventDefault()
 
-    const name = addPetNameInput
-    const birthdate = addPetBirthdateInput
-    const weight = addPetWeightInput
-    const image = addPetImageInput
+    const name = addPetNameInput.value
+    const birthdate = addPetBirthdateInput.value
+    const weight = addPetWeightInput.value
+    const image = addPetImageInput.value
 
     console.log(name, birthdate, weight, image)
 
