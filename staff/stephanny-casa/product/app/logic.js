@@ -1,5 +1,5 @@
 function Logic() {
- }
+}
 
 Logic.prototype.registerUser = function (name, email, username, password, passwordRepeat) {
 
@@ -56,26 +56,32 @@ Logic.prototype.loginUser = function (username, password) {
     data.setLoggedInUserId(user.id)
 }
 
-/*Logic.prototype.logOutUser = function () {
+Logic.prototype.logOutUser = function () {
     data.setLoggedInUserId(null)
 }
 
 Logic.prototype.addPet = function (name, birthdate, weight, image) {
 
-    if (typeof name !== 'string') throw new Error('invalid name type')
-    if (name.length < 1) throw new Error ('inavlid name length')
+   if (typeof name !== 'string') throw new Error('invalid name type')
+   if (name.length < 1) throw new Error ('inavlid name length')
 
-    if (typeof birthdate !== 'string') throw new Error ('invalid birthdate type')
-    if (birthdate.length !== 10) throw new Error ('invalid birthdate length')
-    if (typeof birthdate[4] !== '-' || birthdate[7] !== '-' ) throw new Error ('invalid birthdate format')
+   if (typeof birthdate !== 'string') throw new Error ('invalid birthdate type')
 
-    const year = parseInt(birthdate.slice(0, 4))
-    if (typeof year !== 'number'u|| isNaN(year)) throw new Error ('invalid birthdate format')
+    const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/
+    if (!isoDateRegex.test(birthdate)) throw new Error ('invalid birthdate format')
 
-    const day = parseInt(birthdate.slice(8, 10))
-    if (typeof day !== 'number'|| isNaN(day)) throw new Error ('invalid birthdate format')
+    if (typeof weight !== 'number'|| isNaN(weight)) throw new Error ('invalid weight type')
+    
+    if (typeof image !== 'string') throw new Error ('invalid image type')
+
+    const urlRegex = /(www|http:|https:)+[^\s]+[\w]/
+    if (!urlRegex.test(image)) throw new Error('invalid image format')
+
+    const pet = new Pet('pet-' + data.petsCount, data.getLoggedInUserId(), name, birthdate, weight, image)
+
+    data.insertPet(pet) // para guardarlo en el array
+  
 }
-    */
 
 //instance
 

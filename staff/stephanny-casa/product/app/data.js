@@ -10,16 +10,18 @@ function User(id, name, email, username, password, email, role) {
     this.role = role
 }
 
-function Pet(id, userId, chip, name, gender, birthdate, species, race, colors) {
+function Pet(id, userId, /*chip,*/ name, /*gender,*/ birthdate, weight /*species, race, colors*/, image) {
     this.id = id
     this.userId = userId
-    this.chip = chip
     this.name = name
-    this.gender = gender
     this.birthdate = birthdate
-    this.species = species
+    this.weight = weight
+    this.image = image
+    /*this.chip = chip*/
+    /*this.gender = gender*/
+    /*this.species = species
     this.race = race
-    this.colors = colors
+    this.colors = colors*/
 }
 
 // manager
@@ -57,17 +59,17 @@ Data.prototype.findUserByUsername = function (username) {
     return null
 }
 
-Data.prototype.insertPet = function (pet) {
-    this.pets.push(pet)
-    this.petssCount++
-}
-
 Data.prototype.setLoggedInUserId = function(userId){
     this.loggedInUserId = userId
 }
 
 Data.prototype.getLoggedInUserId = function(){
     return this.loggedInUserId
+}
+
+Data.prototype.insertPet = function (pet) {
+    this.pets.push(pet)
+    this.petsCount++
 }
 
 //instance

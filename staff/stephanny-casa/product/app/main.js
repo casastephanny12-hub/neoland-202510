@@ -271,7 +271,6 @@ loginShowPasswordButton.addEventListener('click', function (event) {
         loginShowPasswordButton.textContent = 'Show'
         loginShowPasswordButton.className = 'border-3 rounded-sm border-solid border-orange-500 self-end'
     }
-
 })
 
 const loginSubmitButton = document.createElement('button')
@@ -335,11 +334,15 @@ homeSubtitle.textContent = 'Welcome Home!'
 homeSubtitle.className = 'italic text-2xl my-4'
 homeView.appendChild(homeSubtitle)
 
+const homeTopPanel = document.createElement('div')
+homeTopPanel.className = 'flex justify-between'
+homeView.appendChild(homeTopPanel)
+
 const homeAddPetButton = document.createElement('button')
 homeAddPetButton.textContent = '+ Pet'
 homeAddPetButton.type = 'button'
 homeAddPetButton.className = 'border-3 rounded-sm border-solid border-orange-500 my-4'
-homeView.appendChild(homeAddPetButton)
+homeTopPanel.appendChild(homeAddPetButton)
 
 homeAddPetButton.addEventListener('click', function (event) {
     event.preventDefault()
@@ -348,12 +351,11 @@ homeAddPetButton.addEventListener('click', function (event) {
     addPetView.style.display = ''
 })
 
-
 const homeLogoutButton = document.createElement('button') // boton de salida al estar en la home view al logearte
 homeLogoutButton.textContent = 'Logout' // agregamos texto que pulsaremos
 homeLogoutButton.type = 'button'
-homeLogoutButton.className = 'border-3 rounded-sm border-solid border-orange-500 flex flex-end my-100'
-homeView.appendChild(homeLogoutButton) // añadimos en la homeview el boton 
+homeLogoutButton.className = 'border-3 rounded-sm border-solid border-orange-500 my-4'
+homeTopPanel.appendChild(homeLogoutButton) // añadimos en la homeview el boton 
 
 homeLogoutButton.addEventListener('click', function (event) {   //hacemos la funcion de event listener que al clickear salgamos de la homeview y nos redirigamos a la pagina de login
     event.preventDefault() // permite que la pagina se mantenga aqui
@@ -430,6 +432,7 @@ addPetForm.appendChild(addPetWeightLabel)
 const addPetWeightInput = document.createElement('input')
 addPetWeightInput.id = 'weight'
 addPetWeightInput.type = 'number'
+addPetWeightInput.step = '0.01'
 addPetWeightInput.className = 'border-2 boder-solid border-black rounded-lg p-1'
 addPetForm.appendChild(addPetWeightInput)
 
@@ -457,11 +460,25 @@ addPetForm.addEventListener('submit', function (event) {
 
     const name = addPetNameInput.value
     const birthdate = addPetBirthdateInput.value
-    const weight = addPetWeightInput.value
+    const weight = parseFloat(addPetWeightInput.value)
     const image = addPetImageInput.value
 
-    console.log(name, birthdate, weight, image)
+    try {
+        logic.addPet(name, birthdate, weight, image)
+
+        addPetForm.reset()
+        addPetFeedback.textContent = ''
+
+        addPetView.style.display = 'none'
+        homeView.style.display = ''
+    } catch (error) {
+        addPetFeedback.textContent = error.message
+    }
+
 
 })
+
+const addPetFeedback = document.createElement('p')
+addPetView.appendChild(addPetFeedback)
 
 document.body.appendChild(addPetView)
