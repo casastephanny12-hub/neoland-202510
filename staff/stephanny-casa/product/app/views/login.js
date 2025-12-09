@@ -76,6 +76,27 @@ loginForm.addEventListener('submit', function (event) {
         loginForm.reset()
         loginFeedBack.textContent = ''
 
+        const pets = logic.getPets()
+
+        for (let i = 0; i < pets.length; i++){
+
+            const pet = pets[i]
+            const item = document.createElement('li')
+            item.className = 'flex'
+
+            const image = document.createElement('img')
+            image.src =  pet.image
+            image.className = 'rounded-full w-20'
+            item.appendChild(image)
+
+            const name = document.createElement('p')
+            name.textContent = pet.name
+            item.appendChild(name)
+
+            homePetList.appendChild(item)
+        
+        }
+
         loginView.style.display = 'none'
         homeView.style.display = ''
     } catch (error) {

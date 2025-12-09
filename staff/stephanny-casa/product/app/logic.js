@@ -60,7 +60,17 @@ Logic.prototype.logOutUser = function () {
     data.setLoggedInUserId(null)
 }
 
+
+
 Logic.prototype.addPet = function (name, birthdate, weight, image) {
+
+    if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+
+    const user = data.findUserById(data.getLoggedInUserId()) //Busca en la base de datos al usuario cuyo id es el del usuario que está conectado
+
+    // Esta linea existe para asegurarse de que:el usuario realmente existe antes de permitirle añadir una mascota.
+
+    if (user === null) throw new Error('user not found')
 
     if (typeof name !== 'string') throw new Error('invalid name type')
     if (name.length < 1) throw new Error('inavlid name length')
@@ -83,8 +93,14 @@ Logic.prototype.addPet = function (name, birthdate, weight, image) {
 }
 
 Logic.prototype.getPets = function () {
-    
+    if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
 
+    const user = data.findUserById(data.getLoggedInUserId())
+    if (user === null) throw new Error('user not found')
+
+    const pets = data.findPetsByUserId(data.getLoggedInUserId())
+
+    return pets
 }
 
 //instance

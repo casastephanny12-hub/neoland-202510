@@ -20,11 +20,5 @@ data.insertPet(new Pet ('pet -' + data.petsCount, 'user-3', 'Scabbers', '2023-10
 
 data.insertPet(new Pet ('pet -' + data.petsCount, 'user-3', 'mudblood', '2024-02-13', 6.2, 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGEzbXR1a3Fod203cXVkcGw0bTY5dzVyMnR0ZWI2emJmdWJ2Z2p5bSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/In0Lpu4FVivjISX9HT/giphy.gif'))
 
-data.insertPet(new Pet('pet-' + data.petsCount, 'user-0', 'Sultan', '2024-12-01', 20, 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTVhMDRuNzh2c2Z4cmxzN2U0aHRsOTFzMDBvcnoydG1wZTc4dXBnbSZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/FY8c5SKwiNf1EtZKGs/giphy.gif'))
-
-
-
-
-
 
 

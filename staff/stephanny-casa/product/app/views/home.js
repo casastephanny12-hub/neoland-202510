@@ -39,8 +39,17 @@ homeLogoutButton.addEventListener('click', function (event) {   //hacemos la fun
 
     logic.logOutUser() // logica
 
+    for (let i = homePetList.childNodes.length - 1; i >= 0 ; i--){
+    const child = homePetList.childNodes[i]
+
+    child.remove()
+
+}
     homeView.style.display = 'none' //desactivamos la homeview 
     loginView.style.display = '' // activamos la loginview
 })
+
+const homePetList = document.createElement ('ul')
+homeView.appendChild(homePetList)
 
 document.body.appendChild(homeView) // añadimos al document body para que sea visible.
