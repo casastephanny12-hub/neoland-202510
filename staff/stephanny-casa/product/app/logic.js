@@ -66,30 +66,27 @@ Logic.prototype.addPet = function (name, birthdate, weight, image) {
 
     if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
 
-    const user = data.findUserById(data.getLoggedInUserId()) //Busca en la base de datos al usuario cuyo id es el del usuario que está conectado
+        const user = data.findUserById(data.getLoggedInUserId())
+        if (user === null) throw new Error('user not found')
 
-    // Esta linea existe para asegurarse de que:el usuario realmente existe antes de permitirle añadir una mascota.
+        if (typeof name !== 'string') throw new Error('invalid name type')
+        if (name.length < 1) throw new Error('invalid name length')
 
-    if (user === null) throw new Error('user not found')
+        if (typeof birthdate !== 'string') throw new Error('invalid birthdate type')
 
-    if (typeof name !== 'string') throw new Error('invalid name type')
-    if (name.length < 1) throw new Error('inavlid name length')
+        const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/
+        if (!isoDateRegex.test(birthdate)) throw new Error('invalid birthdate format')
 
-    if (typeof birthdate !== 'string') throw new Error('invalid birthdate type')
+        if (typeof weight !== 'number' || isNaN(weight)) throw new Error('invalid weight type')
 
-    const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/
-    if (!isoDateRegex.test(birthdate)) throw new Error('invalid birthdate format')
+        if (typeof image !== 'string') throw new Error('invalid image type')
 
-    if (typeof weight !== 'number' || isNaN(weight)) throw new Error('invalid weight type')
+        const urlRegex = /(www|http:|https:)+[^\s]+[\w]/
+        if (!urlRegex.test(image)) throw new Error('invalid image format')
 
-    if (typeof image !== 'string') throw new Error('invalid image type')
+        const pet = new Pet('pet-' + data.petsCount, data.getLoggedInUserId(), name, birthdate, weight, image)
 
-    const urlRegex = /(www|http:|https:)+[^\s]+[\w]/
-    if (!urlRegex.test(image)) throw new Error('invalid image format')
-
-    const pet = new Pet('pet-' + data.petsCount, data.getLoggedInUserId(), name, birthdate, weight, image)
-
-    data.insertPet(pet) // para guardarlo en el array
+        data.insertPet(pet)
 }
 
 Logic.prototype.getPets = function () {
@@ -101,6 +98,32 @@ Logic.prototype.getPets = function () {
     const pets = data.findPetsByUserId(data.getLoggedInUserId())
 
     return pets
+}
+
+Logic.prototype.deletePet = function (petId) {
+
+    console.log('petId recibido:', petId, typeof petId)
+
+
+       if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+
+        const user = data.findUserById(data.getLoggedInUserId())
+        if (user === null) throw new Error('user not found')
+
+        if (typeof petId !== 'string') throw new Error('invalid pet-id type')
+
+        const petIdRegex =/^\pet-[0-9]+$/
+        if (!petIdRegex.test(petId)) throw new Error('invalid pet-id format')
+
+        const pet = data.findPetById(petId)
+
+        if (pet === null) throw new Error('pet not found')
+
+        if (pet.userId !== data.getLoggedInUserId()) throw new Error('user not owner of pet')
+
+        const petIndex = data.pets.indexOf(pet)
+
+        data.pets.splice(petIndex, 1)
 }
 
 //instance

@@ -85,16 +85,26 @@ Data.prototype.findPetsByUserId = function (userId) {
 
     const foundPets = []
 
-    for (let i = 0; i < this.pets.length; i++){
+    for (let i = 0; i < this.pets.length; i++) {
 
         const pet = this.pets[i] // Creamos una variable llamada pet, y le asignamos la mascota que está en la posición i del array this.pets. Así podemos mirarla y comprobar si pertenece al usuario que estamos buscando.
 
-    if (pet.userId === userId) //  El bucle revisa cada mascota.Si la mascota que estamos mirando (pet) tiene un userId que es igual al userId que buscamos, entonces la condición es verdadera.Y si es verdadera, esa mascota se guarda dentro del array foundPets.    
-        foundPets.push(pet)
+        if (pet.userId === userId) //  El bucle revisa cada mascota.Si la mascota que estamos mirando (pet) tiene un userId que es igual al userId que buscamos, entonces la condición es verdadera.Y si es verdadera, esa mascota se guarda dentro del array foundPets.    
+            foundPets.push(pet)
+    }
+
+    return foundPets
+
 }
 
-return foundPets
+Data.prototype.findPetById = function (petId) {
+    for (let i = 0; i < this.pets.length; i++) {
+        const pet = this.pets[i]
 
+        if (pet.id === petId)
+            return pet
+    }
+    return null
 }
 
 //instance

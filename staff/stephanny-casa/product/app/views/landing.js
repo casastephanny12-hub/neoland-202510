@@ -1,51 +1,48 @@
-const landingView = document.createElement('div') //creacion del div
+const landingView = createView () //creacion del div
 // landingView.style.display = 'none' // creamos por si queremos apagar la pantalla y encender otra mientras vamos retocando codigo
 
-const landingTitle = document.createElement('h1')
-landingTitle.textContent = 'MyPet'
-landingTitle.className = 'font-bold italic text-7xl'
-landingView.appendChild(landingTitle)
+const landingTitle = createTitle ()
+setTextContent(landingTitle, 'MyPet')
+addChild(landingView, landingTitle)
 
-const landingWelcome = document.createElement('p')
-landingWelcome.textContent = 'Welcome!'
-landingWelcome.className = 'text-4xl my-4'
-landingView.appendChild(landingWelcome)
+const landingWelcome = createParagraph()
+setTextContent (landingWelcome, 'Welcome!')
+setClass (landingWelcome, 'text-4xl my-4')
+addChild (landingView, landingWelcome)
 
-const landingAccess = document.createElement('p')
+const landingNavigation = createNavigation ()
 
 //inicio de sesion
-const landingLoginLink = document.createElement('a')
-landingLoginLink.textContent = 'Login'
-landingLoginLink.href = ''
-landingLoginLink.className = 'bg-orange-300 rounded-sm border-2 border-black p-1'
-landingAccess.appendChild(landingLoginLink)
+const landingLoginLink = createLink()
+setTextContent(landingLoginLink, 'Login')
+setClass(landingLoginLink,'bg-orange-300 rounded-sm border-2 border-black p-1')
+addChild(landingNavigation, landingLoginLink)
 
 //nodo
-const landingOrText = document.createTextNode(' or ')
-landingAccess.appendChild(landingOrText)
+const landingOrText = createTextNode(' or ')
+addChild(landingNavigation, landingOrText)
 
 //registro
 
-const landingRegisterLink = document.createElement('a')
-landingRegisterLink.textContent = 'Register'
-landingRegisterLink.href = ''
-landingRegisterLink.className = ' bg-orange-300 rounded-sm border-2 border-black p-1'
-landingAccess.appendChild(landingRegisterLink)
+const landingRegisterLink = createLink()
+setTextContent(landingRegisterLink, 'Register')
+setClass(landingRegisterLink,' bg-orange-300 rounded-sm border-2 border-black p-1')
+addChild(landingNavigation, landingRegisterLink)
 
 //lo colocamos en el landingview
 
-landingView.appendChild(landingAccess)
+addChild(landingView, landingNavigation)
 
 landingLoginLink.addEventListener('click', function (event) {
     event.preventDefault()  //evita que se rediriga a la pagina principal (no recarga)
-    landingView.style.display = 'none' // apaga la pagina principal
-    loginView.style.display = '' // activa la pagina de login con su formulario
+    hideView(landingView) // apaga la pagina principal
+    showView(loginView) // activa la pagina de login con su formulario
 })
 
 landingRegisterLink.addEventListener('click', function (event) {
     event.preventDefault()  //evita que se rediriga a la pagina principal (no recarga)
-    landingView.style.display = 'none' // apaga la pagina principal
-    registerView.style.display = '' // activa la pagina de Register con su formulario
+    hideView(landingView) // apaga la pagina principal
+    showView(registerView) // activa la pagina de Register con su formulario
 })
 
-document.body.appendChild(landingView)
+addChild(document.body, landingView)
