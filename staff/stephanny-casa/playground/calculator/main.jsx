@@ -13,9 +13,13 @@ function App() {
     //  console.log('one clicked')
     //}
 
+    //functions click
+
+    //Back Button
+
     const handleDeleteClicked = () => {
 
-        if (displayValue.length <= 1){
+        if (displayValue.length <= 1) {
             setDisplayValue('0')
         }
 
@@ -24,23 +28,66 @@ function App() {
         }
     }
 
+    //Coma (,) Button
+
+    const handleCommaClicked = () => {
+
+        const lastCharacter = displayValue.at(-1)
+
+        if (lastCharacter === ',') return
+
+        const lastIndexOfDivide = displayValue.lastIndexOf('÷')
+        const lastIndexOfMultiply = displayValue.lastIndexOf('×')
+        const lastIndexOfSubtract = displayValue.lastIndexOf('-')
+        const lastIndexOfAdd = displayValue.lastIndexOf('+')
+
+        const lastIndexOfOperation = Math.max(lastIndexOfDivide, lastIndexOfMultiply, lastIndexOfSubtract, lastIndexOfAdd)
+
+        const lastIndex = displayValue.length - 1
+
+        let newValue
+
+        if (lastIndexOfOperation === lastIndex)
+            newValue = displayValue + '0,'
+        else
+            newValue = displayValue + ','
+
+        setDisplayValue(newValue)
+    }
+
+
+    //AC button
+
     const handleAllClearClicked = () => setDisplayValue('0')
+
+    // ÷ button
 
     const handleDivideClicked = () => setDisplayValue(displayValue + '÷')
 
+    // × button
+
     const handleMultiplyClicked = () => setDisplayValue(displayValue + '×')
+
+    // - button
 
     const handleSubtractClicked = () => setDisplayValue(displayValue + '-')
 
+    // + button
+
     const handleAddClicked = () => setDisplayValue(displayValue + '+')
 
+    // = button
+
     const handleResultClicked = () => {
-        const operation = displayValue.replaceAll('÷', '/'). replaceAll('×', '*')
+        const operation = displayValue.replaceAll('÷', '/').replaceAll('×', '*')
 
         const result = eval(operation)
 
         setDisplayValue(String(result))
     }
+
+
+    //numbers click 
 
     const handleZeroClicked = () => {
         if (displayValue != '0')
@@ -130,7 +177,7 @@ function App() {
 
     console.log('App -> render')
 
-    return <div className="border-2 m-2 p-2 rounded-2xl bg-gray-800 text-white">
+    return <div className="border-2 m-2 p-2 rounded-4xl bg-gray-800 text-white">
         <div className="flex justify-end px-4 text-3xl">{displayValue}</div>
 
         <div className="p-2 flex flex-col gap-2">
@@ -144,7 +191,7 @@ function App() {
                 <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleSevenClicked}>7</div>
                 <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleEightClicked} >8</div>
                 <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleNineClicked}>9</div>
-                <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer"onClick={handleMultiplyClicked}>×</div>
+                <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleMultiplyClicked}>×</div>
             </div>
             <div className="flex justify-between">
                 <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleFourClicked}>4</div>
@@ -156,12 +203,12 @@ function App() {
                 <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleOneClicked}>1</div>
                 <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleTwoClicked}>2</div>
                 <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleThreeClicked}>3</div>
-                <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer"onClick={handleAddClicked}>+</div>
+                <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleAddClicked}>+</div>
             </div>
             <div className="flex justify-between">
                 <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer">+⁄-</div>
                 <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleZeroClicked}>0</div>
-                <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer">,</div>
+                <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleCommaClicked}>,</div>
                 <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleResultClicked}>=</div>
             </div>
 
