@@ -51,7 +51,7 @@ function App() {
         try {
             logic.closeIssue(issueId)
 
-            const issue = logic.getAllIssues()
+            const issues = logic.getAllIssues()
 
             const newIssues = []
 
