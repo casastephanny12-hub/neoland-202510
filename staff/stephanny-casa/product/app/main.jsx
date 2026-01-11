@@ -51,6 +51,13 @@ function App() {
         setView('home')
     }
 
+    const handleDeleteButton = event => {
+        event.preventDefault()
+
+
+
+    }
+
     //landing
     if (view === 'landing')
         return <div className="p-4">
@@ -152,7 +159,7 @@ function App() {
                         <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHBiZ3QzaXpsOTB3czM1MjFpbnA2M2pwOWY0YjMxMTk5NXNjNHRpOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/j0QzDgFZRX2njRxxtP/giphy.gif" className="rounded-full w-30 h-30 object-cover" />
                         <p className="text-black text-sm font-medium">Terry</p>
                     </div>
-                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end">🗑️</button>
+                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end" onClick={handleDeleteButton}>🗑️</button>
 
                 </li>
 
@@ -161,7 +168,7 @@ function App() {
                         <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3enRqaTUxcDY5eGxoM3FsNXZxY3B1Y2xkanY5cmRxYnBxaWE1ejBjOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/8CFKqeK9vks3C/giphy.gif" className="rounded-full w-30 h-30 object-cover" />
                         <p className="text-black text-sm font-medium">Chloe</p>
                     </div>
-                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end">🗑️</button>
+                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end" onClick={handleDeleteButton}>🗑️</button>
                 </li>
 
                 <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
@@ -169,7 +176,7 @@ function App() {
                         <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZHZmMzg3bHBmMHlsMzAzeDBibDlpNjNvMWd5NmtlZnBsOWJqeG94OSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/1DqOFqULOqe5y/giphy.gif" className="rounded-full w-30 h-30 object-cover" />
                         <p className="text-black text-sm font-medium">Zoe</p>
                     </div>
-                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end">🗑️</button>
+                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end" onClick={handleDeleteButton}>🗑️</button>
                 </li>
             </ul>
 
