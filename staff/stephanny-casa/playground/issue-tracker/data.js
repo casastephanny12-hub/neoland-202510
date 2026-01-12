@@ -22,8 +22,6 @@ class Data {
     }
 }
 
-
-
 // instance
 
 const data = new Data()
