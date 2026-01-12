@@ -6,7 +6,11 @@ const useState = React.useState
 
 function App() {
 
-    const [view, setView] = useState('landing') 
+    const [view, setView] = useState('landing')
+    const [message, setMessage] = useState('')
+    const [passwordType, setPasswordType] = useState('password')
+    const [passwordRepeatType, setPasswordRepeatType] = useState('password')
+    
 
     const handleLoginClick = event => {
         event.preventDefault()
@@ -24,9 +28,61 @@ function App() {
     const handleLoginButton = event => {
         event.preventDefault()
 
-        setView('home')
+        const form = event.target
+
+        const username = form.username.value
+        const password = form.password.value
+
+        try {
+
+            logic.loginUser(username, password)
+
+            form.reset()
+
+            setView('home')
+            setMessage('')
+
+        }catch(error){
+            setMessage(error.message)
+        }
     }
 
+    const handleRegisterButton = event => {
+        event.preventDefault()
+
+        const form = event.target
+
+        const name = form.name.value
+        const email = form.email.value
+        const username = form.username.value
+        const password = form.password.value
+        const passwordRepeat = form.passwordRepeat.value
+
+        try{
+            logic.registerUser(name, email, username, password, passwordRepeat)
+
+            form.reset()
+
+            setView('login')
+            setMessage('')
+        } catch(error){
+            setMessage(message)
+        }
+    }
+
+    const handleTogglePasswordClick = event => {
+        event.preventDefault()
+
+        setPasswordType(passwordType === 'password'? 'text' : 'password')
+    }
+
+    const handleTogglePasswordRepeatClick = event => {
+        event.preventDefault()
+
+        setPasswordRepeatType(passwordRepeatType === 'password'? 'text' : 'password')
+    }
+
+    
     const handleAddPetButton = event => {
         event.preventDefault()
 
@@ -58,6 +114,7 @@ function App() {
 
     }
 
+    
     //landing
     if (view === 'landing')
         return <div className="p-4">
@@ -84,9 +141,9 @@ function App() {
                 <input id="username" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="password">Password</label>
-                <input id="password" type="password" className="border-2 boder-solid border-black rounded-lg p-1" />
+                <input id="password" type={passwordType} className={passwordType === 'password'? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"}/>
 
-                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button">Show</button>
+                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password'? 'Show' : 'Hide'}</button>
 
                 <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="submit">Login</button>
 
@@ -94,7 +151,7 @@ function App() {
 
             <a className="underline decoration-orange-500" onClick={handleRegisterClick}>Register</a>
 
-            <p></p>
+            <p>{message}</p>
         </div>
 
 
@@ -107,7 +164,7 @@ function App() {
 
             <h2 className="italic my-4">Register</h2>
 
-            <form className="flex flex-col">
+            <form className="flex flex-col" onSubmit={handleRegisterButton}>
 
                 <label for="name">Name</label>
                 <input id="name" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
@@ -119,14 +176,12 @@ function App() {
                 <input id="username" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="password">Password</label>
-                <input id="password" type="password" className="border-2 boder-solid border-black rounded-lg p-1" />
-
-                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button">Show</button>
+                <input id="password" type={passwordType} className={passwordType === 'password'? "border-2 boder-solid border-black rounded-lg p-1":"border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"}/>
+                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password'? 'Show' : 'Hide'}</button>
 
                 <label htmlFor="passwordRepeat">Password Repeat</label>
-                <input id="passwordRepeat" type="password" className="border-2 boder-solid border-black rounded-lg p-1" />
-
-                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button">Show</button>
+                <input id="passwordRepeat" type={passwordRepeatType} className={passwordRepeatType === 'password'? "border-2 boder-solid border-black rounded-lg p-1":"border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"}/>
+                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordRepeatClick}>{passwordRepeatType === 'password'? 'Show' : 'Hide'}</button>
 
                 <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="submit">Register</button>
 
@@ -134,7 +189,7 @@ function App() {
 
             <a className="underline decoration-orange-500" onClick={handleLoginClick}>Login</a>
 
-            <p></p>
+            <p>{message}</p>
         </div>
 
 
