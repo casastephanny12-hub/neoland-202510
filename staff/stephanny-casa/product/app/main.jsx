@@ -10,12 +10,19 @@ function App() {
     const [message, setMessage] = useState('')
     const [passwordType, setPasswordType] = useState('password')
     const [passwordRepeatType, setPasswordRepeatType] = useState('password')
-    
+    const [pets, setPets] = useState([])
+
+    const loginFormRef = useRef()
+    const registerFormRef = useRef()
+
 
     const handleLoginClick = event => {
         event.preventDefault()
 
         setView('login')
+        setMessage('')
+        setPasswordType('password')
+        setPasswordRepeatType('password')
 
     }
 
@@ -23,6 +30,9 @@ function App() {
         event.preventDefault()
 
         setView('register')
+        setMessage('')
+        setPasswordType('password')
+        setPasswordRepeatType('password')
     }
 
     const handleLoginButton = event => {
@@ -39,10 +49,20 @@ function App() {
 
             form.reset()
 
+            const pets = logic.getPets()
+
+            const newPets = []
+
+            for (const pet of pets) {
+                return newPets.push(pet)
+            }
+
             setView('home')
             setMessage('')
-
-        }catch(error){
+            setPasswordType('password')
+            setPasswordRepeatType('password')
+            setPets(newPets)
+        } catch (error) {
             setMessage(error.message)
         }
     }
@@ -58,14 +78,14 @@ function App() {
         const password = form.password.value
         const passwordRepeat = form.passwordRepeat.value
 
-        try{
+        try {
             logic.registerUser(name, email, username, password, passwordRepeat)
 
             form.reset()
 
             setView('login')
             setMessage('')
-        } catch(error){
+        } catch (error) {
             setMessage(message)
         }
     }
@@ -73,27 +93,34 @@ function App() {
     const handleTogglePasswordClick = event => {
         event.preventDefault()
 
-        setPasswordType(passwordType === 'password'? 'text' : 'password')
+        setPasswordType(passwordType === 'password' ? 'text' : 'password')
     }
 
     const handleTogglePasswordRepeatClick = event => {
         event.preventDefault()
 
-        setPasswordRepeatType(passwordRepeatType === 'password'? 'text' : 'password')
+        setPasswordRepeatType(passwordRepeatType === 'password' ? 'text' : 'password')
     }
 
-    
+    const handleLogoutButton = event => {
+        event.preventDefault()
+
+        try {
+            logic.logoutUser()
+            setView('landing')
+        } catch (error) {
+            setMessage('Sorry, try it later!')
+        }
+
+
+    }
+
     const handleAddPetButton = event => {
         event.preventDefault()
 
         setView('add-pet')
     }
 
-    const handleLogoutButton = event => {
-        event.preventDefault()
-
-        setView('landing')
-    }
 
     const handleAddPetBackButton = event => {
         event.preventDefault()
@@ -104,17 +131,30 @@ function App() {
     const handleAddPetFormButton = event => {
         event.preventDefault()
 
-        setView('home')
+        const form = event.target
+
+        const name = form.name.value
+        const birthdate = form.birthdate.value
+        const weight = Number(form.weight.value)
+        const image = form.image.value
+
+        try {
+            logic.addPet(name, birthdate, weight, image)
+
+            form.reset()
+
+            setView('home')
+        } catch (error) {
+            setMessage(error.message)
+        }
+
     }
 
     const handleDeleteButton = event => {
         event.preventDefault()
-
-
-
     }
 
-    
+
     //landing
     if (view === 'landing')
         return <div className="p-4">
@@ -141,9 +181,9 @@ function App() {
                 <input id="username" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="password">Password</label>
-                <input id="password" type={passwordType} className={passwordType === 'password'? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"}/>
+                <input id="password" type={passwordType} className={passwordType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
 
-                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password'? 'Show' : 'Hide'}</button>
+                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
 
                 <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="submit">Login</button>
 
@@ -176,12 +216,12 @@ function App() {
                 <input id="username" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="password">Password</label>
-                <input id="password" type={passwordType} className={passwordType === 'password'? "border-2 boder-solid border-black rounded-lg p-1":"border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"}/>
-                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password'? 'Show' : 'Hide'}</button>
+                <input id="password" type={passwordType} className={passwordType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
+                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
 
                 <label htmlFor="passwordRepeat">Password Repeat</label>
-                <input id="passwordRepeat" type={passwordRepeatType} className={passwordRepeatType === 'password'? "border-2 boder-solid border-black rounded-lg p-1":"border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"}/>
-                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordRepeatClick}>{passwordRepeatType === 'password'? 'Show' : 'Hide'}</button>
+                <input id="passwordRepeat" type={passwordRepeatType} className={passwordRepeatType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
+                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordRepeatClick}>{passwordRepeatType === 'password' ? 'Show' : 'Hide'}</button>
 
                 <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="submit">Register</button>
 
@@ -196,58 +236,51 @@ function App() {
 
     //Home
 
-    if (view === 'home')
-        return <div class="p-4">
+    if (view === 'home'){
+        const petItems = []
 
-            <h1 className="font-bold text-4xl my-4">MyPet</h1>
+    for (const pet of pets) {
+        const petItem = <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
+            <div className="flex items-center gap-4 w-full">
+                <img src={pet.image} 
+                className="rounded-full w-30 h-30 object-cover"/>
 
-            <h2 className="italic my-4">Welcome Home!</h2>
-
-            <div className="flex justify-between">
-                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="button" onClick={handleAddPetButton}>+ Pet</button>
-                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="button" onClick={handleLogoutButton}>Logout</button>
+                <p>{pet.name}</p>
             </div>
+            <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end" onClick={handleDeleteButton}>🗑️</button>
+        </li>
 
-            <ul className="flex flex-col gap-2 mt-2">
-                <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
-                    <div className="flex items-center gap-4 w-full">
-                        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHBiZ3QzaXpsOTB3czM1MjFpbnA2M2pwOWY0YjMxMTk5NXNjNHRpOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/j0QzDgFZRX2njRxxtP/giphy.gif" className="rounded-full w-30 h-30 object-cover" />
-                        <p className="text-black text-sm font-medium">Terry</p>
-                    </div>
-                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end" onClick={handleDeleteButton}>🗑️</button>
+        petItems.push(petItem)
+    }
 
-                </li>
+    return <div class="p-4">
 
-                <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
-                    <div className="flex items-center gap-4 w-full">
-                        <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3enRqaTUxcDY5eGxoM3FsNXZxY3B1Y2xkanY5cmRxYnBxaWE1ejBjOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/8CFKqeK9vks3C/giphy.gif" className="rounded-full w-30 h-30 object-cover" />
-                        <p className="text-black text-sm font-medium">Chloe</p>
-                    </div>
-                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end" onClick={handleDeleteButton}>🗑️</button>
-                </li>
+        <h1 className="font-bold text-4xl my-4">MyPet</h1>
 
-                <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
-                    <div className="flex items-center gap-4 w-full">
-                        <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZHZmMzg3bHBmMHlsMzAzeDBibDlpNjNvMWd5NmtlZnBsOWJqeG94OSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/1DqOFqULOqe5y/giphy.gif" className="rounded-full w-30 h-30 object-cover" />
-                        <p className="text-black text-sm font-medium">Zoe</p>
-                    </div>
-                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end" onClick={handleDeleteButton}>🗑️</button>
-                </li>
-            </ul>
+        <h2 className="italic my-4">Welcome Home!</h2>
 
-            <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center" style={{ display: 'none' }}>
-
-                <div className="bg-white border-black border-2 p-2">
-                    <p className="text-center">Delete Pet?</p>
-                    <div className="flex justify-center gap-2">
-                        <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center">❎</button>
-                        <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center">✅</button>
-                    </div>
-                </div>
-            </div>
-            <p></p>
+        <div className="flex justify-between">
+            <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="button" onClick={handleAddPetButton}>+ Pet</button>
+            <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="button" onClick={handleLogoutButton}>Logout</button>
         </div>
 
+        <ul className="flex flex-col gap-2 mt-2">
+            {petItems}
+        </ul>
+
+        <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center" style={{ display: 'none' }}>
+
+            <div className="bg-white border-black border-2 p-2">
+                <p className="text-center">Delete Pet?</p>
+                <div className="flex justify-center gap-2">
+                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center">❎</button>
+                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center">✅</button>
+                </div>
+            </div>
+        </div>
+        <p>{message}</p>
+    </div>
+    }
 
 
     //AddPet
@@ -276,16 +309,7 @@ function App() {
 
                 <button className="bg-orange-300 rounded-sm border-2 border-black p-1 my-6 self-center" type="submit">Add Pet</button>
             </form>
-            <p></p>
+            <p>{message}</p>
         </div>
-
-
-
-
-
-
-
-
-
 
 }
