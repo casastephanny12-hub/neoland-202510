@@ -61,12 +61,6 @@ function App() {
 
             const pets = logic.getPets()
 
-            const newPets = []
-
-            for (const pet of pets){
-                newPets.push(pet)
-            }
-
             setView('home')
             setMessage('')
             setPasswordType('password')
@@ -159,11 +153,6 @@ function App() {
             form.reset()
 
             const pets = logic.getPets()
-
-            const newPets = []
-
-            for (const pet of pets)
-                newPets.push(pet)
 
             setView('home')
             setPets(pets)
