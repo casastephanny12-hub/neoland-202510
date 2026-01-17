@@ -2,15 +2,18 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(< App />)
 
-const useState = React.useState
+const { useState, useRef } = React
 
 function App() {
+
+    console.log('App -> call')
 
     const [view, setView] = useState('landing')
     const [message, setMessage] = useState('')
     const [passwordType, setPasswordType] = useState('password')
     const [passwordRepeatType, setPasswordRepeatType] = useState('password')
     const [pets, setPets] = useState([])
+    const [petId, setPetId] = useState(null)
 
     const loginFormRef = useRef()
     const registerFormRef = useRef()
@@ -18,6 +21,10 @@ function App() {
 
     const handleLoginClick = event => {
         event.preventDefault()
+
+        if (registerFormRef.current)
+            registerFormRef.current.reset()
+
 
         setView('login')
         setMessage('')
@@ -28,6 +35,9 @@ function App() {
 
     const handleRegisterClick = event => {
         event.preventDefault()
+
+        if(loginFormRef.current)
+            loginFormRef.current.reset()
 
         setView('register')
         setMessage('')
@@ -53,15 +63,15 @@ function App() {
 
             const newPets = []
 
-            for (const pet of pets) {
-                return newPets.push(pet)
+            for (const pet of pets){
+                newPets.push(pet)
             }
 
             setView('home')
             setMessage('')
             setPasswordType('password')
             setPasswordRepeatType('password')
-            setPets(newPets)
+            setPets(pets)
         } catch (error) {
             setMessage(error.message)
         }
@@ -85,6 +95,8 @@ function App() {
 
             setView('login')
             setMessage('')
+            setPasswordType('password')
+            setPasswordRepeatType('password')
         } catch (error) {
             setMessage(message)
         }
@@ -106,8 +118,11 @@ function App() {
         event.preventDefault()
 
         try {
-            logic.logoutUser()
+            logic.logOutUser()
+
             setView('landing')
+            setMessage('')
+            setPets([])
         } catch (error) {
             setMessage('Sorry, try it later!')
         }
@@ -143,17 +158,53 @@ function App() {
 
             form.reset()
 
+            const pets = logic.getPets()
+
+            const newPets = []
+
+            for (const pet of pets)
+                newPets.push(pet)
+
             setView('home')
+            setPets(pets)
         } catch (error) {
             setMessage(error.message)
         }
 
     }
 
-    const handleDeleteButton = event => {
+    const handleDeletePetClick = event => {
         event.preventDefault()
+
+        const button = event.target
+
+        const petId = button.id
+
+        setPetId(petId)
     }
 
+    const handleCancelDeletePetClick = event => {
+        event.preventDefault()
+
+        setPetId(null)
+    }
+
+    const handleConfirmDeletePetClick = event => {
+        event.preventDefault()
+
+        try {
+            logic.deletePet(petId)
+
+            const pets = logic.getPets()
+
+            setPetId(null)
+            setPets(pets)
+        } catch (error) {
+            setMessage(error.message)
+        }
+    }
+
+    console.log('App -> render')
 
     //landing
     if (view === 'landing')
@@ -175,13 +226,14 @@ function App() {
 
             <h2 className="italic my-4">Login</h2>
 
-            <form className="flex flex-col" onSubmit={handleLoginButton}>
+            <form className="flex flex-col" onSubmit={handleLoginButton} ref={loginFormRef}>
 
                 <label htmlFor="username">Username</label>
-                <input id="username" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
+                <input id="username" name="username" autoComplete="username" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="password">Password</label>
-                <input id="password" type={passwordType} className={passwordType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
+                <input id="password" name="password"
+                autoComplete="off" type={passwordType} className={passwordType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
 
                 <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
 
@@ -204,23 +256,27 @@ function App() {
 
             <h2 className="italic my-4">Register</h2>
 
-            <form className="flex flex-col" onSubmit={handleRegisterButton}>
+            <form className="flex flex-col" onSubmit={handleRegisterButton} ref={registerFormRef}>
 
                 <label for="name">Name</label>
-                <input id="name" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
+                <input id="name" name="name" autoComplete="name" 
+                type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="email">Email</label>
-                <input id="email" type="email" className="border-2 boder-solid border-black rounded-lg p-1" />
+                <input id="email" name="email" autoComplete="email" type="email" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="username">Username</label>
-                <input id="username" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
+                <input id="username" name="username"
+                autoComplete="username"  type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="password">Password</label>
-                <input id="password" type={passwordType} className={passwordType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
+                <input id="password" name="password"
+                autoComplete="off" type={passwordType} className={passwordType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
                 <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
 
                 <label htmlFor="passwordRepeat">Password Repeat</label>
-                <input id="passwordRepeat" type={passwordRepeatType} className={passwordRepeatType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
+                <input id="passwordRepeat" autoComplete="off" name="passwordRepeat"
+                type={passwordRepeatType} className={passwordRepeatType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
                 <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordRepeatClick}>{passwordRepeatType === 'password' ? 'Show' : 'Hide'}</button>
 
                 <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="submit">Register</button>
@@ -236,50 +292,52 @@ function App() {
 
     //Home
 
-    if (view === 'home'){
+    if (view === 'home') {
         const petItems = []
 
-    for (const pet of pets) {
-        const petItem = <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
-            <div className="flex items-center gap-4 w-full">
-                <img src={pet.image} 
-                className="rounded-full w-30 h-30 object-cover"/>
+        for (const pet of pets) {
+            const petItem = <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
+                <div className="flex items-center gap-4 w-full">
+                    <img src={pet.image}
+                        className="rounded-full w-30 h-30 object-cover" />
 
-                <p>{pet.name}</p>
-            </div>
-            <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end" onClick={handleDeleteButton}>🗑️</button>
-        </li>
-
-        petItems.push(petItem)
-    }
-
-    return <div class="p-4">
-
-        <h1 className="font-bold text-4xl my-4">MyPet</h1>
-
-        <h2 className="italic my-4">Welcome Home!</h2>
-
-        <div className="flex justify-between">
-            <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="button" onClick={handleAddPetButton}>+ Pet</button>
-            <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="button" onClick={handleLogoutButton}>Logout</button>
-        </div>
-
-        <ul className="flex flex-col gap-2 mt-2">
-            {petItems}
-        </ul>
-
-        <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center" style={{ display: 'none' }}>
-
-            <div className="bg-white border-black border-2 p-2">
-                <p className="text-center">Delete Pet?</p>
-                <div className="flex justify-center gap-2">
-                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center">❎</button>
-                    <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center">✅</button>
+                    <p>{pet.name}</p>
                 </div>
+
+                <button id={pet.id} className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center justify-self-end" onClick={handleDeletePetClick}>🗑️</button>
+            </li>
+
+            petItems.push(petItem)
+        }
+
+        return <div class="p-4">
+
+            <h1 className="font-bold text-4xl my-4">MyPet</h1>
+
+            <h2 className="italic my-4">Welcome Home!</h2>
+
+            <div className="flex justify-between">
+                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="button" onClick={handleAddPetButton}>+ Pet</button>
+                <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="button" onClick={handleLogoutButton}>Logout</button>
             </div>
+
+            <ul className="flex flex-col gap-2 mt-2">
+                {petItems}
+            </ul>
+
+            {petId && <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center">
+
+                <div className="bg-white border-black border-2 p-2">
+                    <p className="text-center">Delete Pet?</p>
+                    <div className="flex justify-center gap-2">
+                        <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" onClick={handleCancelDeletePetClick}>❎</button>
+                        <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" onClick={handleConfirmDeletePetClick}>✅</button>
+                    </div>
+                </div>
+            </div>}
+
+            <p>{message}</p>
         </div>
-        <p>{message}</p>
-    </div>
     }
 
 
@@ -296,16 +354,16 @@ function App() {
             </div>
             <form className="flex flex-col" onSubmit={handleAddPetFormButton}>
                 <label htmlFor="name">Name</label>
-                <input id="name" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
+                <input id="name" name="name" autoComplete="off" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="date">Date of Birth</label>
-                <input id="date" type="date" className="border-2 boder-solid border-black rounded-lg p-1" />
+                <input id="birthdate" name="birthdate" autoComplete="off" type="date" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="weight">Weight (kg)</label>
-                <input id="weight" type="number" step="0.01" className="border-2 boder-solid border-black rounded-lg p-1" />
+                <input id="weight" name="weight" autoComplete="off" type="number" step="0.01" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <label htmlFor="image">Image</label>
-                <input id="image" type="url" className="border-2 boder-solid border-black rounded-lg p-1" />
+                <input id="image" name="image" autoComplete="off" type="url" className="border-2 boder-solid border-black rounded-lg p-1" />
 
                 <button className="bg-orange-300 rounded-sm border-2 border-black p-1 my-6 self-center" type="submit">Add Pet</button>
             </form>
