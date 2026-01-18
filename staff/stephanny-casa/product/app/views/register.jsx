@@ -23,7 +23,7 @@ function Register({ onRegister, onLoginClick }) {
 
             form.reset()
 
-
+ 
             setMessage('')
             setPasswordType('password')
             setPasswordRepeatType('password')
