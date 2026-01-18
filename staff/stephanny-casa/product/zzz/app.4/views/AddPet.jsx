@@ -1,18 +1,18 @@
 const { useState } = React
 
-function AddPet({ onGoToHome }) {
+function AddPet({ onBackClick, onAddPet }) {
 
     console.log('AddPet -> call')
 
     const [message, setMessage] = useState('')
 
-    const handleAddPetBackClick = event => {
+    const handleAddPetBackButton = event => {
         event.preventDefault()
 
-        onGoToHome()
+        onBackClick()
     }
 
-    const handleAddPeSubmit = event => {
+    const handleAddPetFormButton = event => {
         event.preventDefault()
 
         const form = event.target
@@ -27,7 +27,7 @@ function AddPet({ onGoToHome }) {
 
             form.reset()
 
-            onGoToHome()
+            onAddPet()
         } catch (error) {
             setMessage(error.message)
         }
@@ -41,10 +41,10 @@ function AddPet({ onGoToHome }) {
         <div className="flex justify-between">
 
             <h2 className="text-xl italic my-4">Add Pet</h2>
-            <a className="cursor-pointer bg-orange-300 rounded-sm border-2 border-black p-1 my-6 self-end" onClick={handleAddPetBackClick}>&lt; Back</a>
+            <a className="cursor-pointer bg-orange-300 rounded-sm border-2 border-black p-1 my-6 self-end" onClick={handleAddPetBackButton}>&lt; Back</a>
 
         </div>
-        <form className="flex flex-col" onSubmit={handleAddPeSubmit}>
+        <form className="flex flex-col" onSubmit={handleAddPetFormButton}>
             <label htmlFor="name">Name</label>
             <input id="name" name="name" autoComplete="off" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 

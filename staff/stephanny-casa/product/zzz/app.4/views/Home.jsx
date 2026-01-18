@@ -1,6 +1,6 @@
 const { useState, useEffect } = React
 
-function Home({ onGoToAddPet, onGoToLanding }) {
+function Home({ onAddPetClick, onLogout }) {
 
     console.log('Home -> call')
 
@@ -32,7 +32,7 @@ function Home({ onGoToAddPet, onGoToLanding }) {
     const handleAddPetButton = event => {
         event.preventDefault()
 
-        onGoToAddPet()
+        onAddPetClick()
     }
 
     const handleLogoutButton = event => {
@@ -44,7 +44,7 @@ function Home({ onGoToAddPet, onGoToLanding }) {
             setMessage('')
             setPets([])
 
-            onGoToLanding()
+            onLogout()
         } catch (error) {
             setMessage('Sorry, try it later!')
         }

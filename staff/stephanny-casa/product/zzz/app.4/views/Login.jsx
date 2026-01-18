@@ -1,12 +1,10 @@
-const { useState } = React
-
-function Login({onGoToHome, onGoToRegister}) {
+function Login({onLogin, onRegisterClick}) {
     console.log('Login -> call')
 
     const [message, setMessage] = useState('')
     const [passwordType, setPasswordType] = useState('password')
 
-    const handleLoginSubmit = event => {
+    const handleLoginButton = event => {
         event.preventDefault()
 
         const form = event.target
@@ -23,7 +21,7 @@ function Login({onGoToHome, onGoToRegister}) {
             setMessage('')
             setPasswordType('password')
 
-            onGoToHome()
+            onLogin()
         } catch (error) {
             setMessage(error.message)
         }
@@ -38,7 +36,7 @@ function Login({onGoToHome, onGoToRegister}) {
     const handleRegisterClick = event => {
         event.preventDefault()
 
-         onGoToRegister()
+         onRegisterClick()
     }
 
     console.log('Login -> render')
@@ -48,7 +46,7 @@ function Login({onGoToHome, onGoToRegister}) {
 
         <h2 className="italic my-4">Login</h2>
 
-        <form className="flex flex-col" onSubmit={handleLoginSubmit}>
+        <form className="flex flex-col" onSubmit={handleLoginButton}>
 
             <label htmlFor="username">Username</label>
             <input id="username" name="username" autoComplete="username" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
