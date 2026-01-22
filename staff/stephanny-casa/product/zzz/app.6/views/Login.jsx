@@ -1,6 +1,6 @@
 const { useState } = React
 
-function Login({ onGoToHome, onGoToRegister }) {
+function Login({onGoToHome, onGoToRegister}) {
     console.log('Login -> call')
 
     const [message, setMessage] = useState('')
@@ -38,7 +38,7 @@ function Login({ onGoToHome, onGoToRegister }) {
     const handleRegisterClick = event => {
         event.preventDefault()
 
-        onGoToRegister()
+         onGoToRegister()
     }
 
     console.log('Login -> render')
@@ -48,15 +48,20 @@ function Login({ onGoToHome, onGoToRegister }) {
 
         <h2 className="italic my-4">Login</h2>
 
-        <Form onSubmit={handleLoginSubmit}>
+        <form className="flex flex-col" onSubmit={handleLoginSubmit}>
 
-            <Field alias="username" type="text">Username</Field>
+            <label htmlFor="username">Username</label>
+            <input id="username" name="username" autoComplete="username" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
-            <PasswordField alias="password">Password</PasswordField>
+            <label htmlFor="password">Password</label>
+            <input id="password" name="password"
+                autoComplete="off" type={passwordType} className={passwordType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
+
+            <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
 
             <Button className="self-center" type="submit">Login</Button>
 
-        </Form>
+        </form>
 
         <a className="underline decoration-orange-500" onClick={handleRegisterClick}>Register</a>
 

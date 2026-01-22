@@ -44,20 +44,21 @@ function AddPet({ onGoToHome }) {
             <a className="cursor-pointer bg-orange-300 rounded-sm border-2 border-black p-1 my-6 self-end" onClick={handleAddPetBackClick}>&lt; Back</a>
 
         </div>
+        <form className="flex flex-col" onSubmit={handleAddPeSubmit}>
+            <label htmlFor="name">Name</label>
+            <input id="name" name="name" autoComplete="off" type="text" className="border-2 boder-solid border-black rounded-lg p-1" />
 
-         <Form onSubmit={handleAddPeSubmit}>
+            <label htmlFor="date">Date of Birth</label>
+            <input id="birthdate" name="birthdate" autoComplete="off" type="date" className="border-2 boder-solid border-black rounded-lg p-1" />
 
-            <Field alias="name" type="text">Name</Field>
+            <label htmlFor="weight">Weight (kg)</label>
+            <input id="weight" name="weight" autoComplete="off" type="number" step="0.01" className="border-2 boder-solid border-black rounded-lg p-1" />
 
-            <Field alias="birthdate" type="date">Date of Birth</Field>
+            <label htmlFor="image">Image</label>
+            <input id="image" name="image" autoComplete="off" type="url" className="border-2 boder-solid border-black rounded-lg p-1" />
 
-            <Field alias="weight" type="number">Weight (kg)</Field>
-
-            <Field alias="image" type="url">Image</Field>
-
-            <Button className="self-center" type="submit">Add Pet</Button>
-
-        </Form>
+            <button className="bg-orange-300 rounded-sm border-2 border-black p-1 my-6 self-center" type="submit">Add Pet</button>
+        </form>
         <p>{message}</p>
     </div>
 }
