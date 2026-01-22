@@ -59,7 +59,7 @@ function Login({onGoToHome, onGoToRegister}) {
 
             <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
 
-            <Button className="self-center" type="submit">Login</Button>
+            <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="submit">Login</button>
 
         </form>
 

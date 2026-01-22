@@ -57,7 +57,7 @@ class Logic {
         data.setLoggedInUserId(user.id)
     }
 
-    logoutUser() {
+    logOutUser() {
         data.setLoggedInUserId(null)
     }
 

@@ -82,7 +82,7 @@ function Register({ onGoToLogin }) {
                 type={passwordRepeatType} className={passwordRepeatType === 'password' ? "border-2 boder-solid border-black rounded-lg p-1" : "border-2 boder-solid border-black rounded-lg p-1 bg-[gray]"} />
             <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-end mt-2" type="button" onClick={handleTogglePasswordRepeatClick}>{passwordRepeatType === 'password' ? 'Show' : 'Hide'}</button>
 
-            <Button className="self-center" type="submit">Register</Button>
+            <button className="border-3 rounded-sm border-solid border-orange-500 bg-orange-200 self-center" type="submit">Register</button>
 
         </form>
 
