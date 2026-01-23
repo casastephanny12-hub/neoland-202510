@@ -59,7 +59,7 @@ function Register({ onGoToLogin }) {
 
         </Form>
 
-        <Anchor onClick={handleLoginClick}>Login</Anchor>
+        <a className="underline decoration-orange-500" onClick={handleLoginClick}>Login</a>
 
         <p>{message}</p>
     </div>

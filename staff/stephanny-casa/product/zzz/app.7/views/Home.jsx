@@ -1,6 +1,6 @@
 const { useState } = React
 
-function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
+function Home({ onGoToAddPet, onGoToLanding }) {
 
     console.log('Home -> call')
 
@@ -26,12 +26,6 @@ function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
         }
     }
 
-    const handleProfileClick = event => {
-        event.preventDefault()
-
-        onGoToProfile()
-    }
-
 
     console.log('Home -> render')
 
@@ -42,10 +36,7 @@ function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
         <h2 className="italic my-4">Welcome Home!</h2>
 
         <div className="flex justify-between">
-            <Anchor className="self-center" onClick={handleAddPetClick}>+ Pet</Anchor>
-
-            <Anchor onClick={handleProfileClick}>🐻Profile</Anchor>
-
+            <Button className="self-center" type="button" onClick={handleAddPetClick}>+ Pet</Button>
             <Button className="self-center" type="button" onClick={handleLogoutClick}>Logout</Button>
         </div>
 

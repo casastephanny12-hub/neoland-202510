@@ -21,7 +21,7 @@ function Landing({ onGoToLogin, onGoToRegister }) {
         <h1 className="font-bold text-4xl my-4">MyPet</h1>
         <p className="text-4xl my-4">Welcome!</p>
         <nav>
-            <Anchor onClick={handleLoginClick}>Login</Anchor> or <Anchor onClick={handleRegisterClick}>Register</Anchor>
+            <a className="bg-orange-300 rounded-sm border-2 border-black p-1" onClick={handleLoginClick}>Login</a> or <a className=" bg-orange-300 rounded-sm border-2 border-black p-1" onClick={handleRegisterClick}>Register</a>
         </nav>
     </div>
 }

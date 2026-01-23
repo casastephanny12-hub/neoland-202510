@@ -41,7 +41,7 @@ function AddPet({ onGoToHome }) {
         <div className="flex justify-between">
 
             <h2 className="text-xl italic my-4">Add Pet</h2>
-            <Anchor onClick={handleAddPetBackClick}>&lt; Back</Anchor>
+            <a className="cursor-pointer bg-orange-300 rounded-sm border-2 border-black p-1 my-6 self-end" onClick={handleAddPetBackClick}>&lt; Back</a>
 
         </div>
 
