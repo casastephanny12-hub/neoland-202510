@@ -25,21 +25,18 @@ function App() {
 
     console.log('App -> render')
 
-    if (view === 'landing')
-        return <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} />
+    return <>
 
-    if (view === 'login')
-        return < Login onGoToHome={handleGoToHome} onGoToRegister={handleGoToRegister} />
+    { view === 'landing' && <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} /> }
 
-    if (view === 'register')
-        return < Register onGoToLogin={handleGoToLogin}/>
+    { view === 'login' && < Login onGoToHome={handleGoToHome} onGoToRegister={handleGoToRegister} /> }
 
-    if (view === 'home')
-        return < Home onGoToAddPet={handleGoToAddPet} onGoToLanding={handleGoToLanding} onGoToProfile={handleGoToProfile} />
+    { view === 'register' && < Register onGoToLogin={handleGoToLogin} /> }
 
-    if (view === 'add-pet')
-        return < AddPet onGoToHome={handleGoToHome} />
+    { view === 'home' && < Home onGoToAddPet={handleGoToAddPet} onGoToLanding={handleGoToLanding} onGoToProfile={handleGoToProfile} /> }
 
-    if (view === 'profile')
-        return <Profile onGoToHome={handleGoToHome} />
+    { view === 'add-pet' && < AddPet onGoToHome={handleGoToHome} /> }
+
+    { view === 'profile' && <Profile onGoToHome={handleGoToHome} /> }
+    </>
 }

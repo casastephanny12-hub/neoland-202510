@@ -52,10 +52,10 @@ function PetList() {
 
     console.log('PetList -> render')
 
-    return <div>
+    const petItems = []
 
-        <ul className="flex flex-col gap-2 mt-2">
-            {pets.map(pet => <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
+    for (const pet of pets) {
+        const petItem = <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
             <div className="flex items-center gap-4 w-full">
                 <img src={pet.image}
                     className="rounded-full w-30 h-30 object-cover" />
@@ -64,7 +64,15 @@ function PetList() {
             </div>
 
             <Button id={pet.id} className="justify-self-end" onClick={handleDeletePetClick}>🗑️</Button>
-        </li>)}
+        </li>
+
+        petItems.push(petItem)
+    }
+
+    return <div>
+
+        <ul className="flex flex-col gap-2 mt-2">
+            {petItems}
         </ul>
 
         {petId && <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center">
