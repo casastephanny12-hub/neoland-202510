@@ -1,6 +1,15 @@
-const { useState } = React
+import { useState } from 'react'
+import { Landing } from './views/landing'   //duda
+import { Login } from './views/login'
+import { Register } from './views/Register'
+import { Home } from './views/Home'
+import { AddPet } from './views/AddPet'
+import { Profile } from './views/Profile'
 
-function App() {
+
+
+
+export function App() {
 
     console.log('App -> call')
 
@@ -27,16 +36,16 @@ function App() {
 
     return <>
 
-    { view === 'landing' && <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} /> }
+        {view === 'landing' && <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} />}
 
-    { view === 'login' && < Login onGoToHome={handleGoToHome} onGoToRegister={handleGoToRegister} /> }
+        {view === 'login' && < Login onGoToHome={handleGoToHome} onGoToRegister={handleGoToRegister} />}
 
-    { view === 'register' && < Register onGoToLogin={handleGoToLogin} /> }
+        {view === 'register' && < Register onGoToLogin={handleGoToLogin} />}
 
-    { view === 'home' && < Home onGoToAddPet={handleGoToAddPet} onGoToLanding={handleGoToLanding} onGoToProfile={handleGoToProfile} /> }
+        {view === 'home' && < Home onGoToAddPet={handleGoToAddPet} onGoToLanding={handleGoToLanding} onGoToProfile={handleGoToProfile} />}
 
-    { view === 'add-pet' && < AddPet onGoToHome={handleGoToHome} /> }
+        {view === 'add-pet' && < AddPet onGoToHome={handleGoToHome} />}
 
-    { view === 'profile' && <Profile onGoToHome={handleGoToHome} /> }
+        {view === 'profile' && <Profile onGoToHome={handleGoToHome} />}
     </>
 }

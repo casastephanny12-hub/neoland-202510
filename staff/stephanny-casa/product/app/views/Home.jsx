@@ -1,6 +1,12 @@
-const { useState } = React
+import { useState } from 'react'
 
-function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
+import { Anchor } from './components/commons/Anchor'
+import { Button } from './components/commons/Button'
+import { PetList } from './components/PetList'
+
+import { logic } from '../logic'
+
+export function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
 
     console.log('Home -> call')
 
@@ -39,7 +45,7 @@ function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
 
         <h1 className="font-bold text-4xl my-4">MyPet</h1>
 
-        <h2 className="italic my-4">Welcome Home!</h2>
+        <h2 className="italic my-4">Welcome, Home!</h2>
 
         <div className="flex justify-between">
             <Anchor className="self-center" onClick={handleAddPetClick}>+ Pet</Anchor>

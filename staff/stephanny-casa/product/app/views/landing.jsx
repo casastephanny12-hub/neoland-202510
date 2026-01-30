@@ -1,6 +1,6 @@
-const { useState } = React
+import { Anchor } from "./components/commons/Anchor"
 
-function Landing({ onGoToLogin, onGoToRegister }) {
+export function Landing({ onGoToLogin, onGoToRegister }) {
     console.log('Landing -> call')
 
     const handleLoginClick = event => {

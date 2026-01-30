@@ -1,10 +1,18 @@
-const { useState } = React
+import { useState } from 'react'
 
-function Login({ onGoToHome, onGoToRegister }) {
+import { Form } from './components/commons/Form'
+import { Field } from './components/commons/Field'
+import { PasswordField } from './components/commons/PasswordField'
+import { Button } from './components/commons/Button'
+import { Anchor } from './components/commons/Anchor'
+
+import { logic } from '../logic'
+
+export function Login({ onGoToHome, onGoToRegister }) {
     console.log('Login -> call')
 
     const [message, setMessage] = useState('')
-    const [passwordType, setPasswordType] = useState('password')
+
 
     const handleLoginSubmit = event => {
         event.preventDefault()
@@ -21,18 +29,12 @@ function Login({ onGoToHome, onGoToRegister }) {
             form.reset()
 
             setMessage('')
-            setPasswordType('password')
+    
 
             onGoToHome()
         } catch (error) {
             setMessage(error.message)
         }
-    }
-
-    const handleTogglePasswordClick = event => {
-        event.preventDefault()
-
-        setPasswordType(passwordType === 'password' ? 'text' : 'password')
     }
 
     const handleRegisterClick = event => {

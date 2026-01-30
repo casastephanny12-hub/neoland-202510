@@ -1,6 +1,9 @@
-const { useState } = React
+import { useState } from 'react'
+import { Anchor } from './components/commons/Anchor'
+import { ChangeUserEmail } from './components/ChangeUserEmail'
+import { ChangeUserPassword } from './components/ChangeUserPassword'
 
-function Profile({ onGoToHome }) {
+export function Profile({ onGoToHome }) {
 
     console.log('Profile -> call')
 
