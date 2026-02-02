@@ -4,8 +4,20 @@ const express = require('express')
 
 const api = express()
 
-api.get('/hello', (req, res) => {
-    res.send('Hello!')
+const people = [
+    { id: 'person-0', name: 'Carla', age: 34 },
+    { id: 'person-1', name: 'Nohely', age: 26 },
+    { id: 'person-2', name: 'Cindy', age: 29 },
+]
+
+api.get('/', (req, res) => res.json({ hello: 'world' }))
+
+api.get('/people', (req, res) => {
+    const personId = req.query.id 
+
+    const person = people.find(person => person.id === personId )
+
+    res.json(person)
 })
 
 api.listen(8080, () => console.log('API listening on port 8080'))
