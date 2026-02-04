@@ -1,0 +1,1 @@
+curl -H 'Content-Type: application/json' -d '{"id": "person-3", "name": "Stephanny", "age": 27}' http://localhost:8080/people -v

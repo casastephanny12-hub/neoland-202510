@@ -2,8 +2,6 @@
 
 const express = require('express')
 
-const { logic } = require('./logic')
-
 const api = express()
 
 const jsonBodyParser = express.json() //manejador, cuerpo del servidor lo parsea y convierta a objeto 
@@ -16,17 +14,22 @@ const people = [
 
 api.get('/', (req, res) => res.json({ message: 'Hello World from API!' }))
 
-api.post('/users', jsonBodyParser, (req, res) => {
+api.get('/people', (req, res) => {
+    const personId = req.query.id
 
-    try {
-         const {name, email,  username, password, passwordRepeat} = req.body
+    const person = people.find(person => person.id === personId)
 
-         logic.registerUser(name, email, username, password, passwordRepeat)
+    res.json(person)
+})
 
-         res.send()
-    } catch(error){
-        res.status(400).json({error: error.constructor.name, message: error.message})
-    }
+api.post('/people', jsonBodyParser, (req, res) => {
+
+    const person = req.body //tiene el json que enviamos en formato objeto
+
+    people.push(person)
+
+    res.send() //respondemos con un mensaje vacio y te pone un status 200
+
 })
 
 
