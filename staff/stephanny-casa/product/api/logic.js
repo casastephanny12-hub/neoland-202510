@@ -3,6 +3,7 @@ const { data, User, Pet } = require('./data')
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
 const ISODATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
+const USERID_REGEX = /^\user-[0-9]+$/
 const PETID_REGEX = /^\pet-[0-9]+$/
 
 class Logic {
@@ -48,7 +49,7 @@ class Logic {
         data.insertUser(user)
     }
 
-    loginUser(username, password) {
+    authenticateUser(username, password) {
         if (typeof username !== 'string') throw new Error('invalid username type')
         if (username.length < 3) throw new Error('invalid username length')
 
@@ -62,12 +63,9 @@ class Logic {
         if (user === null) throw new Error('user not found')
         if (password !== user.password) throw new Error('wrong password') //usamos user.password para verifica la cotraseña del usuario
 
-        data.setLoggedInUserId(user.id)
+        return user.id
     }
 
-    logoutUser() {
-        data.setLoggedInUserId(null)
-    }
 
     changeUserEmail(email, newEmail, newEmailRepeat) {
         if (typeof email !== 'string') throw new Error('invalid email type')
@@ -112,11 +110,13 @@ class Logic {
         user.password = newPassword
     }
 
-    addPet(name, birthdate, weight, image) {
+    addPet(userId, name, birthdate, weight, image) {
 
-        if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+        if (typeof userId !== 'string') throw new Error('invalid userId')
+        if(!USERID_REGEX.test(userId)) throw new Error('invalid userId format')
 
-        const user = data.findUserById(data.getLoggedInUserId())
+
+        const user = data.findUserById(userId)
         if (user === null) throw new Error('user not found')
 
         if (typeof name !== 'string') throw new Error('invalid name type')
@@ -132,7 +132,7 @@ class Logic {
 
         if (!URL_REGEX.test(image)) throw new Error('invalid image format')
 
-        const pet = new Pet('pet-' + data.petsCount, data.getLoggedInUserId(), name, birthdate, weight, image)
+        const pet = new Pet('pet-' + data.petsCount, userId, name, birthdate, weight, image)
 
         data.insertPet(pet)
     }

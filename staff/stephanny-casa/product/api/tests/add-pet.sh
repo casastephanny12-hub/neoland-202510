@@ -1,0 +1,1 @@
+curl -H 'Authorization: Basic user-0' -H 'Content-Type: application/json' -d '{"name": "Aldo3","birthdate": "2022-02-22", "weight": 13, "image": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTc0MXZmeWphNWlmM3IxamhxazB2cTZneDlheGVmMWRsejNicG84dCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/j0QzDgFZRX2njRxxtP/giphy.gif"}' http://localhost:8080/pets -v
