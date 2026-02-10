@@ -113,7 +113,7 @@ class Logic {
     addPet(userId, name, birthdate, weight, image) {
 
         if (typeof userId !== 'string') throw new Error('invalid userId')
-        if(!USERID_REGEX.test(userId)) throw new Error('invalid userId format')
+        if (!USERID_REGEX.test(userId)) throw new Error('invalid userId format')
 
 
         const user = data.findUserById(userId)
@@ -137,36 +137,34 @@ class Logic {
         data.insertPet(pet)
     }
 
-    getPets() {
-        if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+    getPets(userId) {
+        if (typeof userId !== 'string') throw new Error('invalid userId')
+        if (!USERID_REGEX.test(userId)) throw new Error('invalid userId format')
 
-        const user = data.findUserById(data.getLoggedInUserId())
+        const user = data.findUserById(userId)
         if (user === null) throw new Error('user not found')
 
-        const pets = data.findPetsByUserId(data.getLoggedInUserId())
+        const pets = data.findPetsByUserId(userId)
 
         return pets
     }
 
-    deletePet(petId) {
+    removePet(userId, petId) {
 
-        console.log('petId recibido:', petId, typeof petId)
-
-        if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
-
-        const user = data.findUserById(data.getLoggedInUserId())
-        if (user === null) throw new Error('user not found')
+        if (typeof userId !== 'string') throw new Error('invalid userId')
+        if (!USERID_REGEX.test(userId)) throw new Error('invalid userId format')
 
         if (typeof petId !== 'string') throw new Error('invalid pet-id type')
-
-
         if (!PETID_REGEX.test(petId)) throw new Error('invalid pet-id format')
+
+        const user = data.findUserById(userId)
+        if (user === null) throw new Error('user not found')
 
         const pet = data.findPetById(petId)
 
         if (pet === null) throw new Error('pet not found')
 
-        if (pet.userId !== data.getLoggedInUserId()) throw new Error('user not owner of pet')
+        if (pet.userId !== userId) throw new Error('user not owner of pet')
 
         const petIndex = data.pets.indexOf(pet)
 
