@@ -31,28 +31,21 @@ class Logic {
 
         if (password !== passwordRepeat) throw new Error('passwords do not match')
 
-        return fetch('http://localhost:8080/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({name, email, username, password, passwordRepeat})
-        })
-            .then(res => {
-                debugger
-                const { status } = res
+        // verificar que el usuario y email ya existe
 
-                if (status === 201)
-                    return
+        let user = data.findUserByEmail(email) // declaración variable
 
-                return res.json()
-                    .then(body => {
-                        debugger
-                        const { error, message } = body
+        if (user !== null) throw new Error('user email already exits')
 
-                        throw new Error(message)
-                    })
-            })
+        user = data.findUserByUsername(username) // ya declaramos la variable por lo tanto no se repite el let
+
+        if (user !== null) throw new Error('user username already exits')
+
+        // si pasa estas reglas de que no existe el usuario, lo crea (new user construye un objeto nuevo en el array, es decir registra usuario)
+
+        user = new User('user-' + data.usersCount, name, email, username, password, 'regular') // role se pone regular y luego podra cambiarse
+
+        data.insertUser(user)
     }
 
     loginUser(username, password) {

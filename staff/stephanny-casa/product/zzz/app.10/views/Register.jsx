@@ -28,16 +28,13 @@ export function Register({ onGoToLogin }) {
 
         try {
             logic.registerUser(name, email, username, password, passwordRepeat)
-                .then(() => {
-                    form.reset()
 
-                    setMessage('')
-                    onGoToLogin()
+            form.reset()
 
-                })
-
-                .catch(error => setMessage(error.message))
-
+ 
+            setMessage('')
+        
+            onGoToLogin()
         } catch (error) {
             setMessage(error.message)
         }
