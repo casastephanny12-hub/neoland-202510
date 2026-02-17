@@ -26,12 +26,14 @@ export function Login({ onGoToHome, onGoToRegister }) {
 
             logic.loginUser(username, password)
 
-            form.reset()
+                .then(() => {
+                    form.reset()
 
-            setMessage('')
-    
+                    setMessage('')
 
-            onGoToHome()
+                    onGoToHome()
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
         }

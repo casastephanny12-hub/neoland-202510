@@ -32,9 +32,11 @@ export function AddPet({ onGoToHome }) {
         try {
             logic.addPet(name, birthdate, weight, image)
 
-            form.reset()
-
-            onGoToHome()
+                .then(() => {
+                    form.reset()
+                    onGoToHome()
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
         }
@@ -52,7 +54,7 @@ export function AddPet({ onGoToHome }) {
 
         </div>
 
-         <Form onSubmit={handleAddPeSubmit}>
+        <Form onSubmit={handleAddPeSubmit}>
 
             <Field alias="name" type="text">Name</Field>
 

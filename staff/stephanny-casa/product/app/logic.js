@@ -36,7 +36,7 @@ class Logic {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({name, email, username, password, passwordRepeat})
+            body: JSON.stringify({ name, email, username, password, passwordRepeat })
         })
             .then(res => {
                 debugger
@@ -62,14 +62,32 @@ class Logic {
         if (typeof password !== 'string') throw new Error('invalid password type')
         if (password.length < 8) throw new Error('invalid password length')
 
-        // comprobar si el usuario ya es existente y puede acceder
+        return fetch('http://localhost:8080/users/auth', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+            .then(res => {
+                debugger
+                const { status } = res
 
-        let user = data.findUserByUsername(username) // debemos declarar la variable para guardar los datos que devolvera
+                if (status === 200)
+                    return res.json()
+                        .then(userId => {
+                            debugger
+                            data.setLoggedInUserId(userId)
+                        })
 
-        if (user === null) throw new Error('user not found')
-        if (password !== user.password) throw new Error('wrong password') //usamos user.password para verifica la cotraseña del usuario
+                return res.json()
+                    .then(body => {
+                        debugger
+                        const { error, message } = body
 
-        data.setLoggedInUserId(user.id)
+                        throw new Error(message)
+                    })
+            })
     }
 
     logoutUser() {
@@ -123,9 +141,6 @@ class Logic {
 
         if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
 
-        const user = data.findUserById(data.getLoggedInUserId())
-        if (user === null) throw new Error('user not found')
-
         if (typeof name !== 'string') throw new Error('invalid name type')
         if (name.length < 1) throw new Error('invalid name length')
 
@@ -139,20 +154,58 @@ class Logic {
 
         if (!URL_REGEX.test(image)) throw new Error('invalid image format')
 
-        const pet = new Pet('pet-' + data.petsCount, data.getLoggedInUserId(), name, birthdate, weight, image)
+        return fetch('http://localhost:8080/pets', {
+            method: 'POST',
+            headers: {
+                Authorization: 'Basic ' + data.getLoggedInUserId(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, birthdate, weight, image })
+        })
+            .then(res => {
+                debugger
+                const { status } = res
 
-        data.insertPet(pet)
+                if (status === 201)
+                    return
+
+                return res.json()
+                    .then(body => {
+                        debugger
+                        const { error, message } = body
+
+                        throw new Error(message)
+                    })
+            })
     }
 
     getPets() {
         if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+        return fetch('http://localhost:8080/pets', {
+            method: 'GET',
+            headers: {
+                Authorization: 'Basic ' + data.getLoggedInUserId(),
+            }
+        })
+            .then(res => {
+                debugger
+                const { status } = res
 
-        const user = data.findUserById(data.getLoggedInUserId())
-        if (user === null) throw new Error('user not found')
+                if (status === 200)
+                    return res.json()
+                        .then(pets => {
+                            debugger
+                            return pets
+                        })
 
-        const pets = data.findPetsByUserId(data.getLoggedInUserId())
+                return res.json()
+                    .then(body => {
+                        debugger
+                        const { error, message } = body
 
-        return pets
+                        throw new Error(message)
+                    })
+            })
     }
 
     deletePet(petId) {
