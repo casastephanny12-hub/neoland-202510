@@ -2,17 +2,15 @@ import { useState } from 'react'
 
 import { Anchor } from './components/commons/Anchor'
 import { Button } from './components/commons/Button'
-import { Feedback } from './components/commons/Feedback'
-
 import { PetList } from './components/PetList'
-import { logic } from '../logic'
 
+import { logic } from '../logic'
 
 export function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
 
     console.log('Home -> call')
 
-    const [feedback, setFeedback] = useState(null)
+    const [message, setMessage] = useState('')
 
     const handleAddPetClick = event => {
         event.preventDefault()
@@ -26,11 +24,11 @@ export function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
         try {
             logic.logoutUser()
 
-            setFeedback(null)
+            setMessage('')
 
             onGoToLanding()
         } catch (error) {
-            setFeedback({message: error.message, level: 'error' })
+            setMessage('Sorry, try it later!')
         }
     }
 
@@ -59,6 +57,6 @@ export function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
 
         <PetList />
 
-       {feedback && <Feedback feedback={feedback} />}
+        <p>{message}</p>
     </div>
 }

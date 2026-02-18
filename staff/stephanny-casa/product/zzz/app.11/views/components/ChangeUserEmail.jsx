@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Form } from './commons/Form'
 import { Field } from './commons/Field'
 import { Button } from './commons/Button'
-import { Feedback } from './commons/Feedback'
 
 import { logic } from '../../logic'
 
@@ -26,7 +25,9 @@ export function ChangeUserEmail() {
                     form.reset()
                     setFeedback({ message: 'user e-mail succesfully updated', level: 'success' })
                 })
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+                .catch(error => {
+                    setFeedback({ message: error.message, level: 'error' })
+                })
         } catch (error) {
             setFeedback({ message: error.message, level: 'error' })
         }
@@ -44,6 +45,6 @@ export function ChangeUserEmail() {
             <Button className="self-center" type="submit">Update E-mail</Button>
 
         </Form>
-        {feedback && <Feedback feedback={feedback} />}
+        {feedback && <p className={feedback.level === 'success' ? 'text-green-700' : feedback.level === 'error' ? 'text-red-600' : ''}>{feedback.message}</p>}
     </div>
 }

@@ -4,7 +4,6 @@ import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
 import { Button } from './components/commons/Button'
 import { Anchor } from './components/commons/Anchor'
-import { Feedback } from './components/commons/Feedback'
 
 import { logic } from '../logic'
 
@@ -12,7 +11,7 @@ export function AddPet({ onGoToHome }) {
 
     console.log('AddPet -> call')
 
-    const [feedback, setFeedback] = useState(null)
+    const [message, setMessage] = useState('')
 
     const handleAddPetBackClick = event => {
         event.preventDefault()
@@ -37,9 +36,9 @@ export function AddPet({ onGoToHome }) {
                     form.reset()
                     onGoToHome()
                 })
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+                .catch(error => setMessage(error.message))
         } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })
+            setMessage(error.message)
         }
 
     }
@@ -68,6 +67,6 @@ export function AddPet({ onGoToHome }) {
             <Button className="self-center" type="submit">Add Pet</Button>
 
         </Form>
-        {feedback && <Feedback feedback={feedback} />}
+        <p>{message}</p>
     </div>
 }
