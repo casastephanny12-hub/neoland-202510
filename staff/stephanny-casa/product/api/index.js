@@ -2,6 +2,7 @@
 
 const express = require('express')
 const cors = require('cors')
+require('./populate')
 
 const { logic } = require('./logic')
 

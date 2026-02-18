@@ -22,15 +22,15 @@ export function ChangeUserEmail() {
 
         try {
             logic.changeUserEmail(email, newEmail, newEmailRepeat)
-
-            form.reset()
-
-           
+                .then(() => {
+                    form.reset()
+                    setMessage('user e-mail succesfully updated')
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
         }
     }
-
     console.log('ChangeUserEmail -> render')
     return <div>
         <Form onSubmit={handleChangeEmailSubmit}>

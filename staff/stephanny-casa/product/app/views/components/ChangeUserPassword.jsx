@@ -22,13 +22,16 @@ export function ChangeUserPassword({ }) {
 
         try {
             logic.changeUserPassword(password, newPassword, newPasswordRepeat)
-
-            form.reset()
+                .then(() => {
+                    form.reset()
+                    setMessage('user password succesfully updated')
+                })
+                .catch(error => error.message)
         } catch (error) {
             setMessage(error.message)
         }
     }
-    
+
     console.log('ChangeUserPassword -> render')
     return <div>
         <Form onSubmit={handleChangePasswordSubmit}>

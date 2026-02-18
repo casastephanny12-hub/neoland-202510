@@ -1,4 +1,4 @@
-import { data, User, Pet } from './data'
+import { data } from './data'
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
@@ -111,11 +111,29 @@ class Logic {
 
         if (newEmail !== newEmailRepeat) throw new Error('newEmail and newEmailRepeat dont match')
 
-        const user = data.findUserById(data.getLoggedInUserId())
+        return fetch('http://localhost:8080/users/email', {
+            method: 'PATCH',
+            headers: {
+                Authorization: 'Basic ' + data.getLoggedInUserId(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, newEmail, newEmailRepeat })
+        })
+            .then(res => {
+                debugger
+                const { status } = res
 
-        if (user.email !== email) throw new Error('email dont belong to user')
+                if (status === 204)
+                    return
 
-        user.email = newEmail
+                return res.json()
+                    .then(body => {
+                        debugger
+                        const { error, message } = body
+
+                        throw new Error(message)
+                    })
+            })  
     }
 
     changeUserPassword(password, newPassword, newPasswordRepeat) {
@@ -130,11 +148,29 @@ class Logic {
 
         if (newPassword !== newPasswordRepeat) throw new Error('newPassword and newPasswordRepear dont match')
 
-        const user = data.findUserById(data.getLoggedInUserId())
+        return fetch('http://localhost:8080/users/password', {
+            method: 'PATCH',
+            headers: {
+                Authorization: 'Basic ' + data.getLoggedInUserId(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password, newPassword, newPasswordRepeat })
+        })
+            .then(res => {
+                debugger
+                const { status } = res
 
-        if (user.password !== password) throw new Error('incorrect password')
+                if (status === 204)
+                    return
 
-        user.password = newPassword
+                return res.json()
+                    .then(body => {
+                        debugger
+                        const { error, message } = body
+
+                        throw new Error(message)
+                    })
+            })
     }
 
     addPet(name, birthdate, weight, image) {
@@ -213,24 +249,29 @@ class Logic {
         console.log('petId recibido:', petId, typeof petId)
 
         if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
-
-        const user = data.findUserById(data.getLoggedInUserId())
-        if (user === null) throw new Error('user not found')
-
         if (typeof petId !== 'string') throw new Error('invalid pet-id type')
-
-
         if (!PETID_REGEX.test(petId)) throw new Error('invalid pet-id format')
 
-        const pet = data.findPetById(petId)
+        return fetch('http://localhost:8080/pets/' + petId, {
+            method: 'DELETE',
+            headers: {
+                Authorization: 'Basic ' + data.getLoggedInUserId()
+            }
+        })
+            .then(res => {
+                debugger
+                const { status } = res
 
-        if (pet === null) throw new Error('pet not found')
+                if (status === 204)
+                    return
 
-        if (pet.userId !== data.getLoggedInUserId()) throw new Error('user not owner of pet')
-
-        const petIndex = data.pets.indexOf(pet)
-
-        data.pets.splice(petIndex, 1)
+                return res.json()
+                    .then(body => {
+                        debugger
+                        const { error, message } = body
+                        throw new Error(message)
+                    })
+            })
     }
 }
 //instance
