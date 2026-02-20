@@ -8,7 +8,7 @@ import { PetList } from './components/PetList'
 import { logic } from '../logic'
 
 
-export function Home({ onGoToAddPet, onGoToLanding, onGoToProfile, onGoToPetDetail }) {
+export function Home({ onGoToAddPet, onGoToLanding, onGoToProfile }) {
 
     console.log('Home -> call')
 
@@ -40,8 +40,6 @@ export function Home({ onGoToAddPet, onGoToLanding, onGoToProfile, onGoToPetDeta
         onGoToProfile()
     }
 
-    const handleGoToPetDetailClick = petId => onGoToPetDetail(petId)
-
 
     console.log('Home -> render')
 
@@ -59,7 +57,7 @@ export function Home({ onGoToAddPet, onGoToLanding, onGoToProfile, onGoToPetDeta
             <Button className="self-center" type="button" onClick={handleLogoutClick}>Logout</Button>
         </div>
 
-        <PetList onGoToPetDetail={handleGoToPetDetailClick} />
+        <PetList />
 
        {feedback && <Feedback feedback={feedback} />}
     </div>

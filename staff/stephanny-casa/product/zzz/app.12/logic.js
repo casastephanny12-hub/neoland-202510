@@ -133,7 +133,7 @@ class Logic {
 
                         throw new Error(message)
                     })
-            })
+            })  
     }
 
     changeUserPassword(password, newPassword, newPasswordRepeat) {
@@ -245,6 +245,9 @@ class Logic {
     }
 
     deletePet(petId) {
+
+        console.log('petId recibido:', petId, typeof petId)
+
         if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
         if (typeof petId !== 'string') throw new Error('invalid pet-id type')
         if (!PETID_REGEX.test(petId)) throw new Error('invalid pet-id format')
@@ -261,34 +264,6 @@ class Logic {
 
                 if (status === 204)
                     return
-
-                return res.json()
-                    .then(body => {
-                        debugger
-                        const { error, message } = body
-                        throw new Error(message)
-                    })
-            })
-    }
-
-    getPet(petId) {
-        if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
-        if (typeof petId !== 'string') throw new Error('invalid pet-id type')
-        if (!PETID_REGEX.test(petId)) throw new Error('invalid pet-id format')
-
-        return fetch('http://localhost:8080/pets/' + petId, {
-            method: 'GET',
-            headers: {
-                Authorization: 'Basic ' + data.getLoggedInUserId()
-            }
-        })
-            .then(res => {
-                debugger
-                const { status } = res
-
-                if (status === 200)
-                    return res.json()
-                        .then(pet => pet)
 
                 return res.json()
                     .then(body => {

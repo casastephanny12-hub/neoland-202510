@@ -5,7 +5,7 @@ import { Feedback } from './commons/Feedback'
 
 import { logic } from '../../logic'
 
-export function PetList({ onGoToPetDetail }) {
+export function PetList() {
 
     console.log('PetList -> call')
 
@@ -28,7 +28,6 @@ export function PetList({ onGoToPetDetail }) {
 
     const handleDeletePetClick = event => {
         event.preventDefault()
-        event.stopPropagation()
 
         const button = event.target
 
@@ -54,6 +53,7 @@ export function PetList({ onGoToPetDetail }) {
                 .then(pets => {
                     setPetId(null)
                     setPets(pets)
+                    setMessage('')
                 })
                 .catch(error => setFeedback({ message: error.message, level: 'error' }))
         } catch (error) {
@@ -61,23 +61,12 @@ export function PetList({ onGoToPetDetail }) {
         }
     }
 
-    const handleGoToPetDetailClick = event => {
-        event.preventDefault()
-
-        const li = event.currentTarget
-
-        const petId = li.id
-
-        onGoToPetDetail(petId)
-
-    }
-
     console.log('PetList -> render')
 
     return <div>
 
         <ul className="flex flex-col gap-2 mt-2">
-            {pets.map(pet => <li id={pet.id} className="flex items-center border-2 border-orange-500 p-2 justify-between" onClick={handleGoToPetDetailClick}>
+            {pets.map(pet => <li className="flex items-center border-2 border-orange-500 p-2 justify-between">
                 <div className="flex items-center gap-4 w-full">
                     <img src={pet.image}
                         className="rounded-full w-30 h-30 object-cover" />

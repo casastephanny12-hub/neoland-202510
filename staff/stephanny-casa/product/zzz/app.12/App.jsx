@@ -5,14 +5,15 @@ import { Register } from './views/Register'
 import { Home } from './views/Home'
 import { AddPet } from './views/AddPet'
 import { Profile } from './views/Profile'
-import { PetDetail } from './views/PetDetail'
+
+
+
 
 export function App() {
 
     console.log('App -> call')
 
     const [view, setView] = useState('landing')
-    const [petId, setPetId] = useState(null)
 
 
     const handleGoToLogin = () => setView('login')
@@ -31,11 +32,6 @@ export function App() {
 
     const handleGoToProfile = () => setView('profile')
 
-    const handleGoToPetDetail = petId => {
-        setPetId(petId)
-        setView('pet-detail')
-    }
-
     console.log('App -> render')
 
     return <>
@@ -46,12 +42,10 @@ export function App() {
 
         {view === 'register' && < Register onGoToLogin={handleGoToLogin} />}
 
-        {view === 'home' && < Home onGoToAddPet={handleGoToAddPet} onGoToLanding={handleGoToLanding} onGoToProfile={handleGoToProfile} onGoToPetDetail={handleGoToPetDetail}/>}
+        {view === 'home' && < Home onGoToAddPet={handleGoToAddPet} onGoToLanding={handleGoToLanding} onGoToProfile={handleGoToProfile} />}
 
         {view === 'add-pet' && < AddPet onGoToHome={handleGoToHome} />}
 
         {view === 'profile' && <Profile onGoToHome={handleGoToHome} />}
-
-        {view === 'pet-detail' && <PetDetail petId={petId} onGoToHome={handleGoToHome}/>}
     </>
 }
