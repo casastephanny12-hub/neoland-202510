@@ -26,16 +26,8 @@ export function PetList({ onGoToPetDetail }) {
         }
     }, [])
 
-    const handleDeletePetClick = event => {
-        event.preventDefault()
-        event.stopPropagation()
+    const handleDeletePetClick = petId => setPetId(petId)
 
-        const button = event.target
-
-        const petId = button.id
-
-        setPetId(petId)
-    }
 
     const handleCancelDeletePetClick = event => {
         event.preventDefault()
@@ -61,23 +53,14 @@ export function PetList({ onGoToPetDetail }) {
         }
     }
 
-    const handleGoToPetDetailClick = event => {
-        event.preventDefault()
-
-        const li = event.currentTarget
-
-        const petId = li.id
-
-        onGoToPetDetail(petId)
-
-    }
+    const handleGoToPetDetailClick = petId => onGoToPetDetail(petId)
 
     console.log('PetList -> render')
 
     return <div>
 
         <ul className="flex flex-col gap-2 mt-2">
-            {pets.map(pet => <li id={pet.id} className="flex items-center border-2 border-orange-500 p-2 justify-between" onClick={handleGoToPetDetailClick}>
+            {pets.map(pet => <li className="flex items-center border-2 border-orange-500 p-2 justify-between" onClick={() => handleGoToPetDetailClick(pet.id)}>
                 <div className="flex items-center gap-4 w-full">
                     <img src={pet.image}
                         className="rounded-full w-30 h-30 object-cover" />
@@ -85,22 +68,27 @@ export function PetList({ onGoToPetDetail }) {
                     <p>{pet.name}</p>
                 </div>
 
-                <Button id={pet.id} className="justify-self-end" onClick={handleDeletePetClick}>🗑️</Button>
+                <Button className="justify-self-end" onClick={event => {
+                    event.stopPropagation()
+                    handleDeletePetClick(pet.id)
+                }
+                }>🗑️</Button>
             </li>)}
         </ul>
 
-        {petId && <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center">
+        {
+            petId && <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center">
+                <div className="bg-white border-black border-2 p-2">
+                    <p className="text-center">Delete Pet?</p>
+                    <div className="flex justify-center gap-2">
+                        <Button onClick={handleCancelDeletePetClick}>❎</Button>
+                        <Button onClick={handleConfirmDeletePetClick}>✅</Button>
 
-            <div className="bg-white border-black border-2 p-2 flex justify-center items-center">
-                <p className="text-center">Delete Pet?</p>
-                <div className="flex justify-center gap-2">
-                    <Button onClick={handleCancelDeletePetClick}>❎</Button>
-                    <Button onClick={handleConfirmDeletePetClick}>✅</Button>
-
+                    </div>
                 </div>
             </div>
-        </div>}
+        }
 
         {feedback && <Feedback feedback={feedback} />}
-    </div>
+    </div >
 }
