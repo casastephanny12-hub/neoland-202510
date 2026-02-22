@@ -44,12 +44,12 @@ api.patch('/users/email', jsonBodyParser, (req, res) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
-        const {email, newEmail, newEmailRepeat} = req.body
+        const { email, newEmail, newEmailRepeat } = req.body
 
         logic.changeUserEmail(userId, email, newEmail, newEmailRepeat)
 
         res.status(204).send()
-    }catch (error) {
+    } catch (error) {
         res.status(400).json({ error: error.constructor.name, message: error.message })
     }
 })
@@ -59,12 +59,24 @@ api.patch('/users/password', jsonBodyParser, (req, res) => {
 
         const userId = req.headers.authorization.slice(6)
 
-        const {password, newPassword, newPasswordRepeat} = req.body
+        const { password, newPassword, newPasswordRepeat } = req.body
 
         logic.changeUserPassword(userId, password, newPassword, newPasswordRepeat)
 
         res.status(204).send()
-    }catch (error) {
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+})
+
+api.get('/users/me', jsonBodyParser, (req, res) => {
+    try {
+        const userId = req.headers.authorization.slice(6)
+
+        const user = logic.getUser(userId)
+
+        res.json(user)
+    } catch (error) {
         res.status(400).json({ error: error.constructor.name, message: error.message })
     }
 })
@@ -120,8 +132,8 @@ api.get('/pets/:petId', (req, res) => {
         const pet = logic.getPet(userId, petId)
 
         res.json(pet)
-    } catch (error){
-       res.status(400).json({ error: error.constructor.name, message: error.message }) 
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
     }
 
 })
