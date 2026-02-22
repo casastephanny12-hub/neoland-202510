@@ -1,0 +1,1 @@
+curl -X PATCH -H 'Authorization: Basic user-0' -H 'Content-Type: application/json' -d '{"image": "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3YWQ0cXRib2RjaTZ1Nnc0MjdsNzdvdTVsNGNjYTJ4MXplMGFndnAycCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/nn8uzAnxuchf2OWXNy/giphy.gif"}' http://localhost:8080/users/me/image -v

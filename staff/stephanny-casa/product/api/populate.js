@@ -1,9 +1,9 @@
 const { data, User, Pet } = require('./data')
 
-data.insertUser(new User('user-' + data.usersCount, 'Stephanny Casa', 'stephanny@casa.com', 'stephannycasa', '123123123', 'regular'))
-data.insertUser(new User('user-' + data.usersCount, 'Hemione Granger', 'hermione@granger.com', 'hermionegranger', '123123123', 'regular'))
-data.insertUser(new User('user-' + data.usersCount, 'Harry Potter', 'harry@potter.com', 'harrypotter', '123123123', 'regular'))
-data.insertUser(new User('user-' + data.usersCount, 'Ron Wesley', 'ron@wesley.com', 'ronwesley', '123123123', 'regular'))
+data.insertUser(new User('user-' + data.usersCount, 'Stephanny Casa', 'stephanny@casa.com', 'stephannycasa', '123123123', null, 'regular'))
+data.insertUser(new User('user-' + data.usersCount, 'Hemione Granger', 'hermione@granger.com', 'hermionegranger', '123123123', null, 'regular'))
+data.insertUser(new User('user-' + data.usersCount, 'Harry Potter', 'harry@potter.com', 'harrypotter', '123123123', null, 'regular'))
+data.insertUser(new User('user-' + data.usersCount, 'Ron Wesley', 'ron@wesley.com', 'ronwesley', '123123123', null, 'regular'))
 
 data.insertPet(new Pet('pet-' + data.petsCount, 'user-0', 'Terry', '2025-08-02', 14.5, 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHBiZ3QzaXpsOTB3czM1MjFpbnA2M2pwOWY0YjMxMTk5NXNjNHRpOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/j0QzDgFZRX2njRxxtP/giphy.gif'))
 

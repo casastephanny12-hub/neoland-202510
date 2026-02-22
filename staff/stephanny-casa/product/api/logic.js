@@ -44,7 +44,7 @@ class Logic {
 
         // si pasa estas reglas de que no existe el usuario, lo crea (new user construye un objeto nuevo en el array, es decir registra usuario)
 
-        user = new User('user-' + data.usersCount, name, email, username, password, 'regular') // role se pone regular y luego podra cambiarse
+        user = new User('user-' + data.usersCount, name, email, username, password, null, 'regular') // role se pone regular y luego podra cambiarse
 
         data.insertUser(user)
     }
@@ -131,10 +131,25 @@ class Logic {
         const user = data.findUserById(userId)
         if (user === null) throw new Error('user not found')
 
-        const {name, email, username} = user
+        const { name, email, username, image } = user
 
-        return {name, email, username }
+        return { name, email, username, image }
     }
+
+    changeUserImage(userId, image) {
+        if (typeof userId !== 'string') throw new Error('invalid userId')
+        if (!USERID_REGEX.test(userId)) throw new Error('invalid userId format')
+
+        if (typeof image !== 'string') throw new Error('invalid image type')
+        if (!URL_REGEX.test(image)) throw new Error('invalid image format')
+
+        const user = data.findUserById(userId)
+
+        if (!user) throw new Error('user not found')
+            
+        user.image = image
+    }
+
 
     addPet(userId, name, birthdate, weight, image) {
         if (typeof userId !== 'string') throw new Error('invalid userId')
