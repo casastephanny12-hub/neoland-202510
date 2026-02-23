@@ -1,0 +1,1 @@
+curl -X PUT -H 'Authorization: Basic user-0' -H 'Content-Type: application/json' -d '{"name": "Aldo","birthdate": "2022-02-22", "weight": 13, "image": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzMwaGdvamV5MnJoMTgyamo3ZTlmMHYzdXZvaTI3dDRraGFiZzUyZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/nsh1ow7GkibDO/giphy.gif"}' http://localhost:8080/pets/pet-0 -v

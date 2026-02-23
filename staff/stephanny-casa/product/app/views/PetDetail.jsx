@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 
 import { Anchor } from './components/commons/Anchor'
 import { Feedback } from './components/commons/Feedback'
+import { Button } from './components/commons/Button'
 
 import { logic } from '../logic'
 
-export function PetDetail({ onGoToHome, petId }) {
+export function PetDetail({ onGoToHome, petId, onGotoModifyPet }) {
     console.log('PetDetail -> call')
 
     const [feedback, setFeedback] = useState(null)
@@ -28,6 +29,8 @@ export function PetDetail({ onGoToHome, petId }) {
         onGoToHome()
     }
 
+    const handleGoToModifyPet = () => onGotoModifyPet()
+
     console.log('PetDetail -> render')
 
     return <div className="p-4">
@@ -48,6 +51,8 @@ export function PetDetail({ onGoToHome, petId }) {
             <p>{pet.weight}kg</p>
 
             <p>{pet.birthdate}</p>
+
+            <Button onClick={handleGoToModifyPet}>..✏️</Button>
         </div>}
 
         {feedback && <Feedback feedback={feedback} />}
