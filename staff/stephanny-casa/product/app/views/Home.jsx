@@ -9,7 +9,7 @@ import { PetList } from './components/PetList'
 import { logic } from '../logic'
 
 
-export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile, onGoToPetDetail }) {
+export function Home({ onGoToAddPet, onUserLoggedOut, onGoToProfile, onGoToPetDetail }) {
 
     console.log('Home -> call')
 
@@ -44,9 +44,7 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile, onGoToPetDetail
         try {
             logic.logoutUser()
 
-            setFeedback(null)
-
-             onGoToLogin()
+            onUserLoggedOut()
         } catch (error) {
             setFeedback({message: error.message, level: 'error' })
         }

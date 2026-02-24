@@ -9,7 +9,7 @@ import { Feedback } from './components/commons/Feedback'
 
 import { logic } from '../logic'
 
-export function Login({ onGoToHome, onGoToRegister }) {
+export function Login({ onUserLoggedIn, onGoToRegister }) {
     console.log('Login -> call')
 
     const [feedback, setFeedback] = useState(null)
@@ -27,13 +27,7 @@ export function Login({ onGoToHome, onGoToRegister }) {
 
             logic.loginUser(username, password)
 
-                .then(() => {
-                    form.reset()
-
-                    setFeedback(null)
-
-                    onGoToHome()
-                })
+                .then(() => onUserLoggedIn())
                 .catch(error => setFeedback({ message: error.message, level: 'error' }))
         } catch (error) {
             setFeedback({ message: error.message, level: 'error' })
