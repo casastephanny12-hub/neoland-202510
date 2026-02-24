@@ -88,7 +88,11 @@ class Logic {
     }
 
     logoutUser() {
-        data.setLoggedInUserId(null)
+        data.removeLoggedInUserId()
+    }
+
+    isUserLoggedIn() {
+        return !!data.getLoggedInUserId()
     }
 
     changeUserEmail(email, newEmail, newEmailRepeat) {

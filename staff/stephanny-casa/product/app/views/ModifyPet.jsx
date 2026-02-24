@@ -5,6 +5,7 @@ import { Field } from './components/commons/Field'
 import { Button } from './components/commons/Button'
 import { Anchor } from './components/commons/Anchor'
 import { Feedback } from './components/commons/Feedback'
+import { Spinner } from './components/Spinner'
 
 import { logic } from '../logic'
 
@@ -16,6 +17,7 @@ export function ModifyPet({ petId, onGoBack }) {
     const [pet, setPet] = useState(null)
 
     useEffect(() => {
+        setTimeout(() => {
         try {
             logic.getPet(petId)
                 .then(pet => setPet(pet))
@@ -23,6 +25,7 @@ export function ModifyPet({ petId, onGoBack }) {
         } catch (error) {
             setFeedback({ message: error.message, level: 'error' })
         }
+    }, 4000)
     }, [])
 
     const handleBackClick = event => {
@@ -75,7 +78,7 @@ export function ModifyPet({ petId, onGoBack }) {
 
             <Button className="self-center" type="submit"> Modify Pet</Button>
 
-        </Form> : <img className='w-10 h-10 object-cover' src='https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3emJzYm95emZwOXk3Nmo4bTl3Nzc1ZDI1bHJ3bmVsaW81Mmdiank3MyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/BAnl0HDW9PDONr5hm6/giphy.gif'/>}
+        </Form> : <Spinner />}
         {feedback && <Feedback feedback={feedback} />}
     </div>
 }
