@@ -1,5 +1,7 @@
 import express from 'express'
 import cors from 'cors'
+import morganBody from 'morgan-body'
+
 import './populate.js'
 
 import { logic } from './logic.js'
@@ -7,13 +9,20 @@ import { DuplicityError, ValidationError, SystemError, ExistenceError, Credentia
 
 const api = express()
 
-const jsonBodyParser = express.json() //manejador, cuerpo del servidor lo parsea y convierta a objeto 
+const jsonBodyParser = express.json()
 
 api.use(cors())
 
+api.use(jsonBodyParser)
+
+morganBody(api, {
+    logAllReqHeader: true,
+    logAllResHeader: true
+})
+
 api.get('/', (req, res) => res.json({ message: 'Hello World from API!' }))
 
-api.post('/users', jsonBodyParser, (req, res, next) => {
+api.post('/users', (req, res, next) => {
     try {
         const { name, email, username, password, passwordRepeat } = req.body
 
@@ -24,7 +33,7 @@ api.post('/users', jsonBodyParser, (req, res, next) => {
     }
 })
 
-api.post('/users/auth', jsonBodyParser, (req, res, next) => {
+api.post('/users/auth', (req, res, next) => {
 
     try {
         const { username, password } = req.body
@@ -37,7 +46,7 @@ api.post('/users/auth', jsonBodyParser, (req, res, next) => {
     }
 })
 
-api.patch('/users/me/email', jsonBodyParser, (req, res, next) => {
+api.patch('/users/me/email', (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -51,7 +60,7 @@ api.patch('/users/me/email', jsonBodyParser, (req, res, next) => {
     }
 })
 
-api.patch('/users/me/password', jsonBodyParser, (req, res) => {
+api.patch('/users/me/password', (req, res) => {
     try {
 
         const userId = req.headers.authorization.slice(6)
@@ -66,7 +75,7 @@ api.patch('/users/me/password', jsonBodyParser, (req, res) => {
     }
 })
 
-api.get('/users/me', jsonBodyParser, (req, res) => {
+api.get('/users/me', (req, res) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -78,7 +87,7 @@ api.get('/users/me', jsonBodyParser, (req, res) => {
     }
 })
 
-api.patch('/users/me/image', jsonBodyParser, (req, res) => {
+api.patch('/users/me/image', (req, res) => {
     try {
 
         const userId = req.headers.authorization.slice(6)
@@ -93,7 +102,7 @@ api.patch('/users/me/image', jsonBodyParser, (req, res) => {
     }
 })
 
-api.post('/pets', jsonBodyParser, (req, res) => {
+api.post('/pets', (req, res) => {
 
     try {
 
@@ -150,7 +159,7 @@ api.get('/pets/:petId', (req, res) => {
 
 })
 
-api.put('/pets/:petId', jsonBodyParser, (req, res) => {
+api.put('/pets/:petId', (req, res) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
