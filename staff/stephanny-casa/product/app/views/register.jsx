@@ -8,6 +8,7 @@ import { Anchor } from './components/commons/Anchor'
 import { Feedback } from './components/commons/Feedback'
 
 import { logic } from '../logic'
+import { DuplicityError, ValidationError } from '../errors'
 
 export function Register({ onGoToLogin }) {
 
@@ -34,9 +35,19 @@ export function Register({ onGoToLogin }) {
                     setFeedback(null)
                     onGoToLogin()
                 })
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+                .catch(error => {
+                    if (error instanceof ValidationError)
+                        setFeedback({ message: error.message, level: 'warn' })
+                    else if (error instanceof DuplicityError)
+                        setFeedback({ message: error.message, level: 'danger' })
+                    else
+                        setFeedback({ message: 'sorry, something failed. try again later', level: 'error' })
+                })
         } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })  
+            if (error instanceof ValidationError)
+                setFeedback({ message: error.message, level: 'warn' })
+            else
+                setFeedback({ message: 'sorry, something failed. try again later', level: 'error' })
         }
     }
 
@@ -69,7 +80,7 @@ export function Register({ onGoToLogin }) {
 
         <Anchor onClick={handleLoginClick}>Login</Anchor>
 
-       {feedback && <Feedback feedback={feedback} />}
+        {feedback && <Feedback feedback={feedback} />}
     </div>
 
 }
