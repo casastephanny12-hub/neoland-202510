@@ -1,34 +1,32 @@
 import { useState, useEffect } from 'react'
+
 import { useParams } from 'react-router'
 
 import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
 import { Button } from './components/commons/Button'
 import { Anchor } from './components/commons/Anchor'
-import { Feedback } from './components/commons/Feedback'
 import { Spinner } from './components/Spinner'
 
 import { logic } from '../logic'
 
-export function ModifyPet({ onGoBack }) {
+export function ModifyPet({ onGoBack, onError, onSuccess }) {
 
     console.log('ModifyPet -> call')
 
-    const [feedback, setFeedback] = useState(null)
     const [pet, setPet] = useState(null)
 
     const { petId } = useParams()
 
     useEffect(() => {
-        setTimeout(() => {
         try {
             logic.getPet(petId)
                 .then(pet => setPet(pet))
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+                .catch(error => onError(error))
         } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })
+            onError(error)
         }
-    }, 1000)
+   
     }, [])
 
     const handleBackClick = event => {
@@ -49,13 +47,11 @@ export function ModifyPet({ onGoBack }) {
 
         try {
             logic.modifyPet(petId, name, birthdate, weight, image)
-
-                .then(() => setFeedback({ message: 'pet successfully modified', level: 'success' }))
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+                .then(() => onSuccess('pet successfully modified'))
+                .catch(error => onError(error))
         } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })
+            onError(error)
         }
-
     }
 
     console.log('ModifyPet -> render')
@@ -80,8 +76,6 @@ export function ModifyPet({ onGoBack }) {
             <Field alias="image" type="url" defaultValue={pet.image}>Image</Field>
 
             <Button className="self-center" type="submit"> Modify Pet</Button>
-
         </Form> : <Spinner />}
-        {feedback && <Feedback feedback={feedback} />}
     </div>
 }

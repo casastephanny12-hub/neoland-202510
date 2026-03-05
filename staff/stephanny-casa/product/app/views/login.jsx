@@ -1,20 +1,14 @@
-import { useState } from 'react'
-
 import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
 import { PasswordField } from './components/commons/PasswordField'
 import { Button } from './components/commons/Button'
 import { Anchor } from './components/commons/Anchor'
-import { Feedback } from './components/commons/Feedback'
 
 import { logic } from '../logic'
-import { CredentialError, ExistenceError, ValidationError } from '../errors'
 
-export function Login({ onUserLoggedIn, onGoToRegister }) {
+
+export function Login({ onUserLoggedIn, onGoToRegister, onError }) {
     console.log('Login -> call')
-
-    const [feedback, setFeedback] = useState(null)
-
 
     const handleLoginSubmit = event => {
         event.preventDefault()
@@ -30,18 +24,10 @@ export function Login({ onUserLoggedIn, onGoToRegister }) {
 
                 .then(() => onUserLoggedIn())
                 .catch(error => {
-                    if (error instanceof ValidationError)
-                        setFeedback({ message: error.message, level: 'warn' })
-                    else if (error instanceof ExistenceError || error instanceof CredentialError)
-                        setFeedback({ message: error.message, level: 'danger' })
-                    else
-                        setFeedback({ message: 'sorry, something failed. try again later', level: 'error' })
+                    onError(error)
                 })
         } catch (error) {
-            if (error instanceof ValidationError)
-                setFeedback({ message: error.message, level: 'warn' })
-            else
-                setFeedback({ message: 'sorry, something failed. try again later', level: 'error' })
+            onError(error)
         }
     }
 
@@ -69,7 +55,5 @@ export function Login({ onUserLoggedIn, onGoToRegister }) {
         </Form>
 
         <Anchor onClick={handleRegisterClick}>Register</Anchor>
-
-        {feedback && <Feedback feedback={feedback} />}
     </div>
 }
