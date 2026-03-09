@@ -87,10 +87,10 @@ export function App() {
             onError={handleError} />
         } />
 
-        <Route path="/login" element={!loggedIn ? < Login onUserLoggedIn={handleGoToHome} onGoToRegister={handleGoToRegister} /> : <Navigate to="/" />
+        <Route path="/login" element={!loggedIn ? < Login onUserLoggedIn={handleGoToHome} onGoToRegister={handleGoToRegister} onError={handleError} /> : <Navigate to="/" />
         } />
 
-        <Route path="/register" element={!loggedIn ? < Register onGoToLogin={handleGoToLogin} /> :<Navigate to="/" />
+        <Route path="/register" element={!loggedIn ? < Register onGoToLogin={handleGoToLogin} onError={handleError} /> :<Navigate to="/" />
      } />
 
         <Route path="/add-pet" element={loggedIn ? < AddPet onGoToHome={handleGoToHome} 

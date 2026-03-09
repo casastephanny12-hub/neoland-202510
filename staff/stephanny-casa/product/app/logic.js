@@ -1,6 +1,7 @@
 import { data } from './data'
+import { validate } from './validate'
 
-import { SystemError, ValidationError, errorMap } from './errors'
+import { SystemError, errorMap, AuthError } from './errors'
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
@@ -12,26 +13,12 @@ class Logic {
     }
 
     registerUser(name, email, username, password, passwordRepeat) {
-
-        //parametros de los campos de entrada
-
-        if (typeof name !== 'string') throw new ValidationError('invalid name type')
-        if (name.length < 1) throw new ValidationError('invalid name length')
-
-        if (typeof email !== 'string') throw new ValidationError('invalid email type')
-        if (email.length < 6) throw new ValidationError('invalid email length')
-        if (!EMAIL_REGEX.test(email)) throw new ValidationError('invalid email format')
-
-        if (typeof username !== 'string') throw new ValidationError('invalid username type')
-        if (username.length < 3) throw new ValidationError('invalid username length')
-
-        if (typeof password !== 'string') throw new ValidationError('invalid password type')
-        if (password.length < 8) throw new ValidationError('invalid password length')
-
-        if (typeof passwordRepeat !== 'string') throw new ValidationError('invalid passwordRepeat type')
-        if (passwordRepeat.length < 8) throw new ValidationError('invalid passwordRepeat length')
-
-        if (password !== passwordRepeat) throw new ValidationError('passwords do not match')
+        validate.name(name)
+        validate.email(email)
+        validate.username(username)
+        validate.password(password)
+        validate.password(passwordRepeat, 'passwordRepeat')
+        validate.match(password, passwordRepeat, 'password', 'passwordRepeat')
 
         return fetch('http://localhost:8080/users', {
             method: 'POST',
@@ -62,11 +49,8 @@ class Logic {
     }
 
     loginUser(username, password) {
-        if (typeof username !== 'string') throw new ValidationError('invalid username type')
-        if (username.length < 3) throw new ValidationError('invalid username length')
-
-        if (typeof password !== 'string') throw new ValidationError('invalid password type')
-        if (password.length < 8) throw new ValidationError('invalid password length')
+        validate.username(username)
+        validate.password(password)
 
         return fetch('http://localhost:8080/users/auth', {
             method: 'POST',
@@ -106,24 +90,12 @@ class Logic {
     }
 
     changeUserEmail(email, newEmail, newEmailRepeat) {
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
 
-        if (data.getLoggedIntoken() === null) throw new ValidationError('user not logged in')
-
-        if (typeof email !== 'string') throw new ValidationError('invalid email type')
-        if (email.length < 6) throw new ValidationError('invalid email length')
-        if (!EMAIL_REGEX.test(email)) throw new ValidationError('invalid email format')
-
-
-        if (typeof newEmail !== 'string') throw new ValidationError('invalid newEmail type')
-        if (newEmail.length < 6) throw new ValidationError('invalid newEmail length')
-        if (!EMAIL_REGEX.test(newEmail)) throw new ValidationError('invalid newEmail format')
-
-
-        if (typeof newEmailRepeat !== 'string') throw new ValidationError('invalid newEmailRepeat type')
-        if (newEmailRepeat.length < 6) throw new ValidationError('invalid newEmailRepeat length')
-        if (!EMAIL_REGEX.test(newEmailRepeat)) throw new ValidationError('invalid newEmailRepeat format')
-
-        if (newEmail !== newEmailRepeat) throw new ValidationError('newEmail and newEmailRepeat dont match')
+        validate.email(email)
+        validate.email(newEmail, 'newEmail')
+        validate.email(newEmailRepeat, 'newEmailRepeat')
+        validate.match(newEmail, newEmailRepeat, 'newEmail', 'newEmailRepeat')
 
         return fetch('http://localhost:8080/users/me/email', {
             method: 'PATCH',
@@ -155,18 +127,12 @@ class Logic {
     }
 
     changeUserPassword(password, newPassword, newPasswordRepeat) {
-        if (data.getLoggedIntoken() === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
 
-        if (typeof password !== 'string') throw new ValidationError('invalid password type')
-        if (password.length < 8) throw new ValidationError('invalid password length')
-
-        if (typeof newPassword !== 'string') throw new ValidationError('invalid newPassword type')
-        if (newPassword.length < 8) throw new ValidationError('invalid newPassword length')
-
-        if (typeof newPasswordRepeat !== 'string') throw new ValidationError('invalid newPasswordRepeat type')
-        if (newPasswordRepeat.length < 8) throw new ValidationError('invalid newPasswordRepeat length')
-
-        if (newPassword !== newPasswordRepeat) throw new ValidationError('newPassword and newPasswordRepear dont match')
+        validate.password(password)
+        validate.password(newPassword, 'newPassword')
+        validate.password(newPasswordRepeat, 'newPasswordRepeat')
+        validate.match(newPassword, newPasswordRepeat, 'newPassword', 'newPasswordRepeat')
 
         return fetch('http://localhost:8080/users/me/password', {
             method: 'PATCH',
@@ -199,7 +165,7 @@ class Logic {
     }
 
     getLoggedInUser() {
-        if (data.getLoggedIntoken() === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
         return fetch('http://localhost:8080/users/me', {
             method: 'GET',
             headers: {
@@ -229,10 +195,9 @@ class Logic {
     }
 
     changeUserImage(image) {
-        if (data.getLoggedIntoken() === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
 
-        if (typeof image !== 'string') throw new ValidationError('invalid image type')
-        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
+        validate.url(image, 'image')
 
         return fetch('http://localhost:8080/users/me/image', {
             method: 'PATCH',
@@ -266,19 +231,12 @@ class Logic {
 
     addPet(name, birthdate, weight, image) {
 
-        if (data.getLoggedIntoken() === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
 
-        if (typeof name !== 'string') throw new ValidationError('invalid name type')
-        if (name.length < 1) throw new ValidationError('invalid name length')
-
-        if (typeof birthdate !== 'string') throw new ValidationError('invalid birthdate type')
-
-        if (!ISODATE_REGEX.test(birthdate)) throw new ValidationError('invalid birthdate format')
-
-        if (typeof weight !== 'number' || isNaN(weight)) throw new ValidationError('invalid weight type')
-
-        if (typeof image !== 'string') throw new ValidationError('invalid image type')
-        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
+        validate.name(name)
+        validate.date(birthdate, 'birthdate')
+        validate.number(weight, 'weight')
+        validate.url(image, 'image')
 
         return fetch('http://localhost:8080/pets', {
             method: 'POST',
@@ -311,7 +269,8 @@ class Logic {
     }
 
     getPets() {
-        if (data.getLoggedIntoken() === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
+
         return fetch('http://localhost:8080/pets', {
             method: 'GET',
             headers: {
@@ -344,9 +303,9 @@ class Logic {
     }
 
     deletePet(petId) {
-        if (data.getLoggedIntoken() === null) throw new ValidationError('user not logged in')
-        if (typeof petId !== 'string') throw new ValidationError('invalid pet-id type')
-        if (!PETID_REGEX.test(petId)) throw new ValidationError('invalid pet-id format')
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
+
+        validate.petId(petId)
 
         return fetch('http://localhost:8080/pets/' + petId, {
             method: 'DELETE',
@@ -377,9 +336,9 @@ class Logic {
     }
 
     getPet(petId) {
-        if (data.getLoggedIntoken() === null) throw new ValidationError('user not logged in')
-        if (typeof petId !== 'string') throw new ValidationError('invalid pet-id type')
-        if (!PETID_REGEX.test(petId)) throw new ValidationError('invalid pet-id format')
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
+
+        validate.petId(petId)
 
         return fetch(`http://localhost:8080/pets/${petId}`, {
             method: 'GET',
@@ -395,7 +354,7 @@ class Logic {
 
                 if (status === 200)
                     return res.json()
-    
+
                 return res.json()
                     .catch(error => { throw new SystemError('json error') })
                     .then(body => {
@@ -411,22 +370,13 @@ class Logic {
 
     modifyPet(petId, name, birthdate, weight, image) {
 
-        if (data.getLoggedIntoken() === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
 
-        if (typeof petId !== 'string') throw new ValidationError('invalid pet-id type')
-        if (!PETID_REGEX.test(petId)) throw new ValidationError('invalid pet-id format')
-
-        if (typeof name !== 'string') throw new ValidationError('invalid name type')
-        if (name.length < 1) throw new ValidationError('invalid name length')
-
-        if (typeof birthdate !== 'string') throw new ValidationError('invalid birthdate type')
-
-        if (!ISODATE_REGEX.test(birthdate)) throw new ValidationError('invalid birthdate format')
-
-        if (typeof weight !== 'number' || isNaN(weight)) throw new ValidationError('invalid weight type')
-
-        if (typeof image !== 'string') throw new ValidationError('invalid image type')
-        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
+        validate.petId(petId)
+        validate.name(name)
+        validate.date(birthdate, 'birthdate')
+        validate.number(weight, 'weight')
+        validate.url(image, 'image')
 
         return fetch(`http://localhost:8080/pets/${petId}`, {
             method: 'PUT',

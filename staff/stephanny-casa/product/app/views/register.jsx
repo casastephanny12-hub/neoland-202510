@@ -24,7 +24,6 @@ export function Register({ onGoToLogin, onError }) {
             logic.registerUser(name, email, username, password, passwordRepeat)
                 .then(() => {
                     form.reset()
-                    setFeedback(null)
                     onGoToLogin()
                 })
                 .catch(error => onError(error))
