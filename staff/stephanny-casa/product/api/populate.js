@@ -7,6 +7,7 @@ client.connect()
         const db = client.db('product')
 
         const users = db.collection('users')
+        const pets = db.collection('pets')
 
         //users.find({}).toArray()
         //.then( users => console.table(users))
@@ -20,7 +21,7 @@ client.connect()
         //.then(result => console.log(result))
         //.catch(error => console.error(error))
 
-        //users.deleteOne({ _id: new ObjectId('69af236987d6f5780a7c290a')})
+        //users.deleteOne({ _id: new ObjectId('69af219287d6f5780a7c2907')})
         //.then(result => console.log(result))
         //.catch(error => console.error(error))
 
@@ -28,11 +29,19 @@ client.connect()
         //.then(result => console.log(result))
         //.catch(error => console.error(error))
 
-        users.find({ name: /H/ }).toArray()
+        //users.find({ name: /H/ }).toArray()
         //.then( users => console.table(users))
-        .then( users => console.log(users))
-        .catch(error => console.error(error))
+        //.then( users => console.log(users))
+        //.catch(error => console.error(error))
 
-    
+        //pets.insertOne({ userId: new ObjectId ('69af233a87d6f5780a7c2909'), name: 'chichi', birthdate: new Date('2023-02-01'), weight: 4, image: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2g0b3F6b2sxOWhlaDZxZjBpazBjdTh6Nm12dms4eHB2dHd3ancwYyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/b6roFb3iFdoPu/giphy.gif'})
+        //.then( result => console.log(result))
+        //.catch(error => console.error(error))
+
+       // pets.deleteMany({ userId: new ObjectId ('69af219287d6f5780a7c2907') })
+        //.then( result => console.log(result))
+        //.catch(error => console.error(error))
+
+
     })
     .catch(error => console.error(error))
