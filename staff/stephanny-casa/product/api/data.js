@@ -1,4 +1,5 @@
-//models 
+import { SystemError } from "./errors.js"
+import { UserModel, PetModel } from "./models.js"
 
 export class User {
     constructor(id, name, email, username, password, image, role) {
@@ -32,30 +33,36 @@ export class Pet {
 // manager
 
 class Data {
-    constructor() {
-        this.users = []
-        this.usersCount = 0
-        this.pets = []
-        this.petsCount = 0
-        this.loggedInUserId = null
-    }
-
     insertUser(user) {
-        this.users.push(user)
-        this.usersCount++
+        const userModel = new UserModel(user)
+
+        return userModel.save()
+            .catch(error => { throw new SystemError(error.message) })
+            .then(userModel => { })
     }
 
     findUserByEmail(email) {
-        const user = this.users.find(user => user.email === email)
+        return UserModel.findOne({ email })
+            .catch(error => { throw new SystemError(error.message) })
+            .then(userModel => {
+                if (!userModel) return null
 
-        return user || null
+                const { id, name, email, username, password } = userModel
+
+                return new User(id, name, email, username, password)
+            })
     }
 
     findUserByUsername(username) {
+        return UserModel.findOne({ username })
+            .catch(error => { throw new SystemError(error.message) })
+            .then(userModel => {
+                if (!userModel) return null
 
-        const user = this.users.find(user => user.username === username)
+                const { id, name, email, username, password } = userModel
 
-        return user || null
+                return new User(id, name, email, username, password)
+            })
     }
 
     findUserById(userId) {
@@ -66,9 +73,9 @@ class Data {
     }
 
     updateUser(updatedUser) {
-        const index = this.users.findIndex( user => user.id === updatedUser.id)
+        const index = this.users.findIndex(user => user.id === updatedUser.id)
 
-        this. users[index] = updatedUser
+        this.users[index] = updatedUser
     }
 
     insertPet(pet) {    //
@@ -101,6 +108,7 @@ class Data {
 
         data.pets.splice(index, 1)
     }
+
 
 }
 

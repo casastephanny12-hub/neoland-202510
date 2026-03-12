@@ -4,11 +4,7 @@ import { validate } from './validate.js'
 import { DuplicityError, ExistenceError, CredentialError, OwnerShipError } from './errors.js'
 
 class Logic {
-    constructor() {
-    }
-
     registerUser(name, email, username, password, passwordRepeat) {
-
         validate.name(name)
         validate.email(email)
         validate.username(username)
@@ -16,30 +12,33 @@ class Logic {
         validate.password(passwordRepeat, 'passwordRepeat')
         validate.match(password, passwordRepeat, 'password', 'passwordRepeat')
 
-        let user = data.findUserByEmail(email)
+        return data.findUserByEmail(email)
+            .then(user => {
+                if (user !== null) throw new DuplicityError('user email already exists')
 
-        if (user !== null) throw new DuplicityError('user email already exists')
+                return data.findUserByUsername(username)
+            })
+            .then(user => {
+                if (user !== null) throw new DuplicityError('user username already exists')
 
-        user = data.findUserByUsername(username)
-        if (user !== null) throw new DuplicityError('user username already exists')
+                user = new User(null, name, email, username, password, null, 'regular')
 
-        user = new User('user-' + data.usersCount, name, email, username, password, null, 'regular')
-
-        data.insertUser(user)
+                return data.insertUser(user)
+            })
     }
 
     authenticateUser(username, password) {
         validate.username(username)
         validate.password(password)
 
-        const user = data.findUserByUsername(username)
+        return data.findUserByUsername(username)
+            .then(user => {
+                if (user === null) throw new ExistenceError('user not found')
+                if (password !== user.password) throw new CredentialError('wrong password')
 
-        if (user === null) throw new ExistenceError('user not found')
-        if (password !== user.password) throw new CredentialError('wrong password')
-
-        return user.id
+                return user.id
+            })
     }
-
 
     changeUserEmail(userId, email, newEmail, newEmailRepeat) {
         validate.userId(userId)
@@ -105,11 +104,11 @@ class Logic {
 
 
     addPet(userId, name, birthdate, weight, image) {
-       validate.userId(userId)
-       validate.name(name)
-       validate.date(birthdate)
-       validate.number(weight, 'weight')
-       validate.url(image, 'image')
+        validate.userId(userId)
+        validate.name(name)
+        validate.date(birthdate)
+        validate.number(weight, 'weight')
+        validate.url(image, 'image')
 
         const user = data.findUserById(userId)
         if (user === null) throw new ExistenceError('user not found')

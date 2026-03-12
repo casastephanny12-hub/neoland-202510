@@ -3,232 +3,240 @@ import cors from 'cors'
 import morganBody from 'morgan-body'
 import jwt from 'jsonwebtoken'
 
-import './populate.js'
-
 import { logic } from './logic.js'
 import { DuplicityError, ValidationError, SystemError, ExistenceError, CredentialError, OwnerShipError, AuthError } from './errors.js'
 
-const { JsonWebTokenError } = jwt
+import { database } from './models.js'
 
-const JWT_SECRET = 'a superman le puede la criptonita'
+database.connect('mongodb://localhost:27017/product')
+    .then(() => {
+        console.log('DB connected')
 
-const api = express()
+        const { JsonWebTokenError } = jwt
 
-const jsonBodyParser = express.json()
+        const JWT_SECRET = 'a superman le puede la criptonita'
 
-api.use(cors())
+        const api = express()
 
-api.use(jsonBodyParser)
+        const jsonBodyParser = express.json()
 
-morganBody(api, {
-    logAllReqHeader: true,
-    logAllResHeader: true
-})
+        api.use(cors())
 
-api.get('/', (req, res) => res.json({ message: 'Hello World from API!' }))
+        api.use(jsonBodyParser)
 
-api.post('/users', (req, res, next) => {
-    try {
-        const { name, email, username, password, passwordRepeat } = req.body
+        morganBody(api, {
+            logAllReqHeader: true,
+            logAllResHeader: true
+        })
 
-        logic.registerUser(name, email, username, password, passwordRepeat)
-        res.status(201).send()
-    } catch (error) {
-        next(error)
-    }
-})
+        api.get('/', (req, res) => res.json({ message: 'Hello World from API!' }))
 
-api.post('/users/auth', (req, res, next) => {
+        api.post('/users', (req, res, next) => {
+            try {
+                const { name, email, username, password, passwordRepeat } = req.body
 
-    try {
-        const { username, password } = req.body
+                logic.registerUser(name, email, username, password, passwordRepeat)
+                    .then(() => res.status(201).send())
+                    .catch(error => next(error))
+            } catch (error) {
+                next(error)
+            }
+        })
 
-        const userId = logic.authenticateUser(username, password)
+        api.post('/users/auth', (req, res, next) => {
 
-        const token = jwt.sign({ sub: userId }, JWT_SECRET, { expiresIn: '1h' })
+            try {
+                const { username, password } = req.body
 
-        res.json(token)
-    } catch (error) {
-        next(error)
-    }
-})
+                logic.authenticateUser(username, password)
+                    .then((userId) => {
+                        const token = jwt.sign({ sub: userId }, JWT_SECRET, { expiresIn: '1h' })
 
-api.patch('/users/me/email', (req, res, next) => {
-    try {
-        const token = req.headers.authorization.slice(7)
+                        res.json(token)
+                    })
+                    .catch(error => next(error))
+            } catch (error) {
+                next(error)
+            }
+        })
 
-        const { sub: userId } = jwt.verify(token, JWT_SECRET)
+        api.patch('/users/me/email', (req, res, next) => {
+            try {
+                const token = req.headers.authorization.slice(7)
 
-        const { email, newEmail, newEmailRepeat } = req.body
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        logic.changeUserEmail(userId, email, newEmail, newEmailRepeat)
+                const { email, newEmail, newEmailRepeat } = req.body
 
-        res.status(204).send()
-    } catch (error) {
-        next(error)
-    }
-})
+                logic.changeUserEmail(userId, email, newEmail, newEmailRepeat)
 
-api.patch('/users/me/password', (req, res, next) => {
-    try {
+                res.status(204).send()
+            } catch (error) {
+                next(error)
+            }
+        })
 
-        const token = req.headers.authorization.slice(7)
+        api.patch('/users/me/password', (req, res, next) => {
+            try {
 
-        const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const token = req.headers.authorization.slice(7)
 
-        const { password, newPassword, newPasswordRepeat } = req.body
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        logic.changeUserPassword(userId, password, newPassword, newPasswordRepeat)
+                const { password, newPassword, newPasswordRepeat } = req.body
 
-        res.status(204).send()
-    } catch (error) {
-        next(error)
-    }
-})
+                logic.changeUserPassword(userId, password, newPassword, newPasswordRepeat)
 
-api.get('/users/me', (req, res, next) => {
-    try {
-        const token = req.headers.authorization.slice(7)
+                res.status(204).send()
+            } catch (error) {
+                next(error)
+            }
+        })
 
-        const { sub: userId } = jwt.verify(token, JWT_SECRET)
+        api.get('/users/me', (req, res, next) => {
+            try {
+                const token = req.headers.authorization.slice(7)
 
-        const user = logic.getUser(userId)
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        res.json(user)
-    } catch (error) {
-        next(error)
-    }
-})
+                const user = logic.getUser(userId)
 
-api.patch('/users/me/image', (req, res, next) => {
-    try {
+                res.json(user)
+            } catch (error) {
+                next(error)
+            }
+        })
 
-        const token = req.headers.authorization.slice(7)
+        api.patch('/users/me/image', (req, res, next) => {
+            try {
 
-        const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const token = req.headers.authorization.slice(7)
 
-        const { image } = req.body
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        logic.changeUserImage(userId, image)
+                const { image } = req.body
 
-        res.status(204).send()
-    } catch (error) {
-        next(error)
-    }
-})
+                logic.changeUserImage(userId, image)
 
-api.post('/pets', (req, res, next) => {
+                res.status(204).send()
+            } catch (error) {
+                next(error)
+            }
+        })
 
-    try {
+        api.post('/pets', (req, res, next) => {
 
-        const token = req.headers.authorization.slice(7)
+            try {
 
-        const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const token = req.headers.authorization.slice(7)
 
-        const { name, birthdate, weight, image } = req.body
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        logic.addPet(userId, name, birthdate, weight, image)
+                const { name, birthdate, weight, image } = req.body
 
-        res.status(201).send()
-    } catch (error) {
-        next(error)
-    }
-})
+                logic.addPet(userId, name, birthdate, weight, image)
 
-api.get('/pets', (req, res, next) => {
-    try {
-        const token = req.headers.authorization.slice(7)
+                res.status(201).send()
+            } catch (error) {
+                next(error)
+            }
+        })
 
-        const { sub: userId } = jwt.verify(token, JWT_SECRET)
+        api.get('/pets', (req, res, next) => {
+            try {
+                const token = req.headers.authorization.slice(7)
 
-        const pets = logic.getPets(userId)
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        res.json(pets)
-    } catch (error) {
-        next(error)
-    }
-})
+                const pets = logic.getPets(userId)
 
-api.delete('/pets/:petId', (req, res, next) => {
-    try {
-        const token = req.headers.authorization.slice(7)
+                res.json(pets)
+            } catch (error) {
+                next(error)
+            }
+        })
 
-        const { sub: userId } = jwt.verify(token, JWT_SECRET)
+        api.delete('/pets/:petId', (req, res, next) => {
+            try {
+                const token = req.headers.authorization.slice(7)
 
-        const { petId } = req.params
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        logic.removePet(userId, petId)
+                const { petId } = req.params
 
-        res.status(204).send()
-    } catch (error) {
-        next(error)
-    }
-})
+                logic.removePet(userId, petId)
 
-api.get('/pets/:petId', (req, res, next) => {
-    try {
-        const token = req.headers.authorization.slice(7)
+                res.status(204).send()
+            } catch (error) {
+                next(error)
+            }
+        })
 
-        const { sub: userId } = jwt.verify(token, JWT_SECRET)
+        api.get('/pets/:petId', (req, res, next) => {
+            try {
+                const token = req.headers.authorization.slice(7)
 
-        const { petId } = req.params
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        const pet = logic.getPet(userId, petId)
+                const { petId } = req.params
 
-        res.json(pet)
-    } catch (error) {
-        next(error)
-    }
+                const pet = logic.getPet(userId, petId)
 
-})
+                res.json(pet)
+            } catch (error) {
+                next(error)
+            }
 
-api.put('/pets/:petId', (req, res, next) => {
-    try {
-        const token = req.headers.authorization.slice(7)
+        })
 
-        const { sub: userId } = jwt.verify(token, JWT_SECRET)
+        api.put('/pets/:petId', (req, res, next) => {
+            try {
+                const token = req.headers.authorization.slice(7)
 
-        const { petId } = req.params
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-        const { name, birthdate, weight, image } = req.body
+                const { petId } = req.params
 
-        logic.modifyPet(userId, petId, name, birthdate, weight, image)
+                const { name, birthdate, weight, image } = req.body
 
-        res.status(204).send()
-    } catch (error) {
-        next(error)
-    }
-})
+                logic.modifyPet(userId, petId, name, birthdate, weight, image)
 
-api.use((error, req, res, next) => {
-    let status = 500
-    let errorName = error.constructor.name
+                res.status(204).send()
+            } catch (error) {
+                next(error)
+            }
+        })
 
-    let { message } = error
+        api.use((error, req, res, next) => {
+            let status = 500
+            let errorName = error.constructor.name
 
-    if (error instanceof ValidationError)
-        status = 400
-    else if (error instanceof DuplicityError)
-        status = 409
-    else if (error instanceof ExistenceError)
-        status = 404
-    else if (error instanceof CredentialError)
-        status = 401
-    else if (error instanceof OwnerShipError)
-        status = 403
-    else if (error instanceof JsonWebTokenError) {
-        status = 401
-        errorName = AuthError.name
-    } else if (error instanceof SyntaxError && error.message.includes('token')) {
-        status = 401
-        errorName = AuthError
-        message = 'invalid json payload in token'
-    } else
-        errorName = SystemError.name
+            let { message } = error
 
-    res.status(status).json({ error: errorName, message })
-})
+            if (error instanceof ValidationError)
+                status = 400
+            else if (error instanceof DuplicityError)
+                status = 409
+            else if (error instanceof ExistenceError)
+                status = 404
+            else if (error instanceof CredentialError)
+                status = 401
+            else if (error instanceof OwnerShipError)
+                status = 403
+            else if (error instanceof JsonWebTokenError) {
+                status = 401
+                errorName = AuthError.name
+            } else if (error instanceof SyntaxError && error.message.includes('token')) {
+                status = 401
+                errorName = AuthError
+                message = 'invalid json payload in token'
+            } else
+                errorName = SystemError.name
 
+            res.status(status).json({ error: errorName, message })
+        })
 
+        api.listen(8080, () => console.log('API listening on port 8080'))
+    })
+    .catch(error => console.error(error))
 
-api.listen(8080, () => console.log('API listening on port 8080'))
