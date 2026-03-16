@@ -1,12 +1,6 @@
 import { data } from './data'
 import { validate } from './validate'
-
 import { SystemError, errorMap, AuthError } from './errors'
-
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
-const ISODATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
-const PETID_REGEX = /^\pet-[0-9]+$/
 
 class Logic {
     constructor() {
@@ -305,9 +299,9 @@ class Logic {
     deletePet(petId) {
         if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
 
-        validate.petId(petId)
+        validate.id(petId, 'petId')
 
-        return fetch('http://localhost:8080/pets/' + petId, {
+        return fetch(`http://localhost:8080/pets/${petId}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${data.getLoggedIntoken()}`
@@ -338,7 +332,7 @@ class Logic {
     getPet(petId) {
         if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
 
-        validate.petId(petId)
+        validate.id(petId, 'petId')
 
         return fetch(`http://localhost:8080/pets/${petId}`, {
             method: 'GET',
@@ -372,7 +366,7 @@ class Logic {
 
         if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
 
-        validate.petId(petId)
+        validate.id(petId, 'petId')
         validate.name(name)
         validate.date(birthdate, 'birthdate')
         validate.number(weight, 'weight')

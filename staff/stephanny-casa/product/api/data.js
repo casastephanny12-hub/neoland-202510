@@ -1,7 +1,7 @@
 import { SystemError } from "./errors.js"
 import { UserModel, PetModel } from "./models.js"
 
-export class User {
+export class UserData {
     constructor(id, name, email, username, password, image, role) {
         this.id = id
         this.name = name
@@ -13,19 +13,14 @@ export class User {
     }
 }
 
-export class Pet {
-    constructor(id, userId, /*chip,*/ name, /*gender,*/ birthdate, weight /*species, race, colors*/, image) {
+export class PetData {
+    constructor(id, ownerId, name, birthdate, weight, image) {
         this.id = id
-        this.userId = userId
+        this.ownerId = ownerId
         this.name = name
         this.birthdate = birthdate
         this.weight = weight
         this.image = image
-        /*this.chip = chip*/
-        /*this.gender = gender*/
-        /*this.species = species
-        this.race = race
-        this.colors = colors*/
     }
 
 }
@@ -49,7 +44,7 @@ class Data {
 
                 const { id, name, email, username, password } = userModel
 
-                return new User(id, name, email, username, password)
+                return new UserData(id, name, email, username, password)
             })
     }
 
@@ -61,39 +56,58 @@ class Data {
 
                 const { id, name, email, username, password } = userModel
 
-                return new User(id, name, email, username, password)
+                return new UserData(id, name, email, username, password)
             })
     }
 
     findUserById(userId) {
+        return UserModel.findById(userId)
+            .catch(error => { throw new SystemError(error.message) })
+            .then(userModel => {
+                if (!userModel) return null
 
-        const user = this.users.find(user => user.id === userId)
+                const { id, name, email, username, password, image, role } = userModel
 
-        return user || null
+                return new UserData(id, name, email, username, password, image, role)
+            })
     }
 
-    updateUser(updatedUser) {
-        const index = this.users.findIndex(user => user.id === updatedUser.id)
-
-        this.users[index] = updatedUser
+    updateUser(user) {
+        return UserModel.updateOne({ _id: user.id }, user)
+            .catch(error => { throw new SystemError(error.message) })
+            .then(userModel => { })
     }
 
-    insertPet(pet) {    //
-        this.pets.push(pet)
-        this.petsCount++
+    insertPet(pet) {
+        const { ownerId, name, birthdate, weight, image } = pet
+
+        const petModel = new PetModel({ owner: ownerId, name, birthdate, weight, image })
+
+        return petModel.save()
+            .catch(error => { throw new SystemError(error.message) })
+            .then(petModel => { })
     }
 
     findPetsByUserId(userId) {
+        return PetModel.find({ owner: userId })
+            .then(petModels => petModels.map(petModel => {
+                const { id, owner, name, birthdate, weight, image } = petModel
 
-        const foundPets = this.pets.filter(pet => pet.userId === userId)
-
-        return foundPets
+                return new PetData(id, owner.toString(), name, birthdate, weight, image)
+            }))
     }
 
     findPetById(petId) {
-        const pet = this.pets.find(pet => pet.id === petId)
+        return PetModel.findById(petId)
+            .catch(error => { throw new SystemError(error.message) })
+            .then(petModel => {
 
-        return pet || null
+                if (!petModel) return null
+
+                const { id, ownerId, name, birthdate, weight, image } = petModel
+
+                return new PetData(id, owner.toString, name, birthdate, weight, image)
+            })
     }
 
     updatePet(updatedPet) {
@@ -103,13 +117,10 @@ class Data {
     }
 
     deletePet(petId) {
-
-        const index = this.pets.findIndex(pet => pet.id === petId)
-
-        data.pets.splice(index, 1)
+        return PetModel.deleteOne({ _id: petId })
+            .catch(error => { throw new SystemError(error.message) })
+            .then(petModel => { })
     }
-
-
 }
 
 //instance
