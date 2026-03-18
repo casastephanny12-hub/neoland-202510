@@ -6,6 +6,7 @@ import { Anchor } from './components/commons/Anchor'
 import { Button } from './components/commons/Button'
 
 import { logic } from '../logic'
+import { Spinner } from './components/Spinner'
 
 export function PetDetail({ onGoToHome, onGotoModifyPet, onError }) {
     console.log('PetDetail -> call')
@@ -13,9 +14,8 @@ export function PetDetail({ onGoToHome, onGotoModifyPet, onError }) {
     const [pet, setPet] = useState(null)
 
     const { petId } = useParams()
-    
 
-       useEffect(() => {
+    useEffect(() => {
         try {
             logic.getPet(petId)
                 .then(pet => setPet(pet))
@@ -45,16 +45,22 @@ export function PetDetail({ onGoToHome, onGotoModifyPet, onError }) {
 
         </div>
 
-    {pet && <div className="flex flex-col items-center gap-4">
-            <img src={pet.image} className="rounded-full w-40 h-40 object-cover" />
+        {pet ? (() => {
 
-            <p>{pet.name}</p>
+            const zuluDate = new Date(pet.birthdate)
+            const locaDateString = zuluDate.toLocaleDateString()
+            
+            return <div className="flex flex-col items-center gap-4" >
+                <img src={pet.image} className="rounded-full w-40 h-40 object-cover" />
 
-            <p>{pet.weight}kg</p>
+                <p>{pet.name}</p>
 
-            <p>{pet.birthdate}</p>
+                <p>{pet.weight}kg</p>
 
-            <Button onClick={handleGoToModifyPet}>..✏️</Button>
-        </div>}
-    </div>
+                <p>{locaDateString}</p>
+
+                <Button onClick={handleGoToModifyPet}>..✏️</Button>
+            </div>
+        })() : <Spinner />}
+    </div >
 }

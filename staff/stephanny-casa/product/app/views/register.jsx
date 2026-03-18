@@ -8,7 +8,7 @@ import { logic } from '../logic'
 
 export function Register({ onGoToLogin, onError }) {
     console.log('Regisrer -> call')
-    
+
     const handleRegisterSubmit = event => {
         event.preventDefault()
 
@@ -28,7 +28,7 @@ export function Register({ onGoToLogin, onError }) {
                 })
                 .catch(error => onError(error))
         } catch (error) {
-           onError(error)
+            onError(error)
         }
     }
 

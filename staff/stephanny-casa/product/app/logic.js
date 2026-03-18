@@ -1,6 +1,6 @@
 import { data } from './data'
 import { validate } from './validate'
-import { SystemError, errorMap, AuthError } from './errors'
+import { SystemError, errorMap, AuthError} from './errors'
 
 class Logic {
     constructor() {
@@ -202,6 +202,74 @@ class Logic {
             body: JSON.stringify({ image })
         })
 
+            .catch(error => { throw new SystemError('connection error') })
+            .then(res => {
+                debugger
+                const { status } = res
+
+                if (status === 204)
+                    return
+
+                return res.json()
+                    .catch(error => { throw new SystemError('json error') })
+                    .then(body => {
+                        debugger
+                        const { error, message } = body
+
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
+                    })
+            })
+    }
+
+    changeUserName(name) {
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
+
+        validate.name(name)
+
+        return fetch('http://localhost:8080/users/me/name', {
+            method: 'PATCH',
+            headers: {
+                Authorization: `Bearer ${data.getLoggedIntoken()}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name })
+        })
+            .catch(error => { throw new SystemError('connection error') })
+            .then(res => {
+                debugger
+                const { status } = res
+
+                if (status === 204)
+                    return
+
+                return res.json()
+                    .catch(error => { throw new SystemError('json error') })
+                    .then(body => {
+                        debugger
+                        const { error, message } = body
+
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
+                    })
+            })
+    }
+
+    changeUserUsername(username) {
+        if (data.getLoggedIntoken() === null) throw new AuthError('user not logged in')
+
+        validate.name(username)
+
+        return fetch('http://localhost:8080/users/me/username', {
+            method: 'PATCH',
+            headers: {
+                Authorization: `Bearer ${data.getLoggedIntoken()}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username })
+        })
             .catch(error => { throw new SystemError('connection error') })
             .then(res => {
                 debugger

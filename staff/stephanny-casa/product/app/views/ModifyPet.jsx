@@ -26,7 +26,7 @@ export function ModifyPet({ onGoBack, onError, onSuccess }) {
         } catch (error) {
             onError(error)
         }
-   
+
     }, [])
 
     const handleBackClick = event => {
@@ -65,17 +65,25 @@ export function ModifyPet({ onGoBack, onError, onSuccess }) {
 
         </div>
 
-        {pet ? <Form onSubmit={handleGoToModifyPet}>
+        {pet ? (() => {
 
-            <Field alias="name" type="text" defaultValue={pet.name}>Name</Field>
+            const zuluDate = new Date(pet.birthdate)
+            const offsetMillis = zuluDate.getTimezoneOffset() * 60 * 1000
+            const localDate = new Date(zuluDate.getTime() - offsetMillis)
+            const locaDateString = localDate.toISOString().split('T')[0]
 
-            <Field alias="birthdate" type="date" defaultValue={pet.birthdate}>Date of Birth</Field>
+            return <Form onSubmit={handleGoToModifyPet}>
 
-            <Field alias="weight" type="number" defaultValue={pet.weight} step="0.1">Weight (kg)</Field>
+                <Field alias="name" type="text" defaultValue={pet.name}>Name</Field>
 
-            <Field alias="image" type="url" defaultValue={pet.image}>Image</Field>
+                <Field alias="birthdate" type="date" defaultValue={locaDateString}>Date of Birth</Field>
 
-            <Button className="self-center" type="submit"> Modify Pet</Button>
-        </Form> : <Spinner />}
+                <Field alias="weight" type="number" defaultValue={pet.weight} step="0.1">Weight (kg)</Field>
+
+                <Field alias="image" type="url" defaultValue={pet.image}>Image</Field>
+
+                <Button className="self-center" type="submit"> Modify Pet</Button>
+            </Form>
+        })() : <Spinner />}
     </div>
 }

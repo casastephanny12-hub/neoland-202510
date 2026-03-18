@@ -1,0 +1,1 @@
+curl -X PATCH -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWI0NzJmZDdiYTQzOGY1OTQxNmE1OTUiLCJpYXQiOjE3NzM4NTM0OTIsImV4cCI6MTc3Mzg1NzA5Mn0.9rrXcVVAIJfHUdRYO-jZ00hmvip-p6pgNQylWemqo-0' -H 'Content-Type: application/json' -d '{"name":"wendy pan"}' http://localhost:8080/users/me/name -v

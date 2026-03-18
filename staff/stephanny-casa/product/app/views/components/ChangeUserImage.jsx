@@ -1,15 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { Form } from './commons/Form'
 import { Field } from './commons/Field'
 import { Button } from './commons/Button'
-import { Feedback } from './commons/Feedback'
 
 import { logic } from '../../logic'
 
-export function ChangeUserImage() {
+export function ChangeUserImage({ onError, OnSuccess }) {
     console.log('ChangeUserImage -> call')
-    const [feedback, setFeedback] = useState(null) // {message, level}
+
+    const [image, setImage] = useState('')
+
+    useEffect(() => {
+        try {
+            logic.getLoggedInUser()
+                .then(user => setImage(user.image))
+                .catch(error => onError(error))
+        } catch (error) {
+            onError(error)
+        }
+    }, [])
 
     const handleChangeImageSubmit = event => {
         event.preventDefault()
@@ -17,27 +27,23 @@ export function ChangeUserImage() {
         const form = event.target
 
         const image = form.image.value
-    
+
         try {
             logic.changeUserImage(image)
-                .then(() => {
-                    form.reset()
-                    setFeedback({ message: 'user image succesfully updated', level: 'success' })
-                })
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+                .then(() => OnSuccess('user image successfully updated'))
+                .catch(error => onError(error))
         } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })
+            onError(error)
         }
     }
+
     console.log('ChangeUserImage ->  render')
+
     return <div>
         <Form onSubmit={handleChangeImageSubmit}>
-
-            <Field alias="image" type="url">Image</Field>
+            <Field alias="image" type="url" defaultValue={image}>Image</Field>
 
             <Button className="self-center" type="submit">Update Image</Button>
-
         </Form>
-        {feedback && <Feedback feedback={feedback} />}
     </div>
 }
