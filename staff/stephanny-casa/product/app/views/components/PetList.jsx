@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react'
 
 import { Button } from './commons/Button'
+import { PetItem } from './PetItem'
+
+import { useContext } from '../../contex'
 
 import { logic } from '../../logic'
 
+
 export function PetList({ onGoToPetDetail }) {
     console.log('PetList -> call')
+
+    const { onError } = useContext()
                                       
     const [pets, setPets] = useState([])
     const [petId, setPetId] = useState(null)
@@ -57,20 +63,7 @@ export function PetList({ onGoToPetDetail }) {
     return <div>
 
         <ul className="flex flex-col gap-2 mt-2">
-            {pets.map(pet => <li className="flex items-center border-2 border-orange-500 p-2 justify-between" onClick={() => handleGoToPetDetailClick(pet.id)}>
-                <div className="flex items-center gap-4 w-full">
-                    <img src={pet.image}
-                        className="rounded-full w-30 h-30 object-cover" />
-
-                    <p>{pet.name}</p>
-                </div>
-
-                <Button className="justify-self-end" onClick={event => {
-                    event.stopPropagation()
-                    handleDeletePetClick(pet.id)
-                }
-                }>🗑️</Button>
-            </li>)}
+            {pets.map(pet => <PetItem key={pet.id} pet={pet} onGoToPetDetail={onGoToPetDetail} onDeletePetClick={handleDeletePetClick} /> )}
         </ul>
 
         {
@@ -85,6 +78,5 @@ export function PetList({ onGoToPetDetail }) {
                 </div>
             </div>
         }
-
     </div >
 }

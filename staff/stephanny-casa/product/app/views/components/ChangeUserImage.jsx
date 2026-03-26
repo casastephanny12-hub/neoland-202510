@@ -3,11 +3,14 @@ import { useState, useEffect } from 'react'
 import { Form } from './commons/Form'
 import { Field } from './commons/Field'
 import { Button } from './commons/Button'
+import { useContext } from '../../contex'
 
 import { logic } from '../../logic'
 
-export function ChangeUserImage({ onError, OnSuccess }) {
+export function ChangeUserImage() {
     console.log('ChangeUserImage -> call')
+
+    const { OnSuccess, onError } = useContext()
 
     const [image, setImage] = useState('')
 
