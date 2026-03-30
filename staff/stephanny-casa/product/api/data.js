@@ -42,9 +42,9 @@ class Data {
             .then(userModel => {
                 if (!userModel) return null
 
-                const { id, name, email, username, password } = userModel
+                const { id, name, email, username, password, image, role } = userModel
 
-                return new UserData(id, name, email, username, password)
+                return new UserData(id, name, email, username, password, image, role)
             })
     }
 
@@ -54,9 +54,9 @@ class Data {
             .then(userModel => {
                 if (!userModel) return null
 
-                const { id, name, email, username, password } = userModel
+                const { id, name, email, username, password, image, role } = userModel
 
-                return new UserData(id, name, email, username, password)
+                return new UserData(id, name, email, username, password, image, role)
             })
     }
 
@@ -72,8 +72,8 @@ class Data {
             })
     }
 
-    updateUser(user) {
-        return UserModel.updateOne({ _id: user.id }, user)
+    updateUser(userData) {
+        return UserModel.updateOne({ _id: user.id }, { $set: userData })
             .catch(error => { throw new SystemError(error.message) })
             .then(userModel => { })
     }
