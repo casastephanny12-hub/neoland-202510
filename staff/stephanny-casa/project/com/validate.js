@@ -20,7 +20,7 @@ class Validate {
 
     username(username){
         if(typeof username !== 'string') throw new ValidationError('invalid username type')
-        if(username.length < 4) throw new ValidationError('invalid username length')
+        if(username.length < 3) throw new ValidationError('invalid username length')
     }
 
     password(password, explain = 'password'){
