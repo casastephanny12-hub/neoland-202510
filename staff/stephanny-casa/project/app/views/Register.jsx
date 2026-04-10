@@ -48,8 +48,11 @@ export function Register({ onGoToLogin }) {
 
 
     return <div className="p-4">
-        <h1>Jumpshare</h1>
-        <h2>Register</h2>
+
+        <div className='flex flex-col items-center p-2 pt-3 gap-1'>
+        <h1 className='text-cyan-400 font-bold text-2xl'>Join to the Community </h1>
+        <h2 className='font-bold text-2xl'>Jumpshare</h2>
+        </div>
 
         <Form onSubmit={handleRegisterSubmit}>
             <Field alias="name" type="text">Name</Field>
@@ -62,9 +65,11 @@ export function Register({ onGoToLogin }) {
 
             <PasswordField alias="passwordRepeat">Password Repeat</PasswordField>
 
-            <button className="self-center" type="submit">Register</button>
-
-            <Anchor onClick={handleLoginClick}>Login</Anchor>
+            <Anchor onClick={handleLoginClick} className="self-center w-50 h-8 pt-1 rounded-2xl text-white text-center font-bold bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500">Create account</Anchor>
         </Form>
+        <div className="flex items-center justify-center gap-1">
+        <p className='text-sm text-gray-400 font-bold pt-2'>Do you have an account?</p>
+        <Anchor onClick={handleLoginClick} className="text-sm text-pink-500 font-style: italic font-bold underline underline-offset-1">Login</Anchor>
+        </div>
     </div>
 }
