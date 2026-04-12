@@ -5,6 +5,7 @@ import { Routes, Route, useNavigate, Navigate } from 'react-router'
 import { Landing } from './views/Landing'
 import { Login } from './views/Login'
 import { Register } from './views/Register'
+import { Home } from './views/Home'
 import { Feedback } from './views/components/commons/Feedback'
 import { Context } from './context'
 
@@ -18,9 +19,11 @@ export function App() {
     logger.debug('App -> call')
 
     const [feedback, setFeedback] = useState(null)
-    let loggedIn = false
+    let loggedIn = true
 
     const navigate = useNavigate()
+
+    /*
 
     try {
         loggedIn = logic.isUserLoggedIn()
@@ -33,9 +36,11 @@ export function App() {
         navigate(path)
     }
 
+    */
+
     const handleGoToLogin = () => clearFeedbackandNavigate('/login')
     const handleGoToRegister = () => clearFeedbackandNavigate('/register')
-    const handleGoToLanding = () => clearFeedbackandNavigate('/')
+    const handleGoToHome = () => clearFeedbackandNavigate('/')
 
     const handleError = error => {
         if (error instanceof AuthError) {
@@ -80,11 +85,11 @@ export function App() {
             <Route path="/" element={!loggedIn ?
                 <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} />
                 :
-                <Navigate to="/login" />
+                <Home />
             } />
 
             <Route path="/login" element={!loggedIn ?
-                <Login onUserLoggedIn={handleGoToLanding} onGoToRegister={handleGoToRegister} />
+                <Login onUserLoggedIn={handleGoToHome} onGoToRegister={handleGoToRegister} />
                 :
                 <Navigate to="/" />
             } />

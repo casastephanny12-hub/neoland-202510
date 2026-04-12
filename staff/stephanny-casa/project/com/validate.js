@@ -34,7 +34,7 @@ class Validate {
 
     text(text, explain = 'text'){
         if(typeof text !== 'string') throw new ValidationError(`invalid ${explain} type`)
-        if(text.length < 5) throw new ValidationError(`invalid ${explain} length`)
+        if(text.length < 1) throw new ValidationError(`invalid ${explain} length`)
     }
 
     url(url, explain = 'url'){
