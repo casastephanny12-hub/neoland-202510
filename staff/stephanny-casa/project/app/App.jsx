@@ -6,6 +6,8 @@ import { Landing } from './views/Landing'
 import { Login } from './views/Login'
 import { Register } from './views/Register'
 import { Home } from './views/Home'
+import { CreatePost } from './views/CreatePost'
+import { ModifyPost } from './views/ModifyPost'
 import { Feedback } from './views/components/commons/Feedback'
 import { Context } from './context'
 
@@ -19,11 +21,10 @@ export function App() {
     logger.debug('App -> call')
 
     const [feedback, setFeedback] = useState(null)
-    let loggedIn = true
+    let loggedIn = false
 
     const navigate = useNavigate()
 
-    /*
 
     try {
         loggedIn = logic.isUserLoggedIn()
@@ -36,11 +37,12 @@ export function App() {
         navigate(path)
     }
 
-    */
-
     const handleGoToLogin = () => clearFeedbackandNavigate('/login')
     const handleGoToRegister = () => clearFeedbackandNavigate('/register')
     const handleGoToHome = () => clearFeedbackandNavigate('/')
+    const handleGoToCreatePost = () => clearFeedbackandNavigate('/create-post')
+    const handleGoToModifyPost = postId => clearFeedbackandNavigate(`/posts/${postId}/edit`)
+    const handleGoToProfile = () => clearFeedbackandNavigate('/profile')
 
     const handleError = error => {
         if (error instanceof AuthError) {
@@ -85,7 +87,7 @@ export function App() {
             <Route path="/" element={!loggedIn ?
                 <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} />
                 :
-                <Home />
+                <Home onGoToCreatePost={handleGoToCreatePost} onGoToModifyPost={handleGoToModifyPost} onUserLoggedOut={handleGoToLogin} onGoToProfile={handleGoToProfile} />
             } />
 
             <Route path="/login" element={!loggedIn ?
@@ -98,6 +100,18 @@ export function App() {
                 <Register onGoToLogin={handleGoToLogin} />
                 :
                 <Navigate to="/" />
+            } />
+
+            <Route path="/create-post" element={loggedIn ?
+                <CreatePost onGoToHome={handleGoToHome} />
+                :
+                <Navigate to="/login" />
+            } />
+
+            <Route path="/posts/:postId/edit" element={loggedIn ?
+                <ModifyPost onGoBack={handleGoToHome} />
+                :
+                <Navigate to="/login" />
             } />
         </Routes>
     </Context.Provider>

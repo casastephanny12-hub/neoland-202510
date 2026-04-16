@@ -1,5 +1,5 @@
-import { ExistenceError, OwnershipError, validate } from "com"
 import { data } from "../data/index.js"
+import { ExistenceError, OwnershipError, validate } from "com"
 
 export function deletePost(userId, postId){
     validate.id(userId, 'userId')

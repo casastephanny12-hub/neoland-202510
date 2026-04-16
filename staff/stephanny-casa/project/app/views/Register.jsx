@@ -2,6 +2,7 @@ import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
 import { PasswordField } from './components/commons/PasswordField'
 import { Anchor } from './components/commons/Anchor'
+import { Button } from './components/commons/Button'
 
 import { useContext } from '../context'
 
@@ -16,6 +17,7 @@ export function Register({ onGoToLogin }) {
 
     const handleRegisterSubmit = event => {
         event.preventDefault()
+        debugger
 
         const form = event.target
 
@@ -65,7 +67,7 @@ export function Register({ onGoToLogin }) {
 
             <PasswordField alias="passwordRepeat">Password Repeat</PasswordField>
 
-            <Anchor onClick={handleLoginClick} className="self-center w-50 h-8 pt-1 rounded-2xl text-white text-center font-bold bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500">Create account</Anchor>
+            <Button className="self-center w-50 h-8 pt-1 rounded-2xl text-white text-center font-bold bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500" type="submit">Create account</Button>
         </Form>
         <div className="flex items-center justify-center gap-1">
         <p className='text-sm text-gray-400 font-bold pt-2'>Do you have an account?</p>

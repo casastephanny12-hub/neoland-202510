@@ -4,6 +4,7 @@ import { authMiddleware } from "../middlewares/index.js";
 import {
     createPostHandler,
     getPostHandler,
+    getPostsHandler,
     deletePostHandler,
     modifyPostHandler
 } from './handlers/index.js'
@@ -11,6 +12,7 @@ import {
 export const postRouter = new Router()
 
 postRouter.post('', authMiddleware, createPostHandler)
-postRouter.get('', authMiddleware, getPostHandler)
+postRouter.get('/:postId', authMiddleware, getPostHandler)
+postRouter.get('', authMiddleware, getPostsHandler)
 postRouter.delete('/:postId', authMiddleware, deletePostHandler)
 postRouter.patch('/:postId', authMiddleware, modifyPostHandler)
