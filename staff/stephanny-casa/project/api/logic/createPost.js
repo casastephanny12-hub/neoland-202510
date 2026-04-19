@@ -1,5 +1,5 @@
-import { ExistenceError, validate } from "com"
-import { data, PostData } from "../data/index.js"
+import { ExistenceError, validate } from 'com'
+import { data, PostData } from '../data/index.js'
 
 export function createPost(userId, text, url){
     validate.id(userId, 'userId')

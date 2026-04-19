@@ -9,7 +9,10 @@ import { getPosts } from './getPosts.js'
 import { getPost } from './getPost.js'
 import { deletePost } from './deletePost.js'
 import { modifyPost } from './modifyPost.js'
+import { savePost } from './savePost.js'
+import { unsavePost } from './unsavePost.js'
 import { getSavedPosts } from './getSavedPosts.js'
+
 
 export const logic = {
     registerUser, 
@@ -20,5 +23,7 @@ export const logic = {
     getPost,
     deletePost,
     modifyPost,
+    savePost,
+    unsavePost,
     getSavedPosts
 }

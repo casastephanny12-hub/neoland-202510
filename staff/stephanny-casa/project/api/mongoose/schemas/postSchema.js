@@ -7,6 +7,7 @@ export const postSchema = new Schema ({
     owner: {
         type: ObjectId, 
         ref: 'User'
+
     }, 
 
     text: {
@@ -26,6 +27,11 @@ export const postSchema = new Schema ({
         type: Date, 
         default: Date.now
 
-    }
+    },
+
+    saves:[{
+        type: ObjectId, 
+        ref: 'User'
+    }]
 
 })

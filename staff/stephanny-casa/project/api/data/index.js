@@ -11,6 +11,9 @@ import { findAllPost } from './findAllPost.js'
 import { deletePost } from './deletePost.js'
 import { updatePost } from './updatePost.js'
 import { findPostById } from './findPostById.js'
+import { savePost } from './savePost.js'
+import { unsavePost } from './unsavePost.js'
+import { findSavedPostsByUserId } from './findSavedPostsByUserId.js'
 
 export const data = {
     insertUser,
@@ -21,5 +24,8 @@ export const data = {
     findAllPost,
     deletePost,
     updatePost,
-    findPostById
+    findPostById,
+    savePost,
+    unsavePost,
+    findSavedPostsByUserId
 }

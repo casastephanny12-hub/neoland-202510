@@ -1,10 +1,10 @@
 import { logic } from '../../logic/index.js'
 
-export const modifyPostHandler = (req, res, next) => {
+export const unsavePostHandler = (req, res, next) => {
     try {
-        const { userId, params: { postId }, body: { text, url } } = req
+        const { userId, params: { postId } } = req
 
-        logic.modifyPost(userId, postId, text, url)
+        logic.unsavePost(userId, postId)
             .then(post => res.status(200).send())
             .catch(error => next(error))
     } catch (error) {
