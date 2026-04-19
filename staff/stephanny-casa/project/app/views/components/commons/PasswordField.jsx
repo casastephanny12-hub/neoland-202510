@@ -18,6 +18,6 @@ export function PasswordField({ alias, children}){
 
         <Label alias={alias}>{children}</Label>
         <Input alias={alias} type={type} autoComplete="off" className={type === 'password' ? '' : 'bg-cyan-200'}/>
-         <ButtonPassword className="self-end" type="button" onClick={handleTogglePasswordClick}>{type === 'password' ? '👁️' : '👁️'} </ButtonPassword>
+         <ButtonPassword className="self-end" type="button" onClick={handleTogglePasswordClick}>{type === 'password' ? <img src="/eye.svg" alt="eye" className="w-5 h-5" /> : <img src="/eye.svg" alt="eye" className="w-5 h-5" />} </ButtonPassword>
     </div>
 }

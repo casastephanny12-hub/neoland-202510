@@ -21,7 +21,7 @@ export function modifyPost(postId, text, url) {
 
             const { status } = res
 
-            if (status === 204)
+            if (status === 200)
                 return
 
             return res.json()

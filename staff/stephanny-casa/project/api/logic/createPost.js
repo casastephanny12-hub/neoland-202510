@@ -10,7 +10,7 @@ export function createPost(userId, text, url){
    .then(user => {
     if (!user) throw new ExistenceError('user not found')
 
-    const post = new PostData(null, userId, text, url)
+    const post = new PostData(null, userId, null, null, text, url, null)
 
     return data.insertPost(post)
    })

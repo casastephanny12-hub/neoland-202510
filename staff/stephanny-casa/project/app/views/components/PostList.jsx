@@ -19,6 +19,8 @@ export function PostList({ onGoToModifyPost }) {
 
     const [postId, setPostId] = useState(null)
 
+    const [loggedUserId, setLoggedUserId] = useState(null)
+
     useEffect(() => {
         logger.debug('PostList -> useEffect')
 
@@ -29,6 +31,16 @@ export function PostList({ onGoToModifyPost }) {
                 })
                 .catch(error => onError(error))
         } catch (error) {
+            onError(error)
+        }
+    }, [])
+
+    useEffect(() => {
+        try{
+            logic.getLoggedInUser()
+            .then(user => setLoggedUserId(user.id))
+            .catch(error => onError(error))
+        } catch(error){
             onError(error)
         }
     }, [])
@@ -66,6 +78,7 @@ export function PostList({ onGoToModifyPost }) {
             {posts.map(post => <PostItem
                 key={post.id}
                 post={post}
+                loggedUserId={loggedUserId}
                 onDeletePostClick={handleRemovePostClick}
                 onGoToModifyPost={onGoToModifyPost}
             />)}
@@ -76,8 +89,8 @@ export function PostList({ onGoToModifyPost }) {
                 <p className="text-center text-gray-500 font-bold"> Are u sure u want to delete this post?</p>
 
                 <div className="flex justify-center">
-                    <Button onClick={handleCancelRemovePostClick}>❎</Button>
-                    <Button onClick={handleConfirmRemovePostClick}>✅</Button>
+                    <Button onClick={handleCancelRemovePostClick}><img src="/cancel.svg" alt="cancel"></img></Button>
+                    <Button onClick={handleConfirmRemovePostClick}><img src="/confirm.svg" alt="confirm"></img></Button>
                 </div>
             </div>
         </div>}

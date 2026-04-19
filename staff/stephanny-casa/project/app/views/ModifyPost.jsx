@@ -57,7 +57,7 @@ export  function ModifyPost({ onGoBack }) {
 
     return <div className="p-4 flex flex-col">
 
-        <Anchor onClick={handleBackClick} className="self-end">⬅️</Anchor>
+        <Anchor onClick={handleBackClick} className="self-end"><img src="/back.svg" alt="back"></img></Anchor>
 
         <h1 className="text-cyan-400 font-bold text-2xl"> Edit post</h1>
         <h2 className="text-gray-300 text-xl pt-6">What do u want to share?</h2>

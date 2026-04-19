@@ -66,7 +66,7 @@ export function Home({ onGoToCreatePost, onGoToModifyPost, onUserLoggedOut, onGo
 
             <div className="flex flex-col">
                 <h1 className='font-bold text-md mb-5'>The Jumprope Community</h1>
-                <h2 className="font-bold text-sm text-pink-300"> Hi, {name || 'Jumplover'} ! </h2>
+                <h2 className="font-bold text-sm text-pink-300"> Welcome back {name || 'Jumplover'} !</h2>
             </div>
 
             <img className="rounded-full w-15 h-15" src={image} />
@@ -74,12 +74,12 @@ export function Home({ onGoToCreatePost, onGoToModifyPost, onUserLoggedOut, onGo
 
         <PostList onGoToModifyPost={onGoToModifyPost} />
 
-        <nav className="fixed bottom-0 left-0 right-0 flex justify-around items-center p-4 border-t-3 border-gray-500">
+        <nav className="left-0 right-0 flex justify-around items-center p-4 border-t-3 border-gray-500 mb-0">
 
-            <Button type="button">🏠</Button>
-            <Button type="button" onClick={handleAddPostClick}>➕</Button>
-            <Button type="button" onClick={handleProfileClick}>👤</Button>
-            <Button type="button" onClick={handleLogoutClick}>🚪</Button>
+            <Button type="button"><img src="/home.svg" alt="home"></img></Button>
+            <Button type="button" onClick={handleAddPostClick}><img src="/plus.svg" alt="add"></img></Button>
+            <Button type="button" onClick={handleProfileClick}><img src="/profile.svg" alt="profile"></img></Button>
+            <Button type="button" onClick={handleLogoutClick}><img src="/logout.svg" alt="logout"></img></Button>
 
         </nav>
     </div >

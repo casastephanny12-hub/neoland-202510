@@ -1,9 +1,7 @@
 import { logger } from '../../logger'
 
-export function PostItem({ post, onGoToPostDetail, onDeletePostClick, onGoToModifyPost }) {
+export function PostItem({ post, onDeletePostClick, onGoToModifyPost, loggedUserId }) {
     logger.debug('PostItem -> call')
-
-    const handleGoToPostDetailClick = postId => onGoToPostDetail(postId)
 
     const handleDeletePostClick = postId => onDeletePostClick(postId)
 
@@ -11,30 +9,46 @@ export function PostItem({ post, onGoToPostDetail, onDeletePostClick, onGoToModi
 
     logger.debug('PostItem -> render')
 
-    return <li className="flex flex-col border-2 border-gray-300 rounded-xl p-4 mb-4" onClick={() => handleGoToPostDetailClick(post.id)}>
+    console.log('post', post)
 
-        <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-cyan-400" />
-            <p className="font-bold">User</p>
+    return <li className="flex flex-col border-2 border-gray-300 rounded-xl p-4 mb-4">
+
+        <div className="flex justify-between gap-2">
+            <div className="flex items-center gap-2">
+                <img src={post.ownerImage || "/user.svg"} alt="user" className="w-10 h-10 rounded-full"></img>
+                <p className='font-bold  text-pink-300'>@{post.ownerUsername}</p>
+            </div>
+
+            <img src="/savepost.svg" alt="savepost" className="w-7 h-7"></img>
         </div>
 
+        <p className="text-md mt-3 text-gray-400">{post.text}</p>
+        <a href={post.url} target="_blank" className="font-bold text-sm mt-3 text-cyan-500"> Click here 👆</a>
+        <p className='text-xs mt-4'>{new Date(post.postedAt).toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        })}</p>
 
-        <p className="text-sm mt-2">{post.text}</p>
-        <a href={post.url} target="_blank" className="font-bold text-sm mt-1"> Click here 👆</a>
 
-        <div className="flex justify-between mt-3">
-            <button onClick={event => {
-                event.stopPropagation()
+        {post.ownerId === loggedUserId &&
+            <div className="flex items-center self-end mt-3">
 
-                handleDeletePostClick(post.id)
-            }}>🗑️</button>
+                <button onClick={event => {
+                    event.stopPropagation()
 
-            <button onClick={event => {
-                event.stopPropagation()
+                    handleGoToModifyPost()
+                }}><img src="/modify.svg" alt="edit"></img></button>
 
-                handleGoToModifyPost()
-            }}>✏️</button>    
-        </div>
+                <button onClick={event => {
+                    event.stopPropagation()
+
+                    handleDeletePostClick(post.id)
+                }}><img src="/delete.svg" alt="delete"></img></button>
+
+            </div>
+        }
+
     </li>
 }
 

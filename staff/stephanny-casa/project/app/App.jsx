@@ -87,7 +87,7 @@ export function App() {
             <Route path="/" element={!loggedIn ?
                 <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} />
                 :
-                <Home onGoToCreatePost={handleGoToCreatePost} onGoToModifyPost={handleGoToModifyPost} onUserLoggedOut={handleGoToLogin} onGoToProfile={handleGoToProfile} />
+                <Home onGoToCreatePost={handleGoToCreatePost} onGoToModifyPost={handleGoToModifyPost} onUserLoggedOut={handleGoToLogin} onGoToProfile={handleGoToProfile}  />
             } />
 
             <Route path="/login" element={!loggedIn ?
