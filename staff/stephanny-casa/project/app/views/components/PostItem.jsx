@@ -7,9 +7,10 @@ export function PostItem({ post, onDeletePostClick, onGoToModifyPost, loggedUser
 
     const handleGoToModifyPost = () => onGoToModifyPost(post.id)
 
+
+
     logger.debug('PostItem -> render')
 
-    console.log('post', post)
 
     return <li className="flex flex-col border-2 border-gray-300 rounded-xl p-4 mb-4">
 
