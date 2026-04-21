@@ -1,13 +1,17 @@
 import { logger } from '../../logger'
 
-export function PostItem({ post, onDeletePostClick, onGoToModifyPost, loggedUserId }) {
+export function PostItem({ post, onDeletePostClick, onGoToModifyPost, onSavePostClick, loggedUserId }) {
     logger.debug('PostItem -> call')
 
     const handleDeletePostClick = postId => onDeletePostClick(postId)
 
     const handleGoToModifyPost = () => onGoToModifyPost(post.id)
 
-
+    const handleSavePostClick = event => {
+        event.preventDefault()
+        console.log('post.id', post.id)
+        onSavePostClick(post.id)
+    }
 
     logger.debug('PostItem -> render')
 
@@ -20,7 +24,7 @@ export function PostItem({ post, onDeletePostClick, onGoToModifyPost, loggedUser
                 <p className='font-bold  text-pink-300'>@{post.ownerUsername}</p>
             </div>
 
-            <img src="/savepost.svg" alt="savepost" className="w-7 h-7"></img>
+            <button onClick={handleSavePostClick}><img src={post.saves?.includes(loggedUserId) ? '/savedpost.svg' : '/savepost.svg' }></img></button>
         </div>
 
         <p className="text-md mt-3 text-gray-400">{post.text}</p>

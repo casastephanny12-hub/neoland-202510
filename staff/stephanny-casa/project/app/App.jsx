@@ -8,6 +8,7 @@ import { Register } from './views/Register'
 import { Home } from './views/Home'
 import { CreatePost } from './views/CreatePost'
 import { ModifyPost } from './views/ModifyPost'
+import { Profile } from './views/Profile'
 import { Feedback } from './views/components/commons/Feedback'
 import { Context } from './context'
 
@@ -87,7 +88,7 @@ export function App() {
             <Route path="/" element={!loggedIn ?
                 <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} />
                 :
-                <Home onGoToCreatePost={handleGoToCreatePost} onGoToModifyPost={handleGoToModifyPost} onUserLoggedOut={handleGoToLogin} onGoToProfile={handleGoToProfile}  />
+                <Home onGoToCreatePost={handleGoToCreatePost} onGoToModifyPost={handleGoToModifyPost} onUserLoggedOut={handleGoToLogin} onGoToProfile={handleGoToProfile} />
             } />
 
             <Route path="/login" element={!loggedIn ?
@@ -110,6 +111,12 @@ export function App() {
 
             <Route path="/posts/:postId/edit" element={loggedIn ?
                 <ModifyPost onGoBack={handleGoToHome} />
+                :
+                <Navigate to="/login" />
+            } />
+
+            <Route path="/profile" element={loggedIn ?
+                <Profile onGoToHome={handleGoToHome} />
                 :
                 <Navigate to="/login" />
             } />

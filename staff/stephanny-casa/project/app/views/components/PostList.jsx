@@ -36,11 +36,11 @@ export function PostList({ onGoToModifyPost }) {
     }, [])
 
     useEffect(() => {
-        try{
+        try {
             logic.getLoggedInUser()
-            .then(user => setLoggedUserId(user.id))
-            .catch(error => onError(error))
-        } catch(error){
+                .then(user => setLoggedUserId(user.id))
+                .catch(error => onError(error))
+        } catch (error) {
             onError(error)
         }
     }, [])
@@ -71,6 +71,25 @@ export function PostList({ onGoToModifyPost }) {
         }
     }
 
+    const handleSavePostClick = postId => {
+        const post = posts.find(post => post.id === postId)
+        try {
+            if (post.saves.includes(loggedUserId)) {
+                logic.unsavePost(loggedUserId, postId)
+                    .then(() => logic.getPosts())
+                    .then(posts => setPosts(posts))
+                    .catch(error => onError(error))
+            } else {
+                logic.savePost(loggedUserId, postId)
+                    .then(() => logic.getPosts())
+                    .then(posts => setPosts(posts))
+                    .catch(error => onError(error))
+            }
+        } catch (error) {
+            onError(error)
+        }
+    }
+
     logger.debug('PostList -> render')
 
     return <div>
@@ -81,6 +100,7 @@ export function PostList({ onGoToModifyPost }) {
                 loggedUserId={loggedUserId}
                 onDeletePostClick={handleRemovePostClick}
                 onGoToModifyPost={onGoToModifyPost}
+                onSavePostClick={handleSavePostClick}
             />)}
         </ul>
 

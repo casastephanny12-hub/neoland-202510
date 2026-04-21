@@ -1,11 +1,9 @@
 import { data } from '../data'
 import { AuthError, validate, errorMap, SystemError } from "com";
 
-export function getSavedPosts(userId) {
+export function getSavedPosts() {
     if (data.getToken() === null) throw new AuthError('user not logged in')
-
-    validate.id(userId, 'userId')
-
+        
     return fetch(`${import.meta.env.VITE_API_URL}/posts/saved`, {
         method: 'GET',
         headers: {
