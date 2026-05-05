@@ -73,18 +73,11 @@ Comment
  - image (string)
  - createdAt (required, date)
 
- LikeData
+ SavePostData
 
  - id(unique, string)
  - owner (UserData.id, string)
  - post (PostData.id, string)
-
- CommentData
-
- - id(unique, string)
- - owner (userData.id, string)
- - text (required, string)
- - createdAt (required, date)
 
  ### Techs
 

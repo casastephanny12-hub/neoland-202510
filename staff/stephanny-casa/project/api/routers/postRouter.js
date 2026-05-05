@@ -9,13 +9,15 @@ import {
     modifyPostHandler,
     savePostHandler, 
     unsavePostHandler,
-    getSavedPostHandler
+    getSavedPostHandler,
+    getUserPostHandler
 } from './handlers/index.js'
 
 export const postRouter = new Router()
 
 postRouter.post('', authMiddleware, createPostHandler)
 postRouter.get('/saved', authMiddleware, getSavedPostHandler)
+postRouter.get('/user', authMiddleware, getUserPostHandler)
 postRouter.get('/:postId', authMiddleware, getPostHandler)
 postRouter.get('', authMiddleware, getPostsHandler)
 postRouter.delete('/:postId', authMiddleware, deletePostHandler)

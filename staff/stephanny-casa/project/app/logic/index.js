@@ -11,6 +11,7 @@ import { deletePost } from './deletePost'
 import { savePost } from './savePost'
 import { unsavePost } from './unsavePost'
 import { getSavedPosts } from './getSavedPosts'
+import { getUserPosts } from './getUserPosts'
 
 
 
@@ -27,5 +28,6 @@ export const logic = {
     deletePost,
     savePost,
     unsavePost,
-    getSavedPosts
+    getSavedPosts,
+    getUserPosts
 }

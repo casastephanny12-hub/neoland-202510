@@ -12,6 +12,8 @@ import { modifyPost } from './modifyPost.js'
 import { savePost } from './savePost.js'
 import { unsavePost } from './unsavePost.js'
 import { getSavedPosts } from './getSavedPosts.js'
+import { getUserPosts } from './getUserPosts.js'
+
 
 
 export const logic = {
@@ -25,5 +27,6 @@ export const logic = {
     modifyPost,
     savePost,
     unsavePost,
-    getSavedPosts
+    getSavedPosts,
+    getUserPosts
 }

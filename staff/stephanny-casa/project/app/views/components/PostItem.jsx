@@ -1,6 +1,6 @@
 import { logger } from '../../logger'
 
-export function PostItem({ post, onDeletePostClick, onGoToModifyPost, onSavePostClick, loggedUserId }) {
+export function PostItem({ post, onDeletePostClick, onGoToModifyPost, onSavePostClick, loggedUserId, savedPosts}) {
     logger.debug('PostItem -> call')
 
     const handleDeletePostClick = postId => onDeletePostClick(postId)
@@ -24,7 +24,7 @@ export function PostItem({ post, onDeletePostClick, onGoToModifyPost, onSavePost
                 <p className='font-bold  text-pink-300'>@{post.ownerUsername}</p>
             </div>
 
-            <button onClick={handleSavePostClick}><img src={post.saves?.includes(loggedUserId) ? '/savedpost.svg' : '/savepost.svg' }></img></button>
+            <button onClick={handleSavePostClick}><img src={savedPosts?.includes(post.id) ? '/savedpost.svg' : '/savepost.svg' }></img></button>
         </div>
 
         <p className="text-md mt-3 text-gray-400">{post.text}</p>

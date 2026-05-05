@@ -75,12 +75,10 @@ export function Home({ onGoToCreatePost, onGoToModifyPost, onUserLoggedOut, onGo
         <PostList onGoToModifyPost={onGoToModifyPost} />
 
         <nav className="left-0 right-0 flex justify-around items-center p-4 border-t-3 border-gray-500 mb-0">
-
             <Button type="button"><img src="/home.svg" alt="home"></img></Button>
             <Button type="button" onClick={handleAddPostClick}><img src="/plus.svg" alt="add"></img></Button>
             <Button type="button" onClick={handleProfileClick}><img src="/profile.svg" alt="profile"></img></Button>
             <Button type="button" onClick={handleLogoutClick}><img src="/logout.svg" alt="logout"></img></Button>
-
         </nav>
     </div >
 }

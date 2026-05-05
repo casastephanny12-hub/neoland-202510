@@ -28,10 +28,4 @@ export const postSchema = new Schema ({
         default: Date.now
 
     },
-
-    saves:[{
-        type: ObjectId, 
-        ref: 'User'
-    }]
-
 })

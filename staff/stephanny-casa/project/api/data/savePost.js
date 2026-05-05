@@ -1,11 +1,15 @@
-import { SystemError } from "com";
-import { PostModel } from "../mongoose/index.js";
+import { SystemError } from 'com'
+import { SaveModel } from '../mongoose/index.js'
 
 export function savePost(userId, postId) {
-    return PostModel.updateOne(
-        { _id: postId },
-        { $addToSet: { saves: userId } }
-    )
+    return SaveModel.findOne({ user: userId, post: postId })
         .catch(error => { throw new SystemError(error.message) })
-        .then(result => { })
+        .then(save => {
+            if (save) throw new Error('post already saved')
+
+            return SaveModel.create({ user: userId, post: postId })
+                .catch(error => { throw new SystemError(error.message) })
+        })
+        .then(() => { })
+
 }

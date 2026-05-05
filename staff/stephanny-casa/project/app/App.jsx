@@ -9,6 +9,8 @@ import { Home } from './views/Home'
 import { CreatePost } from './views/CreatePost'
 import { ModifyPost } from './views/ModifyPost'
 import { Profile } from './views/Profile'
+import { MyPosts } from './views/MyPosts'
+import { MySavedPosts } from './views/MySavedPosts'
 import { Feedback } from './views/components/commons/Feedback'
 import { Context } from './context'
 
@@ -44,6 +46,8 @@ export function App() {
     const handleGoToCreatePost = () => clearFeedbackandNavigate('/create-post')
     const handleGoToModifyPost = postId => clearFeedbackandNavigate(`/posts/${postId}/edit`)
     const handleGoToProfile = () => clearFeedbackandNavigate('/profile')
+    const handleGoToMyPosts = () => clearFeedbackandNavigate('/profile/my-posts')
+    const handleGoToMySavedPosts = () => clearFeedbackandNavigate('/profile/saved-posts')
 
     const handleError = error => {
         if (error instanceof AuthError) {
@@ -116,7 +120,19 @@ export function App() {
             } />
 
             <Route path="/profile" element={loggedIn ?
-                <Profile onGoToHome={handleGoToHome} />
+                <Profile onGoToHome={handleGoToHome} onGoToMyPosts={handleGoToMyPosts} onGoToMySavedPosts={handleGoToMySavedPosts} />
+                :
+                <Navigate to="/login" />
+            } />
+
+            <Route path="/profile/my-posts" element={loggedIn ?
+                <MyPosts onGoToProfile={handleGoToProfile}/>
+                :
+                <Navigate to="/login" />
+            } />
+
+              <Route path="/profile/saved-posts" element={loggedIn ?
+                <MySavedPosts onGoToProfile={handleGoToProfile}  />
                 :
                 <Navigate to="/login" />
             } />

@@ -21,6 +21,8 @@ export function PostList({ onGoToModifyPost }) {
 
     const [loggedUserId, setLoggedUserId] = useState(null)
 
+    const [savedPosts, setSavedPosts] = useState([])
+
     useEffect(() => {
         logger.debug('PostList -> useEffect')
 
@@ -41,6 +43,16 @@ export function PostList({ onGoToModifyPost }) {
                 .then(user => setLoggedUserId(user.id))
                 .catch(error => onError(error))
         } catch (error) {
+            onError(error)
+        }
+    }, [])
+
+    useEffect(() => {
+        try{
+            logic.getSavedPosts()
+            .then(savedPosts => setSavedPosts(savedPosts.map(post => post.id)))
+            .catch(error => onError(error))
+        } catch(error){
             onError(error)
         }
     }, [])
@@ -72,17 +84,16 @@ export function PostList({ onGoToModifyPost }) {
     }
 
     const handleSavePostClick = postId => {
-        const post = posts.find(post => post.id === postId)
         try {
-            if (post.saves.includes(loggedUserId)) {
+            if (savedPosts.includes(postId)) {
                 logic.unsavePost(loggedUserId, postId)
-                    .then(() => logic.getPosts())
-                    .then(posts => setPosts(posts))
+                    .then(() => logic.getSavedPosts())
+                    .then(savedPosts => setSavedPosts(savedPosts.map(post => post.id)))
                     .catch(error => onError(error))
             } else {
                 logic.savePost(loggedUserId, postId)
-                    .then(() => logic.getPosts())
-                    .then(posts => setPosts(posts))
+                    .then(() => logic.getSavedPosts())
+                    .then(savedPosts => setSavedPosts(savedPosts.map(post => post.id)))
                     .catch(error => onError(error))
             }
         } catch (error) {
@@ -98,6 +109,7 @@ export function PostList({ onGoToModifyPost }) {
                 key={post.id}
                 post={post}
                 loggedUserId={loggedUserId}
+                savedPosts={savedPosts}
                 onDeletePostClick={handleRemovePostClick}
                 onGoToModifyPost={onGoToModifyPost}
                 onSavePostClick={handleSavePostClick}

@@ -1,10 +1,11 @@
 import { data } from '../data'
-import { AuthError, errorMap, SystemError } from "com";
+import { AuthError, SystemError, errorMap } from 'com'
 
-export function getSavedPosts() {
+
+export function getUserPosts(userId) {
     if (data.getToken() === null) throw new AuthError('user not logged in')
-        
-    return fetch(`${import.meta.env.VITE_API_URL}/posts/saved`, {
+
+    return fetch(`${import.meta.env.VITE_API_URL}/posts/user`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${data.getToken()}`
@@ -29,7 +30,5 @@ export function getSavedPosts() {
 
                     throw new constructor(message)
                 })
-
         })
-
 }

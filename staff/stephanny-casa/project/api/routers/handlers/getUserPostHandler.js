@@ -1,14 +1,12 @@
 import { logic } from '../../logic/index.js'
 
-export const getPostsHandler = (req, res, next) => {
+export const getUserPostHandler = (req, res, next) => {
     try {
-
         const { userId } = req
 
-        logic.getPosts(userId)
+        logic.getUserPosts(userId)
             .then(posts => res.json(posts))
             .catch(error => next(error))
-
     } catch (error) {
         next(error)
     }

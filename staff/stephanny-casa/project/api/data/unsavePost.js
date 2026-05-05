@@ -1,11 +1,10 @@
-import { SystemError } from "com";
-import { PostModel } from "../mongoose/index.js";
+import { SystemError } from 'com'
+import { SaveModel } from '../mongoose/index.js'
 
 export function unsavePost(userId, postId) {
-    return PostModel.updateOne(
-        { _id: postId },
-        { $pull: { saves: userId } }
-    )
+    return SaveModel.findOneAndDelete({ user: userId, post: postId })
         .catch(error => { throw new SystemError(error.message) })
-        .then(result => { })
+        .then(save => {
+            if (!save) throw new Error('save not found')
+        })
 }

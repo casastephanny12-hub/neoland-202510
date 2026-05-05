@@ -1,13 +1,13 @@
 import { SystemError } from 'com'
-import { PostModel } from '../mongoose/index.js'
+import { SaveModel } from '../mongoose/index.js'
 import { PostData } from './models/index.js'
 
 export function findSavedPostsByUserId(userId) {
-    return PostModel.find({ saves: userId }).populate('owner', 'username image')
+    return SaveModel.find({ user: userId}).populate('post')
         .catch(error => { throw new SystemError(error.message) })
-        .then(postModels => postModels.map(postModel => {
-            const { id, owner, text, url, postedAt, saves } = postModel
+        .then(saveModels => saveModels.map(saveModel => {
+            const { id, owner, text, url, postedAt} = saveModel.post
 
-            return new PostData(id, owner.id, owner.username, owner.image, text, url, postedAt, saves)
+            return new PostData(id, owner.id, owner.username, owner.image, text, url, postedAt)
         }))
 }
