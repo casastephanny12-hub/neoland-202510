@@ -26,6 +26,5 @@ export const postSchema = new Schema ({
     postedAt: {
         type: Date, 
         default: Date.now
-
     },
 })

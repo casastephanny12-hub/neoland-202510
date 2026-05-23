@@ -13,11 +13,13 @@ import { savePost } from './savePost.js'
 import { unsavePost } from './unsavePost.js'
 import { getSavedPosts } from './getSavedPosts.js'
 import { getUserPosts } from './getUserPosts.js'
-
-
+import { createComment } from './createComment.js'
+import { getComments } from './getComments.js'
+import { deleteComment } from './deleteComment.js'
+import { modifyComment } from './modifyComment.js'
 
 export const logic = {
-    registerUser, 
+    registerUser,
     authenticateUser,
     getUser,
     createPost,
@@ -28,5 +30,9 @@ export const logic = {
     savePost,
     unsavePost,
     getSavedPosts,
-    getUserPosts
+    getUserPosts,
+    createComment,
+    getComments,
+    deleteComment,
+    modifyComment
 }

@@ -1,5 +1,5 @@
-import { SystemError } from "com"
-import { PostModel } from "../mongoose/index.js"
+import { SystemError } from 'com'
+import { PostModel } from '../mongoose/index.js'
 
 export function deletePost(postId) {
     return PostModel.deleteOne({ _id: postId })

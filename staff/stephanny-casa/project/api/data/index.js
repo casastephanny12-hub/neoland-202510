@@ -15,6 +15,11 @@ import { savePost } from './savePost.js'
 import { unsavePost } from './unsavePost.js'
 import { findSavedPostsByUserId } from './findSavedPostsByUserId.js'
 import { findPostsByUserId } from './findPostsByUserId.js'
+import { insertComment } from './insertComment.js'
+import { findCommentsByPostId } from './findCommentsByPostId.js'
+import { deleteComment } from './deleteComment.js'
+import { findCommentById } from './findCommentById.js'
+import { updateComment } from './updateComment.js'
 
 export const data = {
     insertUser,
@@ -29,5 +34,10 @@ export const data = {
     savePost,
     unsavePost, 
     findSavedPostsByUserId,
-    findPostsByUserId
+    findPostsByUserId, 
+    insertComment,
+    findCommentsByPostId,
+    deleteComment,
+    findCommentById,
+    updateComment
 }

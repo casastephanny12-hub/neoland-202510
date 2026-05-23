@@ -1,14 +1,19 @@
 import { data } from '../data'
-import { AuthError, errorMap, SystemError } from 'com'
+import { validate, AuthError, SystemError, errorMap } from 'com'
 
-export function getPosts() {
+export function modifyComment(commentId, text) {
     if (data.getToken() === null) throw new AuthError('user not logged in')
 
-    return fetch(`${import.meta.env.VITE_API_URL}/posts`, {
-        method: 'GET',
+    validate.id(commentId, 'commentId')
+    validate.text(text, 'text')
+
+    return fetch(`${import.meta.env.VITE_API_URL}/posts/comments/${commentId}`, {
+        method: 'PATCH',
         headers: {
-            Authorization: `Bearer ${data.getToken()}`
-        }
+            Authorization: `Bearer ${data.getToken()}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text })
     })
         .catch(error => { throw new SystemError('connection error') })
         .then(res => {
@@ -16,9 +21,7 @@ export function getPosts() {
             const { status } = res
 
             if (status === 200)
-                return res.json()
-                    .catch(error => { throw new SystemError('json error') })
-                    .then(posts => posts)
+                return
 
             return res.json()
                 .catch(error => { throw new SystemError('json error') })
@@ -29,5 +32,6 @@ export function getPosts() {
 
                     throw new constructor(message)
                 })
+
         })
 }

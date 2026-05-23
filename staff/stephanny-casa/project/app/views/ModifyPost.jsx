@@ -15,7 +15,7 @@ export  function ModifyPost({ onGoBack }) {
     const { onSuccess, onError } = useContext()
 
     const [post, setPost] = useState(null)
-
+    
     const { postId } = useParams()
 
     

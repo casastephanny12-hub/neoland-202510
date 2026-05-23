@@ -12,7 +12,10 @@ import { savePost } from './savePost'
 import { unsavePost } from './unsavePost'
 import { getSavedPosts } from './getSavedPosts'
 import { getUserPosts } from './getUserPosts'
-
+import { createComment} from './createComment'
+import { getComments} from './getComments'
+import { deleteComment } from './deleteComment'
+import { modifyComment } from './modifyComment'
 
 
 export const logic = {
@@ -29,5 +32,9 @@ export const logic = {
     savePost,
     unsavePost,
     getSavedPosts,
-    getUserPosts
+    getUserPosts,
+    createComment,
+    getComments, 
+    deleteComment,
+    modifyComment
 }

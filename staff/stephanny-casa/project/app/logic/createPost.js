@@ -1,5 +1,5 @@
 import { data } from '../data'
-import { validate, SystemError, AuthError, errorMap } from "com";
+import { validate, SystemError, AuthError, errorMap } from 'com'
 
 export function createPost(text, url) {
     if (data.getToken() === null) throw new AuthError('user not logged in')

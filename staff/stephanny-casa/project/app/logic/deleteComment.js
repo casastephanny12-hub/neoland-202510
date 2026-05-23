@@ -1,24 +1,23 @@
 import { data } from '../data'
-import { AuthError, errorMap, SystemError } from 'com'
+import { validate, AuthError, SystemError, errorMap } from "com";
 
-export function getPosts() {
+export function deleteComment(commentId) {
     if (data.getToken() === null) throw new AuthError('user not logged in')
 
-    return fetch(`${import.meta.env.VITE_API_URL}/posts`, {
-        method: 'GET',
+    validate.id(commentId, 'commentId')
+
+    return fetch(`${import.meta.env.VITE_API_URL}/posts/comments/${commentId}`, {
+        method: 'DELETE',
         headers: {
             Authorization: `Bearer ${data.getToken()}`
         }
     })
         .catch(error => { throw new SystemError('connection error') })
         .then(res => {
-
             const { status } = res
 
-            if (status === 200)
-                return res.json()
-                    .catch(error => { throw new SystemError('json error') })
-                    .then(posts => posts)
+            if (status === 204)
+                return
 
             return res.json()
                 .catch(error => { throw new SystemError('json error') })

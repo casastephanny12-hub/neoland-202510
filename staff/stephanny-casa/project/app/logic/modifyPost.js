@@ -1,5 +1,5 @@
-import { data } from "../data";
-import { validate, AuthError, SystemError, errorMap } from "com";
+import { data } from '../data'
+import { validate, AuthError, SystemError, errorMap } from 'com'
 
 export function modifyPost(postId, text, url) {
     if (data.getToken() === null) throw new AuthError('user not logged in')

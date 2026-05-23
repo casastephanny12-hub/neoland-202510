@@ -1,0 +1,1 @@
+curl -X POST -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWRiYmFkNTgyZTE3ZWYyNGIzZjRlNjAiLCJpYXQiOjE3NzgwODk0NDgsImV4cCI6MTc3ODA5MzA0OH0.UnvXiLQC5alUCVF3IQphgnZtsruRRT-VoL4cShu5Yeg' -H 'Content-Type: application/json' -d '{"text": "Que salto tan chulo!"}' http://localhost:8080/posts/69e279e858f6ff996c0098c8/comments -v
