@@ -76,7 +76,6 @@ export function PostItem({ post, onDeletePostClick, onGoToModifyPost, onSavePost
 
     const handleSavePostClick = event => {
         event.preventDefault()
-        console.log('post.id', post.id)
         onSavePostClick(post.id)
     }
 
