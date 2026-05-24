@@ -10,7 +10,7 @@ export function findPostById(postId) {
 
             const { id, owner, text, url, postedAt } = postModel
 
-            return new PostData(id, owner.toString(), text, url, postedAt)
+            return new PostData(id, owner.toString(), null, null, text, url, postedAt)
         })
 
 }

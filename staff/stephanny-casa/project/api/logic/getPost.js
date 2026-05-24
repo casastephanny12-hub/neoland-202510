@@ -13,7 +13,7 @@ export function getPost(userId, postId) {
 
             const { id, ownerId, text, url, postedAt } = postData
 
-            return new Post(id, ownerId, text, url, postedAt)
+            return new Post(id, ownerId, null, null, text, url, postedAt)
         })
 
 }

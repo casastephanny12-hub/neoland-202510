@@ -38,6 +38,7 @@ class Validate {
     }
 
     url(url, explain = 'url'){
+        if(url === ''|| url === null || url === undefined) return
         if(typeof url !== 'string') throw new ValidationError(`invalid ${explain} type`)
         if(!URL_REGEX.test(url)) throw new ValidationError(`invalid ${explain} format`)
     }

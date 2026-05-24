@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { logic } from '../../logic'
 import { logger } from '../../logger'
-import { Input } from './commons/Input'
 import { Button } from './commons/Button'
 import { useContext } from '../../context'
 
@@ -87,14 +86,18 @@ export function PostItem({ post, onDeletePostClick, onGoToModifyPost, onSavePost
     }
 
     const handleModifyCommentClick = () => {
-        logic.modifyComment(editingCommentId, editText)
-            .then(() => logic.getComments(post.id))
-            .then(comments => {
-                setComments(comments)
-                setEditingCommentId(null)
-                setEditText('')
-            })
-            .catch(error => onError(error))
+        try {
+            logic.modifyComment(editingCommentId, editText)
+                .then(() => logic.getComments(post.id))
+                .then(comments => {
+                    setComments(comments)
+                    setEditingCommentId(null)
+                    setEditText('')
+                })
+                .catch(error => onError(error))
+        } catch (error) {
+            onError(error)
+        }
     }
 
     logger.debug('PostItem -> render')
@@ -112,7 +115,7 @@ export function PostItem({ post, onDeletePostClick, onGoToModifyPost, onSavePost
         </div>
 
         <p className="text-md mt-3 text-gray-400">{post.text}</p>
-        <a href={post.url} target="_blank" className="font-bold text-sm mt-3 text-cyan-500"> Click here 👆</a>
+        {post.url && <a href={post.url} target="_blank" className="font-bold text-sm mt-3 text-cyan-500"> Click here 👆</a>}
         <p className='text-xs mt-4'>{new Date(post.postedAt).toLocaleDateString('es-ES', {
             day: 'numeric',
             month: 'long',
@@ -143,7 +146,7 @@ export function PostItem({ post, onDeletePostClick, onGoToModifyPost, onSavePost
                 <li key={comment.commentId} className="flex justify-between items-center text-sm text-gray-500 mt-1">
                     {editingCommentId === comment.commentId
                         ? <div className="flex gap-2 flex-1">
-                            <Input
+                            <input
                                 type="text"
                                 value={editText}
                                 onChange={e => setEditText(e.target.value)}
@@ -169,7 +172,7 @@ export function PostItem({ post, onDeletePostClick, onGoToModifyPost, onSavePost
         </ul>
 
         <div className="flex gap-2 mt-4">
-            <Input
+            <input
                 type="text"
                 value={text}
                 onChange={e => setText(e.target.value)}
