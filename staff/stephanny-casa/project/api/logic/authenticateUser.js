@@ -1,6 +1,6 @@
-import { validate, ExistenceError, SystemError, CredentialError } from "com"
-import { data } from "../data/index.js"
-import bcrypt from "bcryptjs"
+import { validate, ExistenceError, SystemError, CredentialError } from 'com'
+import { data } from '../data/index.js'
+import bcrypt from 'bcryptjs'
 
 export function authenticateUser(username, password){
     validate.username(username)

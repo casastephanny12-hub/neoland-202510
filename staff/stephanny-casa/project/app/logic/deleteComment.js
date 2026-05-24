@@ -1,5 +1,5 @@
 import { data } from '../data'
-import { validate, AuthError, SystemError, errorMap } from "com";
+import { validate, AuthError, SystemError, errorMap } from 'com'
 
 export function deleteComment(commentId) {
     if (data.getToken() === null) throw new AuthError('user not logged in')

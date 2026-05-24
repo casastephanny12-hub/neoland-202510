@@ -1,5 +1,5 @@
-import { validate } from "com"
-import { data } from "../data/index.js"
+import { validate } from 'com'
+import { data } from '../data/index.js'
 
 export function getPosts(userId){
     validate.id(userId, 'userId')

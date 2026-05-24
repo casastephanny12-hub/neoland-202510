@@ -1,4 +1,4 @@
-import { logic } from "../../logic/index.js";
+import { logic } from '../../logic/index.js'
 
 export const createPostHandler = (req, res, next) => {
     try {

@@ -1,5 +1,5 @@
-import { ExistenceError, validate } from "com"
-import { data } from "../data/index.js"
+import { ExistenceError, validate } from 'com'
+import { data } from '../data/index.js'
 
 export function getComments(postId){
     validate.id(postId, 'postId')

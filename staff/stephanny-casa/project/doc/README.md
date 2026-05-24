@@ -14,25 +14,28 @@ User
 
 - Register
 - Login
-- Update credentials (username, password)
-- Update profile (name, username, email,  password, image)
+- Logout
 
 Post 
 
-- Create post (text and/or Youtube link video)
+- Create post (text and/or URL)
 - Modify post 
 - Remove post
-- List posts (feed)
+- List posts (Feed)
+- List own posts (MyPosts)
 
-Like 
+Save 
 
-- like post
+- Save Post
+- Unsave Post
+- List saved posts (MySavedPosts)
 
 Comment 
 
 - Add Comment 
+- Edit comment
 - Remove comment 
-- List comments for post
+- List comments per  post
 
 ## Ui/UX design 
 
@@ -43,7 +46,7 @@ Comment
 ### Blocks
 
 - App (React)
-- Api (Exprss)
+- Api (Express)
 - DB (Mongo)
 
  ### Packages
@@ -69,15 +72,22 @@ Comment
  - id (unique, string)
  - owner (UserData.id, string)
  - text (required, string)
- - videoUrl (string)
- - image (string)
- - createdAt (required, date)
+ - url (string)
+ - postedAt (date)
 
- SavePostData
+ SaveData
 
  - id(unique, string)
- - owner (UserData.id, string)
+ - user (UserData.id, string)
  - post (PostData.id, string)
+
+ CommentData
+
+- id (unique, string)
+- user (UserData.id, string)
+- post (PostData.id, string)
+- text (required, string)
+- commentedAt (date)
 
  ### Techs
 

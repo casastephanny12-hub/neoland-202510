@@ -1,5 +1,5 @@
-import { validate, ExistenceError, OwnershipError } from "com"
-import { data } from "../data/index.js"
+import { validate, ExistenceError, OwnershipError } from 'com'
+import { data } from '../data/index.js'
 
 export function modifyPost(userId, postId, text, url) {
     validate.id(userId, 'userId')

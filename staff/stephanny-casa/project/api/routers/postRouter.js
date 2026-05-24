@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { authMiddleware } from "../middlewares/index.js";
+import { Router } from 'express'
+import { authMiddleware } from '../middlewares/index.js'
 
 import {
     createPostHandler,

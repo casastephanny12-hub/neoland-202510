@@ -1,6 +1,6 @@
-import { SystemError } from "com";
-import { UserModel } from "../mongoose/index.js";
-import { UserData } from "./models/index.js";
+import { SystemError } from 'com'
+import { UserModel } from '../mongoose/index.js'
+import { UserData } from './models/index.js'
 
 export function findUserById(userId){
     return UserModel.findById(userId)

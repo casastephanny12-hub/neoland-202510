@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react"
-import { logger } from "../logger"
-import { logic } from "../logic"
-import { useContext } from "../context"
+import { useState, useEffect } from 'react'
+import { logger } from '../logger'
+import { logic } from '../logic'
+import { useContext } from '../context'
 
-import { Anchor } from "./components/commons/Anchor"
+import { Anchor } from './components/commons/Anchor'
 
 export function MyPosts({ onGoToProfile }) {
     logger.debug('MyPosts -> call')

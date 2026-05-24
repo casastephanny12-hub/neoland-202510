@@ -1,5 +1,5 @@
 import { data } from '../data'
-import { AuthError, errorMap, SystemError } from "com";
+import { AuthError, errorMap, SystemError } from 'com'
 
 export function getSavedPosts() {
     if (data.getToken() === null) throw new AuthError('user not logged in')

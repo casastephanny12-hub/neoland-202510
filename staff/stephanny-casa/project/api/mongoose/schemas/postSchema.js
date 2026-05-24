@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { URL_REGEX } from "com";
+import mongoose from 'mongoose'
+import { URL_REGEX } from 'com'
 
 const { Schema, ObjectId } = mongoose
 

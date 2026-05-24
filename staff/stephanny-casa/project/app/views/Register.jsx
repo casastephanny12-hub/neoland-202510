@@ -17,8 +17,7 @@ export function Register({ onGoToLogin }) {
 
     const handleRegisterSubmit = event => {
         event.preventDefault()
-        debugger
-
+        
         const form = event.target
 
         const name = form.name.value
