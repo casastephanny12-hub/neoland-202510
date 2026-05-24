@@ -72,7 +72,7 @@ export function App() {
             setFeedback({ message: error.message })
         } else {
             logger.fatal(error)
-            setFeedback({ message: 'Sorry, something ins wrong. Try it later!' })
+            setFeedback({ message: 'Sorry, something is wrong. Try it later!' })
         }
     }
 
